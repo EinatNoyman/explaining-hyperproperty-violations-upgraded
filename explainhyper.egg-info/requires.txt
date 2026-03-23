@@ -1,0 +1,6 @@
+py-aiger
+graphviz
+pygraphviz
+numpy
+python-sat
+satispy

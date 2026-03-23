@@ -1,0 +1,8 @@
+LICENSE
+README.md
+setup.py
+explainhyper.egg-info/PKG-INFO
+explainhyper.egg-info/SOURCES.txt
+explainhyper.egg-info/dependency_links.txt
+explainhyper.egg-info/requires.txt
+explainhyper.egg-info/top_level.txt

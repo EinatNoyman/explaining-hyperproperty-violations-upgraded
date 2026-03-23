@@ -8,7 +8,8 @@ setup(
         'py-aiger',
         'graphviz',
         'pygraphviz',
-        'pysat',
+        'numpy',
+        'python-sat',
         'satispy'
     ],
     python_requires='>=3.7'

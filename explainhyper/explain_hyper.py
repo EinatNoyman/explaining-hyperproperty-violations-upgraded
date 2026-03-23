@@ -330,7 +330,7 @@ def actual_causality(args):
     # load circuit to use for simulation and formula transformation
     circuit = aiger.load(args.aag)
     
-    #start time to compute cause set (C tilde)
+    # start time to compute cause set (C tilde)
     start = time.time()
     (negate, f) = Translator.mchyper_to_spot(args.f, circuit)
     f = spot.formula_from_spot(f)

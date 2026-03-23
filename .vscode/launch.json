@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Explain Hyper",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/explainhyper/explain_hyper.py",
+            "cwd": "${workspaceFolder}/examples",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            // "args": [
+            //     "-aag", "asymmetric_arbiter.aag",
+            //     "-cex", "asymmetric_arbiter.cex",
+            //     "-f", "Forall (Forall (Implies (G (And (Eq (AP \"req_0\" 0) (AP \"req_0\" 1)) (Eq (AP \"req_1\" 0) (AP \"req_1\" 1)))) (G (And (Eq (AP \"grant_0\" 0) (AP \"grant_0\" 1)) (Eq (AP \"grant_1\" 0) (AP \"grant_1\" 1))))))",
+            //     "-outName", "solution",
+            //     "-stateMachine", "asymmetric_arbiter.dot"
+            // ]
+            // "args": [
+            //     "-aag", "triple_cause.aag",
+            //     "-cex", "triple_cause.cex",
+            //     "-f", "Forall (Forall (Forall (Not (And (AP \"violation\" 0) (And (AP \"violation\" 1) (AP \"violation\" 2))))))",
+            //     "-outName", "tripe_cause_solution"
+            // ]
+            "args": [
+                "-aag",
+                "triple_forall.aag",
+                "-cex",
+                "triple_forall.cex",
+                "-f",
+                "Forall (Forall (Forall (G (Neg (Or (AP \"out\" 0) (Or (AP \"out\" 1) (AP \"out\" 2)))))))",
+                "-outName",
+                "triple_forall_solution",
+                "-stateMachine",
+                "triple_forall.dot"
+            ]
+        }
+    ]
+}
