@@ -55,31 +55,23 @@ def indexmap_to_json(list, outfile):
         with open(f"{outfile}.json", "w") as outfile:
             outfile.write(json_object)
 
-def trace_to_json(all_aps, trace, outName, lassostart, list):
+def trace_to_json(all_aps, trace, outName, lassostart, list, num_traces):
     dict_all = {}
     dict_var = {}
     dict_all["stateVariable"] = "state"
     aps_set = set()
-    aps_set1 = set()
-    aps_set2 = set()
     for n in all_aps[0]:
         aps_set.add(n)
-        aps_set1.add(n+"_0")
-        aps_set2.add(n + "_1")
         dict_type = {}
         dict_type["type"] = "input"
         dict_var[n] = dict_type
     for n in all_aps[1]:
         aps_set.add(n)
-        aps_set1.add(n + "_0")
-        aps_set2.add(n + "_1")
         dict_type = {}
         dict_type["type"] = "output"
         dict_var[n] = dict_type
     for n in all_aps[2]:
         aps_set.add(n)
-        aps_set1.add(n + "_0")
-        aps_set2.add(n + "_1")
         dict_type = {}
         dict_type["type"] = "latch"
         dict_var[n] = dict_type
@@ -89,7 +81,7 @@ def trace_to_json(all_aps, trace, outName, lassostart, list):
 
     for i in range(trace.get_length()):
         list_of_dicts = []
-        for n in range(2): #hard coded to forallforall and existsexists
+        for n in range(num_traces):
             dicttimestep = {}
             if len(list) != 0:
                 dicttimestep["state"] = list[n][i]
@@ -403,7 +395,7 @@ def help_ftojson(formula):
     return result
 
 
-def to_json(high, outName, negate, dict_all):
+def to_json(high, outName, negate, dict_all, num_traces):
     dict_new = dict_all
     init_node = high.aut.get_init_node()
     dict_new['plain'] = high.aut.get_init_node().get_original_formula().to_str()
@@ -414,9 +406,9 @@ def to_json(high, outName, negate, dict_all):
     dict_formula['children'] = dict
     dict_new['tree'] = dict_formula
     if negate:
-        dict_new['prefix'] = ["Forall", "Forall"]
+        dict_new['prefix'] = ["Forall"] * num_traces
     else:
-        dict_new['prefix'] = ["Exists", "Exists"]
+        dict_new['prefix'] = ["Exists"] * num_traces
     with open(outName + ".json", "w") as outfile:
         outfile.write(json.dumps(dict_new, indent=4))
 

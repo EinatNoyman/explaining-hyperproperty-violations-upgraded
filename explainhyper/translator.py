@@ -126,6 +126,9 @@ class Translator:
         if (re.match(r"^Forall", formula)):
             negate = True
 
+        # count trace quantifiers before stripping them
+        num_traces = len(re.findall(r'(Forall|Exists)', formula))
+
         # delete quantifiers to end up with an LTL formula
         formula = formula.replace("Forall", "")
         formula = formula.replace("Exists", "")
@@ -160,7 +163,7 @@ class Translator:
         formula = formula.replace("WUntil", "W")
         formula = formula.replace("(", " ")
         formula = formula.replace(")", " ")
-        return (negate, formula)
+        return (negate, formula, num_traces)
 
     def formula_without_syntactic_sugar(f):
         f = spot.formula.formula(f)

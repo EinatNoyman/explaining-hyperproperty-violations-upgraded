@@ -155,13 +155,12 @@ class Highlighter:
         else:
             return f
 
-    def dot_minimization(filename, trace, outName, all_aps):
+    def dot_minimization(filename, trace, outName, all_aps, num_traces):
         number_of_all_aps = len(list(all_aps[0])) + len(list(all_aps[1])) + len(list(all_aps[2]))
         print("Size of the counter example (|Gamma|) is: " + str(number_of_all_aps * trace.get_length()))
 
         in_graph = viz.AGraph(filename)
         out_graph = viz.AGraph(directed=True, strict=False)
-        new_nodes = []
         new_edges = []
         node_formula_map = {}
         string_int_map = {}
@@ -185,509 +184,289 @@ class Highlighter:
            file.write(str(out_graph))
 
         #split the atomic propositions according to the traces
-        tracemaps = [[] for n in range(2)]
-        trace_0_dict = {}
-        trace_1_dict = {}
+        tracemaps = [[] for n in range(num_traces)]
+        trace_dicts = [{} for _ in range(num_traces)]
         for k in range(trace.get_length()):
-            trace0 = set()
-            trace1 = set()
+            trace_sets = [set() for _ in range(num_traces)]
             current_values = trace.value_at(k)
             for ap in current_values:
-                if ap.split("_")[len(ap.split("_"))-1] == "0":
-                    trace0.add("_".join(ap.split("_")[:len(ap.split("_"))-1]))
-                elif ap.split("_")[len(ap.split("_"))-1] == "1":
-                    trace1.add("_".join(ap.split("_")[:len(ap.split("_"))-1]))
-            test = False
-            for j in range(num_nodes):
-                if spot_old.formula(Highlighter.state_eval(trace0, node_formula_map[j]).to_str()) == spot_old.formula.tt().to_str():
-                    tracemaps[0].append(j)
-                    test = True
-                    break
-            if not test:
-                t = ""
-                for x in trace1:
-                    t = t + x
-                tracemaps[1].append(t)
-            test = False
-            for j in range(num_nodes):
-                if spot_old.formula(Highlighter.state_eval(trace1, node_formula_map[j]).to_str()) == spot_old.formula.tt().to_str():
-                    test = True
-                    tracemaps[1].append(j)
-                    break
-            if not test:
-                t = ""
-                for x in trace1:
-                    t = t + x
-                tracemaps[1].append(t)
-            trace_0_dict[k] = trace0
-            trace_1_dict[k] = trace1
+                parts = ap.rsplit("_", 1)
+                if len(parts) == 2 and parts[1].isdigit():
+                    tid = int(parts[1])
+                    if tid < num_traces:
+                        trace_sets[tid].add(parts[0])
+            for tid in range(num_traces):
+                test = False
+                for j in range(num_nodes):
+                    if spot_old.formula(Highlighter.state_eval(trace_sets[tid], node_formula_map[j]).to_str()) == spot_old.formula.tt().to_str():
+                        tracemaps[tid].append(j)
+                        test = True
+                        break
+                if not test:
+                    t = ""
+                    for x in trace_sets[tid]:
+                        t = t + x
+                    tracemaps[tid].append(t)
+                trace_dicts[tid][k] = trace_sets[tid]
+
         #compute edgelists from nodes in tracemap
-        edgelists = [[] for n in range(2)]
-        edgelist_0 = []
-        edgelist_1 = []
-        for node_0, node_1, node_0_suc, node_1_suc in zip(tracemaps[0],tracemaps[1],tracemaps[0][1:],tracemaps[1][1:]):
-            edgelist_0.append(out_graph.get_edge(node_0, node_0_suc))
-            edgelist_1.append(out_graph.get_edge(node_1, node_1_suc))
-        edgelists[0] = edgelist_0
-        edgelists[1] = edgelist_1
+        edgelists = [[] for _ in range(num_traces)]
+        for tid in range(num_traces):
+            for node_cur, node_suc in zip(tracemaps[tid], tracemaps[tid][1:]):
+                edgelists[tid].append(out_graph.get_edge(node_cur, node_suc))
 
         #build wp models via sat solving
         #filter for inputs
         input_aps = all_aps[0]
-        trace_0_true_inputs = {}
-        trace_0_false_inputs = {}
-        trace_1_true_inputs = {}
-        trace_1_false_inputs = {}
-        for timestep in range(trace.get_length()):
-            intersection_0 = trace_0_dict[timestep].intersection(input_aps)
-            difference_0 = input_aps.difference(trace_0_dict[timestep])
-            h_inter_0 = set()
-            h_difference_0 = set()
-            for l in intersection_0:
-                h_inter_0.add(l+"#"+str(timestep))
-            for l in difference_0:
-                h_difference_0.add(l+"#"+str(timestep))
-            trace_0_true_inputs[timestep] = h_inter_0
-            trace_0_false_inputs[timestep] = h_difference_0
-        
-        for timestep in range(trace.get_length()):
-            intersection_1 = trace_1_dict[timestep].intersection(input_aps)
-            difference_1 = input_aps.difference(trace_1_dict[timestep])
-            h_inter_1 = set()
-            h_difference_1 = set()
-            for l in intersection_1:
-                h_inter_1.add(l+"#"+str(timestep))
-            for l in difference_1:
-                h_difference_1.add(l+"#"+str(timestep))
-            trace_1_true_inputs[timestep] = h_inter_1
-            trace_1_false_inputs[timestep] = h_difference_1
-        
-        true_input_0_list = []
-        for timestep in range(trace.get_length()):
-            true_input_0_list.append(trace_0_true_inputs[timestep])
-        true_inputs_0 = set().union(*true_input_0_list)
-        true_input_1_list = []
-        for timestep in range(trace.get_length()):
-            true_input_1_list.append(trace_1_true_inputs[timestep])
-        true_inputs_1 = set().union(*true_input_1_list)
-        false_input_0_list = []
-        for timestep in range(trace.get_length()):
-            append_not_set = set()
-            for s in trace_0_false_inputs[timestep]:
-                append_not_set.add("¬"+s)
-            false_input_0_list.append(append_not_set)
-        false_inputs_0 = set().union(*false_input_0_list)
-        false_input_1_list = []
-        for timestep in range(trace.get_length()):
-            append_not_set = set()
-            for s in trace_1_false_inputs[timestep]:
-                append_not_set.add("¬"+s)
-            false_input_1_list.append(append_not_set)
-        false_inputs_1 = set().union(*false_input_1_list)
+        trace_true_inputs = [{} for _ in range(num_traces)]
+        trace_false_inputs = [{} for _ in range(num_traces)]
+        for tid in range(num_traces):
+            for timestep in range(trace.get_length()):
+                intersection = trace_dicts[tid][timestep].intersection(input_aps)
+                difference = input_aps.difference(trace_dicts[tid][timestep])
+                h_inter = set()
+                h_difference = set()
+                for l in intersection:
+                    h_inter.add(l+"#"+str(timestep))
+                for l in difference:
+                    h_difference.add(l+"#"+str(timestep))
+                trace_true_inputs[tid][timestep] = h_inter
+                trace_false_inputs[tid][timestep] = h_difference
+
+        true_inputs = [set() for _ in range(num_traces)]
+        false_inputs = [set() for _ in range(num_traces)]
+        for tid in range(num_traces):
+            true_input_list = []
+            for timestep in range(trace.get_length()):
+                true_input_list.append(trace_true_inputs[tid][timestep])
+            true_inputs[tid] = set().union(*true_input_list)
+            false_input_list = []
+            for timestep in range(trace.get_length()):
+                append_not_set = set()
+                for s in trace_false_inputs[tid][timestep]:
+                    append_not_set.add("¬"+s)
+                false_input_list.append(append_not_set)
+            false_inputs[tid] = set().union(*false_input_list)
 
         ##Build sat formula from trace inputs as string (all true inputs and false inputs)
-        wp_0_trace = "&".join(list(true_inputs_0.union(false_inputs_0)))
-        wp_1_trace = "&".join(list(true_inputs_1.union(false_inputs_1)))
+        wp_traces = []
+        for tid in range(num_traces):
+            wp_traces.append("&".join(list(true_inputs[tid].union(false_inputs[tid]))))
 
-        ##Build sat formula from edge labels (negated)
-        timestep = 0
-        wp_0_help = edgelist_0[0].attr['label'].replace(" ","")
-        wp_1_help = edgelist_1[0].attr['label'].replace(" ","")
-        wp_0_list = re.split('∧|∨', wp_0_help)
-        wp_1_list = re.split('∧|∨', wp_1_help)
-        wp_0_0 = wp_0_list[0] + "#" + "0"
-        wp_1_0 = wp_1_list[0] + "#" + "0"
-        wp_0 = wp_0_0
-        wp_1 = wp_1_0
-        index = 1
-        for el in wp_0_help[1:]:
-            if el == '∧':
-                wp_0 = wp_0 + " & " + wp_0_list[index] + "#" + str(timestep)
-                index = index + 1
-            else:
-                if el == '∨':
-                    wp_0 = wp_0 + " | " + wp_0_list[index] + "#" + str(timestep)
-                    index = index + 1
-        index = 1
-        for el in wp_1_help[1:]:
-            if el == '∧':
-                wp_1 = wp_1 + " & " + wp_1_list[index] + "#" + str(timestep)
-                index = index + 1
-            else:
-                if el == '∨':
-                    wp_1 = wp_1 + " | " + wp_1_list[index] + "#" + str(timestep)
-                    index = index + 1
-        wp_0 = "(¬(" + wp_0 + "))"
-        wp_1 = "(¬(" + wp_1 + "))"
-        timestep = 1
-        for edge_0, edge_1 in zip(edgelist_0[1:], edgelist_1[1:]):
-            wp_0_help = wp_0_help = edge_0.attr['label'].replace(" ","")
-            wp_1_help = wp_1_help = edge_1.attr['label'].replace(" ","")
-            wp_0_list = re.split('∧|∨', wp_0_help)
-            wp_1_list = re.split('∧|∨', wp_1_help)
-            wp_0_1 = "(¬(" + wp_0_list[0] + "#" + str(timestep)
-            wp_1_1 = "(¬(" + wp_1_list[0] + "#" + str(timestep)
+        ##Build sat formula from edge labels (negated) for each trace
+        def build_wp_from_edges(edgelist):
+            timestep = 0
+            wp_help = edgelist[0].attr['label'].replace(" ","")
+            wp_list = re.split('∧|∨', wp_help)
+            wp = wp_list[0] + "#" + "0"
             index = 1
-            for el in wp_0_help[1:]:
+            for el in wp_help[1:]:
                 if el == '∧':
-                    wp_0_1 = wp_0_1 + " & " + wp_0_list[index] + "#" + str(timestep)
+                    wp = wp + " & " + wp_list[index] + "#" + str(timestep)
                     index = index + 1
-                else:
-                    if el == '∨':
-                        wp_0_1 = wp_0_1 + " | " + wp_0_list[index] + "#" + str(timestep)
+                elif el == '∨':
+                    wp = wp + " | " + wp_list[index] + "#" + str(timestep)
+                    index = index + 1
+            wp = "(¬(" + wp + "))"
+            timestep = 1
+            for edge in edgelist[1:]:
+                wp_help = edge.attr['label'].replace(" ","")
+                wp_list = re.split('∧|∨', wp_help)
+                wp_1 = "(¬(" + wp_list[0] + "#" + str(timestep)
+                index = 1
+                for el in wp_help[1:]:
+                    if el == '∧':
+                        wp_1 = wp_1 + " & " + wp_list[index] + "#" + str(timestep)
                         index = index + 1
+                    elif el == '∨':
+                        wp_1 = wp_1 + " | " + wp_list[index] + "#" + str(timestep)
+                        index = index + 1
+                wp = wp + " & " + wp_1 + "))"
+                timestep = timestep + 1
+            return wp
+
+        wp_formulas = []
+        for tid in range(num_traces):
+            wp_formulas.append(build_wp_from_edges(edgelists[tid]))
+
+        #construct cnf, build solvers, solve for each trace
+        all_candidate_lists = []
+        all_counterfactuals = []
+        for tid in range(num_traces):
+            cnf_wp, aps_wp = CnfFromString.create(wp_formulas[tid].replace("¬","-"))
+            cnf_wp_trace, aps_trace = CnfFromString.create(wp_traces[tid])
+            aps_combined = {**aps_wp, **aps_trace}
+
+            cnf_wp = str(cnf_wp).replace("¬","-")
+            cnf_wp_trace = str(cnf_wp_trace).replace("¬","-")
+
+            #construct a unique mapping from ap to int
+            ap_to_int_map = {}
             index = 1
-            for el in wp_1_help[1:]:
-                if el == '∧':
-                    wp_1_1 = wp_1_1 + " & " + wp_1_list[index] + "#" + str(timestep)
+            for ap in aps_combined:
+                if ap not in ap_to_int_map.keys():
+                    ap_to_int_map[ap.replace("¬","")] = index
                     index = index + 1
+
+            #for every ap in cnf, convert to int according to map
+            for ap in aps_combined:
+                cnf_wp = cnf_wp.replace(ap.replace("¬",""),str(ap_to_int_map[ap.replace("¬","")]))
+
+            # build sat solver
+            solver = Glucose4()
+
+            #split clauses
+            cnf_wp = cnf_wp.replace(" ","")
+            clause_list = cnf_wp.split("&")
+            split_clause_list = []
+            cnf_wp_trace = cnf_wp_trace.replace(" ", "").replace("(","").replace(")","")
+            cnf_wp_trace_split = cnf_wp_trace.split("&")
+
+            for c in clause_list:
+                c = c.replace("(","").replace(")","")
+                c = c.split('|')
+                int_c = list(map(int,c))
+                split_clause_list.append(int_c)
+            for c in split_clause_list:
+                solver.add_clause(c)
+
+            #get trace as cnf and int encoded
+            cnf_trace_encoded = []
+            for c in cnf_wp_trace_split:
+                if c.startswith("-"):
+                    cnf_trace_encoded.append(ap_to_int_map[c.replace("-","")]*-1)
                 else:
-                    if el == '∨':
-                        wp_1_1 = wp_1_1 + " | " + wp_1_list[index] + "#" + str(timestep)
-                        index = index + 1
-            wp_0 = wp_0 + " & " + wp_0_1 + "))"
-            wp_1 = wp_1 + " & " + wp_1_1 + "))"
-            timestep = timestep + 1
+                    cnf_trace_encoded.append(ap_to_int_map[c.replace("-","")])
 
-        #construct cnf
-        cnf_wp_0, aps_0 = CnfFromString.create(wp_0.replace("¬","-"))
-        cnf_wp_1, aps_1 = CnfFromString.create(wp_1.replace("¬","-"))
-        cnf_wp_0_trace, aps_0_trace = CnfFromString.create(wp_0_trace)
-        cnf_wp_1_trace, aps_1_trace = CnfFromString.create(wp_1_trace)
-        aps_0 = {**aps_0, **aps_0_trace}
-        aps_1 = {**aps_0, **aps_1_trace}
+            #try to solve and get unsat core
+            assumpt = cnf_trace_encoded
+            core_list = []
+            while (solver.solve(assumptions = assumpt) != True):
+                core = solver.get_core()
+                core_list.append(core)
+                map(lambda x: x*-1,core)
+                deleted = [item for item in assumpt if item not in core]
+                assumpt = deleted
+            solver.delete()
 
-        #replace negation symbol with - to convert to int
-        cnf_wp_0 = str(cnf_wp_0)
-        cnf_wp_1 = str(cnf_wp_1)
-        cnf_wp_0 = cnf_wp_0.replace("¬","-")
-        cnf_wp_1 = cnf_wp_1.replace("¬","-")
-        cnf_wp_0_trace = (str(cnf_wp_0_trace).replace("¬","-"))
-        cnf_wp_1_trace = (str(cnf_wp_1_trace).replace("¬","-"))
-        
-        #construct a unique mapping from ap to int
-        ap_to_int_map_0 = {}
-        index = 1
-        for ap in aps_0:
-            if ap not in ap_to_int_map_0.keys():
-                ap_to_int_map_0[ap.replace("¬","")] = index
-                index = index +1
-        ap_to_int_map_1 = {}
-        index = 1
-        for ap in aps_1:
-            if ap not in ap_to_int_map_1.keys():
-                ap_to_int_map_1[ap.replace("¬","")] = index
-                index = index +1
+            ## reconstruct aps X timestep:
+            candidate_list = []
+            for cl in core_list:
+                candidate = []
+                for c in cl:
+                    ap = list(ap_to_int_map.keys())[list(ap_to_int_map.values()).index(abs(c))]
+                    ap_split_timestep = ap.split('#')
+                    if (c < 0):
+                        candidate.append((ap_split_timestep[0],int(ap_split_timestep[1]),0,tid))
+                    else:
+                        candidate.append((ap_split_timestep[0],int(ap_split_timestep[1]),1,tid))
+                candidate_list.append(candidate)
 
-        #for ever ap in cnf, convert to int according to map
-        for ap in aps_0:
-            cnf_wp_0 = cnf_wp_0.replace(ap.replace("¬",""),str(ap_to_int_map_0[ap.replace("¬","")]))
-        for ap in aps_1:
-            cnf_wp_1 = cnf_wp_1.replace(ap.replace("¬",""),str(ap_to_int_map_1[ap.replace("¬","")]))
+            #flatten candidate list
+            new_candidate_list = []
+            for lst in candidate_list:
+                for elm in lst:
+                    new_candidate_list.append(elm)
 
-        # build sat solver
-        solver_0 = Glucose4()
-        solver_1 = Glucose4()
-        
-        #split clauses
-        cnf_wp_0 = cnf_wp_0.replace(" ","")
-        cnf_wp_1 = cnf_wp_1.replace(" ","")
-        clause_list_0 = cnf_wp_0.split("&")
-        clause_list_1 = cnf_wp_1.split("&")
-        split_clause_list_0 = []
-        split_clause_list_1 = []
-        cnf_wp_0_trace = (str(cnf_wp_0_trace)).replace(" ", "").replace("(","").replace(")","")
-        cnf_wp_0_trace_split = cnf_wp_0_trace.split("&")
-        cnf_wp_1_trace = (str(cnf_wp_1_trace)).replace(" ", "").replace("(","").replace(")","")
-        cnf_wp_1_trace_split = cnf_wp_1_trace.split("&")
-
-        #split each clause in literals, and convert to int
-        for c in clause_list_0:
-            c = c.replace("(","").replace(")","")
-            c = c.split('|')
-            int_c = list(map(int,c))
-            split_clause_list_0.append(int_c)
-        for c in clause_list_1:
-            c = c.replace("(","").replace(")","")
-            c = c.split('|')
-            int_c = list(map(int,c))
-            split_clause_list_1.append(int_c)
-        #add each clause to sat solver
-        for c in split_clause_list_0:
-            solver_0.add_clause(c)
-        for c in split_clause_list_1:
-            solver_1.add_clause(c)
-
-        #get trace as cnf and int encoded
-        cnf_trace_encoded_0 = []
-        for c in cnf_wp_0_trace_split:
-            if c.startswith("-"):
-                cnf_trace_encoded_0.append(ap_to_int_map_0[c.replace("-","")]*-1)
-            else:
-                cnf_trace_encoded_0.append(ap_to_int_map_0[c.replace("-","")])
-        cnf_trace_encoded_1 = []
-        for c in cnf_wp_1_trace_split:
-            if c.startswith("-"):
-                cnf_trace_encoded_1.append(ap_to_int_map_1[c.replace("-","")]*-1)
-            else:
-                cnf_trace_encoded_1.append(ap_to_int_map_1[c.replace("-","")])
-
-        #try to solve and get unsat core
-        assumpt_0 = cnf_trace_encoded_0
-        core_list_0 = []
-        while (solver_0.solve(assumptions = assumpt_0) != True):
-            core = solver_0.get_core()
-            core_list_0.append(core)
-            map(lambda x: x*-1,core)
-            deleted = [item for item in assumpt_0 if item not in core]
-            assumpt_0 = deleted
-        assumpt_1 = cnf_trace_encoded_1
-        core_list_1 = []
-        while (solver_1.solve(assumptions = assumpt_1) != True):
-            core = solver_1.get_core()
-            core_list_1.append(core)
-            map(lambda x: x*-1,core)
-            deleted = [item for item in assumpt_1 if item not in core]
-            assumpt_1 = deleted
-        solver_0.delete()
-        solver_1.delete()
-
-        ## reconstruct aps X timestep:
-        candidate_list_0 = []
-        for cl in core_list_0:
-            candidate = []
-            for c in cl:
-                ap = list(ap_to_int_map_0.keys())[list(ap_to_int_map_0.values()).index(abs(c))]
-                ap_split_timestep = ap.split('#')
-                if (c < 0):
-                    candidate.append((ap_split_timestep[0],int(ap_split_timestep[1]),0,0))
-                else:
-                    candidate.append((ap_split_timestep[0],int(ap_split_timestep[1]),1,0))
-            candidate_list_0.append(candidate)
-        candidate_list_1 = []
-        for cl in core_list_1:
-            candidate = []
-            for c in cl:
-                ap = list(ap_to_int_map_1.keys())[list(ap_to_int_map_1.values()).index(abs(c))]
-                ap_split_timestep = ap.split('#')
-                if (c < 0):
-                    candidate.append((ap_split_timestep[0],int(ap_split_timestep[1]),0,1))
-                else:
-                    candidate.append((ap_split_timestep[0],int(ap_split_timestep[1]),1,1))
-            candidate_list_1.append(candidate)
-
-        #compute new input set for each candidate where candidate elements are flipped
-        cause_candidate_index_to_inputs_map_0 = {}
-        index = 0
-        new_canditate_list_0 = []
-        for lst in candidate_list_0:
-            for elm in lst:
-                new_canditate_list_0.append(elm)
-        new_canditate_list_1 = []
-        
-        for lst in candidate_list_1:
-            for elm in lst:
-                new_canditate_list_1.append(elm)
-        candidate_list_0 = [new_canditate_list_0]
-        candidate_list_1 = [new_canditate_list_1]
-        
-        for cc in candidate_list_0:
-            tmp_true = true_inputs_0
-            tmp_false = false_inputs_0
-            for (ap,t,b,tr) in cc:
-                #flip this ap in the set of inputs
+            #compute new input set where candidate elements are flipped
+            tmp_true = set(true_inputs[tid])
+            tmp_false = set(false_inputs[tid])
+            for (ap,t,b,tr) in new_candidate_list:
                 if (b == 0):
                     tmp_false.remove(("¬"+ap+"#"+str(t)))
                     tmp_true.add((ap+"#"+str(t)))
                 else:
                     tmp_true.remove((ap+"#"+str(t)))
                     tmp_false.add(("¬"+ap+"#"+str(t)))
-            cause_candidate_index_to_inputs_map_0[index] = tmp_true.union(tmp_false)
-            index = index + 1
-        cause_index_to_list_of_inputap_to_bool_0 = {}
-        for cause_index in cause_candidate_index_to_inputs_map_0:
-            list_of_inputap_to_bool_0 = []
+            flipped_inputs = tmp_true.union(tmp_false)
+
+            list_of_inputap_to_bool = []
             for timestep in range(trace.get_length()):
-                ap_to_bool_dict = {}
-                list_of_inputap_to_bool_0.append(ap_to_bool_dict)
-            for ap in cause_candidate_index_to_inputs_map_0[cause_index]:
+                list_of_inputap_to_bool.append({})
+            for ap in flipped_inputs:
                 split = ap.split("#")
                 timestep = split[1]
                 ap_raw = split[0]
                 if ap_raw.startswith("¬"):
-                    list_of_inputap_to_bool_0[int(timestep)][ap_raw.replace("¬","")] = 0
+                    list_of_inputap_to_bool[int(timestep)][ap_raw.replace("¬","")] = 0
                 else:
-                    list_of_inputap_to_bool_0[int(timestep)][ap_raw] = 1
-            cause_index_to_list_of_inputap_to_bool_0[cause_index] = list_of_inputap_to_bool_0
-            
-        cause_candidate_index_to_inputs_map_1 = {}
-        index = 0
-        for cc in candidate_list_1:
-            tmp_true = true_inputs_1
-            tmp_false = false_inputs_1
-            for (ap,t,b,tr) in cc:
-                #triple ap,timestep,Bool
-                #flip this ap in the set of inputs
-                if (b == 0):
-                    tmp_false.remove(("¬"+ap+"#"+str(t)))
-                    tmp_true.add((ap+"#"+str(t)))
-                else:
-                    tmp_true.remove((ap+"#"+str(t)))
-                    tmp_false.add(("¬"+ap+"#"+str(t)))
-            cause_candidate_index_to_inputs_map_1[index] = tmp_true.union(tmp_false)
-            index = index + 1
-        cause_index_to_list_of_inputap_to_bool_1 = {}
-        for cause_index in cause_candidate_index_to_inputs_map_1:
-            list_of_inputap_to_bool_1 = []
-            for timestep in range(trace.get_length()):
-                ap_to_bool_dict = {}
-                list_of_inputap_to_bool_1.append(ap_to_bool_dict)
-            for ap in cause_candidate_index_to_inputs_map_1[cause_index]:
-                split = ap.split("#")
-                timestep = split[1]
-                ap_raw = split[0]
-                if ap_raw.startswith("¬"):
-                    list_of_inputap_to_bool_1[int(timestep)][ap_raw.replace("¬","")] = 0
-                else:
-                    list_of_inputap_to_bool_1[int(timestep)][ap_raw] = 1
-            cause_index_to_list_of_inputap_to_bool_1[cause_index] = list_of_inputap_to_bool_1
-        return tracemaps, cause_index_to_list_of_inputap_to_bool_0[0], cause_index_to_list_of_inputap_to_bool_1[0], candidate_list_0[0], candidate_list_1[0],
+                    list_of_inputap_to_bool[int(timestep)][ap_raw] = 1
+
+            all_candidate_lists.append(new_candidate_list)
+            all_counterfactuals.append(list_of_inputap_to_bool)
+
+        return tracemaps, all_counterfactuals, all_candidate_lists
 
     # negate the cause and flip them accordingly in the trace
-    def negate_cause(cause0, cause1, trace, all_aps):
-        trace_0_dict = {}
-        trace_1_dict = {}
+    # cause_lists: list of N cause lists, one per trace
+    def negate_cause(cause_lists, trace, all_aps, num_traces):
+        # split trace APs by trace ID
+        trace_dicts = [{} for _ in range(num_traces)]
         for k in range(trace.get_length()):
-            trace0 = set()
-            trace1 = set()
+            trace_sets = [set() for _ in range(num_traces)]
             current_values = trace.value_at(k)
             for ap in current_values:
-                if ap.split("_")[len(ap.split("_"))-1] == "0":
-                    trace0.add("_".join(ap.split("_")[:len(ap.split("_"))-1]))
-                elif ap.split("_")[len(ap.split("_"))-1] == "1":
-                    trace1.add("_".join(ap.split("_")[:len(ap.split("_"))-1]))
-            trace_0_dict[k] = trace0
-            trace_1_dict[k] = trace1
+                parts = ap.rsplit("_", 1)
+                if len(parts) == 2 and parts[1].isdigit():
+                    tid = int(parts[1])
+                    if tid < num_traces:
+                        trace_sets[tid].add(parts[0])
+            for tid in range(num_traces):
+                trace_dicts[tid][k] = trace_sets[tid]
+
         input_aps = all_aps[0]
-        trace_0_true_inputs = {}
-        trace_0_false_inputs = {}
-        trace_1_true_inputs = {}
-        trace_1_false_inputs = {}
-        for timestep in range(trace.get_length()):
-            intersection_0 = trace_0_dict[timestep].intersection(input_aps)
-            difference_0 = input_aps.difference(trace_0_dict[timestep])
-            h_inter_0 = set()
-            h_difference_0 = set()
-            for l in intersection_0:
-                h_inter_0.add(l+"#"+str(timestep))
-            for l in difference_0:
-                h_difference_0.add(l+"#"+str(timestep))
-            trace_0_true_inputs[timestep] = h_inter_0
-            trace_0_false_inputs[timestep] = h_difference_0
-        
-        for timestep in range(trace.get_length()):
-            intersection_1 = trace_1_dict[timestep].intersection(input_aps)
-            difference_1 = input_aps.difference(trace_1_dict[timestep])
-            h_inter_1 = set()
-            h_difference_1 = set()
-            for l in intersection_1:
-                h_inter_1.add(l+"#"+str(timestep))
-            for l in difference_1:
-                h_difference_1.add(l+"#"+str(timestep))
-            trace_1_true_inputs[timestep] = h_inter_1
-            trace_1_false_inputs[timestep] = h_difference_1
 
-        true_input_0_list = []
-        for timestep in range(trace.get_length()):
-            true_input_0_list.append(trace_0_true_inputs[timestep])
-        true_inputs_0 = set().union(*true_input_0_list)
-        true_input_1_list = []
-        for timestep in range(trace.get_length()):
-            true_input_1_list.append(trace_1_true_inputs[timestep])
-        true_inputs_1 = set().union(*true_input_1_list)
-        false_input_0_list = []
-        for timestep in range(trace.get_length()):
-            append_not_set = set()
-            for s in trace_0_false_inputs[timestep]:
-                append_not_set.add("¬"+s)
-            false_input_0_list.append(append_not_set)
-        false_inputs_0 = set().union(*false_input_0_list)
-        false_input_1_list = []
-        for timestep in range(trace.get_length()):
-            append_not_set = set()
-            for s in trace_1_false_inputs[timestep]:
-                append_not_set.add("¬"+s)
-            false_input_1_list.append(append_not_set)
-        false_inputs_1 = set().union(*false_input_1_list)
+        # compute true/false inputs for each trace
+        true_inputs = [set() for _ in range(num_traces)]
+        false_inputs = [set() for _ in range(num_traces)]
+        for tid in range(num_traces):
+            true_input_list = []
+            false_input_list = []
+            for timestep in range(trace.get_length()):
+                intersection = trace_dicts[tid][timestep].intersection(input_aps)
+                difference = input_aps.difference(trace_dicts[tid][timestep])
+                h_inter = set()
+                h_difference = set()
+                for l in intersection:
+                    h_inter.add(l+"#"+str(timestep))
+                for l in difference:
+                    h_difference.add(l+"#"+str(timestep))
+                true_input_list.append(h_inter)
+                append_not_set = set()
+                for s in h_difference:
+                    append_not_set.add("¬"+s)
+                false_input_list.append(append_not_set)
+            true_inputs[tid] = set().union(*true_input_list)
+            false_inputs[tid] = set().union(*false_input_list)
 
-        ##compute new input set for each candidate where candidate elements are flipped
-        cause_candidate_index_to_inputs_map_0 = {}
-        index = 0
-        cause0 = [cause0]
-        cause1 = [cause1]
-        for cc in cause0:
-            tmp_true = true_inputs_0
-            tmp_false = false_inputs_0
-            for (ap,t,b,tr) in cc:
-                #print(ap +","+str(t)+str(b)+str(tr))
-                #triple ap,timestep,Bool
-                #flip this ap in the set of inputs
+        # compute new input set for each trace where candidate elements are flipped
+        all_counterfactuals = []
+        for tid in range(num_traces):
+            tmp_true = set(true_inputs[tid])
+            tmp_false = set(false_inputs[tid])
+            for (ap,t,b,tr) in cause_lists[tid]:
                 if (b == 0):
                     tmp_false.remove(("¬"+ap+"#"+str(t)))
                     tmp_true.add((ap+"#"+str(t)))
                 else:
                     tmp_true.remove((ap+"#"+str(t)))
                     tmp_false.add(("¬"+ap+"#"+str(t)))
-            cause_candidate_index_to_inputs_map_0[index] = tmp_true.union(tmp_false)
-            index = index + 1
-        cause_index_to_list_of_inputap_to_bool_0 = {}
-        for cause_index in cause_candidate_index_to_inputs_map_0:
-            list_of_inputap_to_bool_0 = []
+            flipped_inputs = tmp_true.union(tmp_false)
+
+            list_of_inputap_to_bool = []
             for timestep in range(trace.get_length()):
-                ap_to_bool_dict = {}
-                list_of_inputap_to_bool_0.append(ap_to_bool_dict)
-            for ap in cause_candidate_index_to_inputs_map_0[cause_index]:
+                list_of_inputap_to_bool.append({})
+            for ap in flipped_inputs:
                 split = ap.split("#")
                 timestep = split[1]
                 ap_raw = split[0]
                 if ap_raw.startswith("¬"):
-                    list_of_inputap_to_bool_0[int(timestep)][ap_raw.replace("¬","")] = 0
+                    list_of_inputap_to_bool[int(timestep)][ap_raw.replace("¬","")] = 0
                 else:
-                    list_of_inputap_to_bool_0[int(timestep)][ap_raw] = 1
-            cause_index_to_list_of_inputap_to_bool_0[cause_index] = list_of_inputap_to_bool_0
-            
-        cause_candidate_index_to_inputs_map_1 = {}
-        index = 0
-        for cc in cause1:
-            tmp_true = true_inputs_1
-            tmp_false = false_inputs_1
-            for (ap,t,b,tr) in cc:
-                #triple ap,timestep,Bool
-                #flip this ap in the set of inputs
-                if (b == 0):
-                    tmp_false.remove(("¬"+ap+"#"+str(t)))
-                    tmp_true.add((ap+"#"+str(t)))
-                else:
-                    tmp_true.remove((ap+"#"+str(t)))
-                    tmp_false.add(("¬"+ap+"#"+str(t)))
-            cause_candidate_index_to_inputs_map_1[index] = tmp_true.union(tmp_false)
-            index = index + 1
-        cause_index_to_list_of_inputap_to_bool_1 = {}
-        for cause_index in cause_candidate_index_to_inputs_map_1:
-            list_of_inputap_to_bool_1 = []
-            for timestep in range(trace.get_length()):
-                ap_to_bool_dict = {}
-                list_of_inputap_to_bool_1.append(ap_to_bool_dict)
-            for ap in cause_candidate_index_to_inputs_map_1[cause_index]:
-                split = ap.split("#")
-                timestep = split[1]
-                ap_raw = split[0]
-                if ap_raw.startswith("¬"):
-                    list_of_inputap_to_bool_1[int(timestep)][ap_raw.replace("¬","")] = 0
-                else:
-                    list_of_inputap_to_bool_1[int(timestep)][ap_raw] = 1
-            cause_index_to_list_of_inputap_to_bool_1[cause_index] = list_of_inputap_to_bool_1
-        return None, cause_index_to_list_of_inputap_to_bool_0[0], cause_index_to_list_of_inputap_to_bool_1[0]
+                    list_of_inputap_to_bool[int(timestep)][ap_raw] = 1
+            all_counterfactuals.append(list_of_inputap_to_bool)
+
+        return all_counterfactuals
 
 
     # We assume the original formula to be in ENF! negations only in front of equiv, implication or ap
