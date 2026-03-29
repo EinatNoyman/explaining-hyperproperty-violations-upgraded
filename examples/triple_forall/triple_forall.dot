@@ -1,0 +1,8 @@
+digraph moore {
+    "'state' = 0;" [label="initial\n"]
+    "'state' = 1;" [label="out\n"]
+    "'state' = 0;" -> "'state' = 0;" [label="¬x"]
+    "'state' = 0;" -> "'state' = 1;" [label="x"]
+    "'state' = 1;" -> "'state' = 0;" [label="¬x"]
+    "'state' = 1;" -> "'state' = 1;" [label="x"]
+}

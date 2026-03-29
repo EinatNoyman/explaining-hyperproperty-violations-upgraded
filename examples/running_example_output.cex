@@ -1,0 +1,24 @@
+FORM: (F(((!(li_0))|(!(li_1)))&((li_0)|(li_1))))|(G((((lo_0)&(lo_1))|((!(lo_0))&(!(lo_1))))&(((ho_0)&(ho_1))|((!(ho_0))&(!(ho_1))))))
+VAR: 
+hi_0@0=0
+hi_1@0=1
+I:remember_state@0=0 
+state0_0@0=0
+state1_0@0=0
+state0_1@0=0
+state1_1@0=0
+ho_0@0=0
+lo_0@0=0
+ho_1@0=0
+lo_1@0=0
+hi_0@1=0
+hi_1@1=0
+I:remember_state@1=0 
+state0_0@1=0
+state1_0@1=1
+state0_1@1=1
+state1_1@1=0
+ho_0@1=0
+lo_0@1=1
+ho_1@1=1
+lo_1@1=0

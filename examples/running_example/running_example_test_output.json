@@ -1,0 +1,217 @@
+{
+    "stateVariable": "state",
+    "variables": {
+        "hi": {
+            "type": "input"
+        },
+        "ho": {
+            "type": "output"
+        },
+        "lo": {
+            "type": "output"
+        },
+        "state0": {
+            "type": "latch"
+        },
+        "state1": {
+            "type": "latch"
+        }
+    },
+    "lassoStart": -1,
+    "timesteps": [
+        [
+            {
+                "state": -1,
+                "hi": false,
+                "state1": false,
+                "ho": false,
+                "lo": false,
+                "state0": false
+            },
+            {
+                "state": -1,
+                "hi": false,
+                "state1": false,
+                "ho": false,
+                "lo": false,
+                "state0": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "hi": false,
+                "state1": true,
+                "ho": false,
+                "lo": true,
+                "state0": false
+            },
+            {
+                "state": -1,
+                "hi": false,
+                "state1": true,
+                "ho": false,
+                "lo": true,
+                "state0": false
+            }
+        ]
+    ],
+    "plain": "(G((li_0)<->(li_1)))->(G(((lo_0)<->(lo_1))&((ho_0)<->(ho_1))))",
+    "tree": {
+        "name": "root",
+        "id": -1,
+        "children": {
+            "high": [
+                1,
+                0
+            ],
+            "isAtomic": false,
+            "id": 0,
+            "name": "->",
+            "children": [
+                {
+                    "high": [
+                        0,
+                        0
+                    ],
+                    "isAtomic": false,
+                    "id": 1,
+                    "name": "G",
+                    "children": [
+                        {
+                            "high": [
+                                0,
+                                0
+                            ],
+                            "isAtomic": false,
+                            "id": 2,
+                            "name": "<->",
+                            "children": [
+                                {
+                                    "high": [
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": true,
+                                    "id": 5,
+                                    "name": "li",
+                                    "value": 200,
+                                    "variable": "li",
+                                    "trace": 0
+                                },
+                                {
+                                    "high": [
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": true,
+                                    "id": 6,
+                                    "name": "li",
+                                    "value": 200,
+                                    "variable": "li",
+                                    "trace": 1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "high": [
+                        0,
+                        0
+                    ],
+                    "isAtomic": false,
+                    "id": 10,
+                    "name": "G",
+                    "children": [
+                        {
+                            "high": [
+                                0,
+                                0
+                            ],
+                            "isAtomic": false,
+                            "id": 11,
+                            "name": "&",
+                            "children": [
+                                {
+                                    "high": [
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": false,
+                                    "id": 13,
+                                    "name": "<->",
+                                    "children": [
+                                        {
+                                            "high": [
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 15,
+                                            "name": "lo",
+                                            "value": 200,
+                                            "variable": "lo",
+                                            "trace": 0
+                                        },
+                                        {
+                                            "high": [
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 16,
+                                            "name": "lo",
+                                            "value": 200,
+                                            "variable": "lo",
+                                            "trace": 1
+                                        }
+                                    ]
+                                },
+                                {
+                                    "high": [
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": false,
+                                    "id": 20,
+                                    "name": "<->",
+                                    "children": [
+                                        {
+                                            "high": [
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 22,
+                                            "name": "ho",
+                                            "value": 200,
+                                            "variable": "ho",
+                                            "trace": 0
+                                        },
+                                        {
+                                            "high": [
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 23,
+                                            "name": "ho",
+                                            "value": 200,
+                                            "variable": "ho",
+                                            "trace": 1
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "prefix": [
+        "Exists",
+        "Exists"
+    ]
+}
