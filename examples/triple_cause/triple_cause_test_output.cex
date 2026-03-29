@@ -1,0 +1,12 @@
+FORM: (!(violation_0))|(!(violation_1))|(!(violation_2))
+VAR: 
+in_0@0=1
+i1_0@0=1
+i2_0@0=1
+in_1@0=1
+i1_1@0=1
+i2_1@0=1
+in_2@0=1
+i1_2@0=1
+i2_2@0=1
+I:remember_state@0=0 

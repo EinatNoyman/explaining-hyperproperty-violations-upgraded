@@ -1,0 +1,12 @@
+digraph moore {
+    "'state' = 0;" [label="initial\n"]
+    "'state' = 1;" [label="out"]
+    "'state' = 0;" -> "'state' = 0;" [label="¬a∧¬sel"]
+    "'state' = 0;" -> "'state' = 1;" [label="a∧¬sel"]
+    "'state' = 0;" -> "'state' = 0;" [label="¬b∧sel"]
+    "'state' = 0;" -> "'state' = 1;" [label="b∧sel"]
+    "'state' = 1;" -> "'state' = 0;" [label="¬a∧¬sel"]
+    "'state' = 1;" -> "'state' = 1;" [label="a∧¬sel"]
+    "'state' = 1;" -> "'state' = 0;" [label="¬b∧sel"]
+    "'state' = 1;" -> "'state' = 1;" [label="b∧sel"]
+}

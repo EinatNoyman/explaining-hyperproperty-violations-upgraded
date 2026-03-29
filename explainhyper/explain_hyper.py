@@ -12,6 +12,10 @@ import time
 import itertools
 
 
+class CauseVerificationError(Exception):
+    pass
+
+
 def smaller_combinations(cause):
     smaller_causes = []
     for i in range(len(cause)):
@@ -236,6 +240,32 @@ def minimality(i, cause, original_trace, f, fold, args, circuit, all_aps, lasso_
             return current_cause_candidate_size_i
     return []
 
+def verify_cause(cause, original_trace, f, fold, args, circuit, all_aps, lasso_start, num_traces):
+    """Verify that a cause actually resolves the violation.
+    Raises CauseVerificationError if the cause is invalid."""
+    cause_lists = [[] for _ in range(num_traces)]
+    for c in cause:
+        (x, y, z, tra) = c
+        cause_lists[tra].append(c)
+    counterfactuals = highlighter.Highlighter.negate_cause(cause_lists, original_trace, all_aps, num_traces)
+    trace_outputs = []
+    for tid in range(num_traces):
+        t = get_circuit_outputs(circuit, counterfactuals[tid])
+        trace_outputs.append(Translator.ap_list_to_trace(t, str(tid)))
+    trace = []
+    for time in range(len(trace_outputs[0])):
+        combined = []
+        for tid in range(num_traces):
+            combined.extend(trace_outputs[tid][time])
+        trace.append(combined)
+    counterfactual = tr.Trace()
+    counterfactual.set_values(trace)
+    if check_formula(f, counterfactual, args, fold, all_aps, lasso_start, num_traces):
+        raise CauseVerificationError(
+            f"Invalid cause detected: {cause}\n"
+            f"Flipping these inputs does NOT resolve the violation."
+        )
+
 def check_minimality(certain_elements_0, certain_elements_1, candidate_list_0, candidate_list_1, original_trace, f, fold, args, circuit, all_aps):
     print("ALL APS: "+str(all_aps))
     print("CLIST0: "+ str(candidate_list_0))
@@ -357,6 +387,7 @@ def actual_causality(args):
         while minimality(counter, total_cause, original_trace, f, fold, args, circuit, all_aps, lasso_start, num_traces):
             minimal_cause = minimality(counter, total_cause, original_trace, f, fold, args, circuit, all_aps, lasso_start, num_traces)
             all_minimal_causes.append(minimal_cause)
+            verify_cause(minimal_cause, original_trace, f, fold, args, circuit, all_aps, lasso_start, num_traces)
             for (ap,t,b,tra) in minimal_cause:
                 total_cause.remove((ap,t,b,tra))
         if counter >= max_length:

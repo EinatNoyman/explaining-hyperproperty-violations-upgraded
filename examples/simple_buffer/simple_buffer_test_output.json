@@ -1,0 +1,96 @@
+{
+    "stateVariable": "state",
+    "variables": {
+        "secret": {
+            "type": "input"
+        },
+        "out": {
+            "type": "output"
+        },
+        "state": {
+            "type": "latch"
+        }
+    },
+    "lassoStart": 1,
+    "timesteps": [
+        [
+            {
+                "state": false,
+                "secret": true,
+                "out": false
+            },
+            {
+                "state": false,
+                "secret": true,
+                "out": false
+            }
+        ],
+        [
+            {
+                "state": true,
+                "secret": true,
+                "out": true
+            },
+            {
+                "state": true,
+                "secret": false,
+                "out": true
+            }
+        ]
+    ],
+    "plain": "G((out_0)<->(out_1))",
+    "tree": {
+        "name": "root",
+        "id": -1,
+        "children": {
+            "high": [
+                1,
+                0
+            ],
+            "isAtomic": false,
+            "id": 0,
+            "name": "G",
+            "children": [
+                {
+                    "high": [
+                        0,
+                        0
+                    ],
+                    "isAtomic": false,
+                    "id": 1,
+                    "name": "<->",
+                    "children": [
+                        {
+                            "high": [
+                                0,
+                                0
+                            ],
+                            "isAtomic": true,
+                            "id": 4,
+                            "name": "out",
+                            "value": 200,
+                            "variable": "out",
+                            "trace": 0
+                        },
+                        {
+                            "high": [
+                                0,
+                                0
+                            ],
+                            "isAtomic": true,
+                            "id": 5,
+                            "name": "out",
+                            "value": 200,
+                            "variable": "out",
+                            "trace": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "prefix": [
+        "Exists",
+        "Exists"
+    ]
+}

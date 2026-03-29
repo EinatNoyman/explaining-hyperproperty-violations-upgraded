@@ -1,0 +1,202 @@
+{
+    "stateVariable": "state",
+    "variables": {
+        "x": {
+            "type": "input"
+        },
+        "out": {
+            "type": "output"
+        },
+        "state": {
+            "type": "latch"
+        }
+    },
+    "lassoStart": 3,
+    "timesteps": [
+        [
+            {
+                "state": false,
+                "x": false,
+                "out": false
+            },
+            {
+                "state": false,
+                "x": false,
+                "out": false
+            },
+            {
+                "state": false,
+                "x": false,
+                "out": false
+            }
+        ],
+        [
+            {
+                "state": false,
+                "x": false,
+                "out": false
+            },
+            {
+                "state": false,
+                "x": false,
+                "out": false
+            },
+            {
+                "state": false,
+                "x": false,
+                "out": false
+            }
+        ],
+        [
+            {
+                "state": false,
+                "x": false,
+                "out": false
+            },
+            {
+                "state": false,
+                "x": false,
+                "out": false
+            },
+            {
+                "state": false,
+                "x": false,
+                "out": false
+            }
+        ],
+        [
+            {
+                "state": false,
+                "x": true,
+                "out": false
+            },
+            {
+                "state": false,
+                "x": true,
+                "out": false
+            },
+            {
+                "state": false,
+                "x": true,
+                "out": false
+            }
+        ]
+    ],
+    "plain": "G((!(out_0))&(!(out_1))&(!(out_2)))",
+    "tree": {
+        "name": "root",
+        "id": -1,
+        "children": {
+            "high": [
+                1,
+                0,
+                0,
+                0
+            ],
+            "isAtomic": false,
+            "id": 0,
+            "name": "G",
+            "children": [
+                {
+                    "high": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "isAtomic": false,
+                    "id": 1,
+                    "name": "&",
+                    "children": [
+                        {
+                            "high": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "isAtomic": false,
+                            "id": 3,
+                            "name": "!",
+                            "children": [
+                                {
+                                    "id": 6,
+                                    "name": "out",
+                                    "value": 200,
+                                    "isAtomic": true,
+                                    "variable": "out",
+                                    "trace": 0,
+                                    "high": [
+                                        0,
+                                        0,
+                                        0,
+                                        0
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "high": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "isAtomic": false,
+                            "id": 4,
+                            "name": "!",
+                            "children": [
+                                {
+                                    "id": 7,
+                                    "name": "out",
+                                    "value": 200,
+                                    "isAtomic": true,
+                                    "variable": "out",
+                                    "trace": 1,
+                                    "high": [
+                                        0,
+                                        0,
+                                        0,
+                                        0
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "high": [
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "isAtomic": false,
+                            "id": 5,
+                            "name": "!",
+                            "children": [
+                                {
+                                    "id": 8,
+                                    "name": "out",
+                                    "value": 200,
+                                    "isAtomic": true,
+                                    "variable": "out",
+                                    "trace": 2,
+                                    "high": [
+                                        0,
+                                        0,
+                                        0,
+                                        0
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "prefix": [
+        "Exists",
+        "Exists",
+        "Exists"
+    ]
+}
