@@ -1,10 +1,10 @@
 {
     "stateVariable": "state",
     "variables": {
-        "req0": {
+        "req1": {
             "type": "input"
         },
-        "req1": {
+        "req0": {
             "type": "input"
         },
         "grant1": {
@@ -13,10 +13,10 @@
         "grant0": {
             "type": "output"
         },
-        "state0": {
+        "state2": {
             "type": "latch"
         },
-        "state2": {
+        "state0": {
             "type": "latch"
         },
         "state1": {
@@ -28,89 +28,89 @@
         [
             {
                 "state": -1,
+                "grant1": false,
+                "req0": true,
+                "grant0": false,
+                "state0": false,
+                "state2": false,
                 "req1": true,
-                "grant1": false,
-                "state1": false,
-                "state0": false,
-                "state2": false,
-                "grant0": false,
-                "req0": true
+                "state1": false
             },
             {
                 "state": -1,
+                "grant1": false,
+                "req0": true,
+                "grant0": false,
+                "state0": false,
+                "state2": false,
                 "req1": true,
-                "grant1": false,
-                "state1": false,
-                "state0": false,
-                "state2": false,
-                "grant0": false,
-                "req0": true
+                "state1": false
             }
         ],
         [
             {
                 "state": -1,
-                "req1": false,
                 "grant1": false,
-                "state1": true,
+                "req0": false,
+                "grant0": true,
                 "state0": true,
                 "state2": false,
-                "grant0": true,
-                "req0": false
+                "req1": false,
+                "state1": true
             },
             {
                 "state": -1,
-                "req1": false,
                 "grant1": false,
-                "state1": true,
+                "req0": false,
+                "grant0": true,
                 "state0": true,
                 "state2": false,
-                "grant0": true,
-                "req0": false
+                "req1": false,
+                "state1": true
             }
         ],
         [
             {
                 "state": -1,
-                "req1": false,
                 "grant1": true,
-                "state1": true,
+                "req0": false,
+                "grant0": false,
                 "state0": false,
                 "state2": false,
-                "grant0": false,
-                "req0": false
+                "req1": false,
+                "state1": true
             },
             {
                 "state": -1,
-                "req1": false,
                 "grant1": true,
-                "state1": true,
+                "req0": false,
+                "grant0": false,
                 "state0": false,
                 "state2": false,
-                "grant0": false,
-                "req0": true
+                "req1": true,
+                "state1": true
             }
         ],
         [
             {
                 "state": -1,
-                "req1": false,
                 "grant1": false,
-                "state1": false,
+                "req0": false,
+                "grant0": false,
                 "state0": false,
                 "state2": false,
-                "grant0": false,
-                "req0": false
+                "req1": false,
+                "state1": false
             },
             {
                 "state": -1,
-                "req1": false,
-                "grant1": false,
-                "state1": false,
-                "state0": true,
+                "grant1": true,
+                "req0": false,
+                "grant0": false,
+                "state0": false,
                 "state2": false,
-                "grant0": true,
-                "req0": false
+                "req1": false,
+                "state1": true
             }
         ]
     ],

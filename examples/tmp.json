@@ -4,10 +4,10 @@
         "req_1": {
             "type": "input"
         },
-        "tb_secret": {
+        "req_0": {
             "type": "input"
         },
-        "req_0": {
+        "tb_secret": {
             "type": "input"
         },
         "grant_0": {
@@ -15,6 +15,9 @@
         },
         "grant_1": {
             "type": "output"
+        },
+        "delay": {
+            "type": "latch"
         },
         "state0": {
             "type": "latch"
@@ -24,9 +27,6 @@
         },
         "state1": {
             "type": "latch"
-        },
-        "delay": {
-            "type": "latch"
         }
     },
     "lassoStart": 3,
@@ -34,209 +34,209 @@
         [
             {
                 "state": -1,
-                "tb_secret": false,
-                "req_0": true,
-                "state1": false,
-                "grant_1": false,
-                "grant_0": false,
                 "delay": false,
-                "req_1": true,
                 "state0": false,
-                "state2": false
+                "req_0": true,
+                "grant_0": false,
+                "state2": false,
+                "grant_1": false,
+                "req_1": true,
+                "state1": false,
+                "tb_secret": false
             },
             {
                 "state": -1,
-                "tb_secret": false,
-                "req_0": true,
-                "state1": false,
-                "grant_1": false,
-                "grant_0": false,
                 "delay": false,
-                "req_1": true,
                 "state0": false,
-                "state2": false
-            }
-        ],
-        [
-            {
-                "state": -1,
-                "tb_secret": false,
-                "req_0": false,
-                "state1": true,
-                "grant_1": false,
-                "grant_0": true,
-                "delay": true,
-                "req_1": false,
-                "state0": true,
-                "state2": false
-            },
-            {
-                "state": -1,
-                "tb_secret": true,
-                "req_0": false,
-                "state1": true,
-                "grant_1": false,
-                "grant_0": true,
-                "delay": true,
-                "req_1": false,
-                "state0": true,
-                "state2": false
-            }
-        ],
-        [
-            {
-                "state": -1,
-                "tb_secret": false,
-                "req_0": false,
-                "state1": true,
-                "grant_1": true,
-                "grant_0": false,
-                "delay": true,
-                "req_1": false,
-                "state0": false,
-                "state2": false
-            },
-            {
-                "state": -1,
-                "tb_secret": true,
-                "req_0": false,
-                "state1": true,
-                "grant_1": true,
-                "grant_0": false,
-                "delay": true,
-                "req_1": false,
-                "state0": false,
-                "state2": false
-            }
-        ],
-        [
-            {
-                "state": -1,
-                "tb_secret": false,
                 "req_0": true,
-                "state1": false,
-                "grant_1": false,
                 "grant_0": false,
-                "delay": true,
-                "req_1": true,
-                "state0": false,
-                "state2": false
-            },
-            {
-                "state": -1,
-                "tb_secret": false,
-                "req_0": true,
-                "state1": false,
+                "state2": false,
                 "grant_1": false,
-                "grant_0": false,
-                "delay": true,
                 "req_1": true,
-                "state0": false,
-                "state2": false
+                "state1": false,
+                "tb_secret": false
             }
         ],
         [
             {
                 "state": -1,
-                "tb_secret": false,
-                "req_0": false,
-                "state1": false,
-                "grant_1": true,
-                "grant_0": false,
                 "delay": true,
-                "req_1": true,
-                "state0": false,
-                "state2": true
-            },
-            {
-                "state": -1,
-                "tb_secret": true,
+                "state0": true,
                 "req_0": false,
-                "state1": false,
-                "grant_1": true,
-                "grant_0": false,
-                "delay": true,
-                "req_1": true,
-                "state0": false,
-                "state2": true
-            }
-        ],
-        [
-            {
-                "state": -1,
-                "tb_secret": false,
-                "req_0": true,
+                "grant_0": true,
+                "state2": false,
+                "grant_1": false,
+                "req_1": false,
                 "state1": true,
-                "grant_1": false,
-                "grant_0": true,
-                "delay": true,
-                "req_1": false,
-                "state0": true,
-                "state2": false
+                "tb_secret": false
             },
             {
                 "state": -1,
-                "tb_secret": true,
-                "req_0": true,
+                "delay": true,
+                "state0": true,
+                "req_0": false,
+                "grant_0": true,
+                "state2": false,
+                "grant_1": false,
+                "req_1": false,
                 "state1": true,
-                "grant_1": false,
-                "grant_0": true,
-                "delay": true,
-                "req_1": false,
-                "state0": true,
-                "state2": false
+                "tb_secret": true
             }
         ],
         [
             {
                 "state": -1,
-                "tb_secret": false,
-                "req_0": false,
-                "state1": false,
-                "grant_1": true,
-                "grant_0": false,
                 "delay": true,
-                "req_1": false,
                 "state0": false,
-                "state2": true
+                "req_0": false,
+                "grant_0": false,
+                "state2": false,
+                "grant_1": true,
+                "req_1": false,
+                "state1": true,
+                "tb_secret": false
             },
             {
                 "state": -1,
-                "tb_secret": false,
-                "req_0": false,
-                "state1": false,
-                "grant_1": true,
-                "grant_0": false,
                 "delay": true,
-                "req_1": false,
                 "state0": false,
-                "state2": true
+                "req_0": false,
+                "grant_0": false,
+                "state2": false,
+                "grant_1": true,
+                "req_1": true,
+                "state1": true,
+                "tb_secret": true
             }
         ],
         [
             {
                 "state": -1,
-                "tb_secret": false,
-                "req_0": false,
-                "state1": false,
-                "grant_1": false,
-                "grant_0": true,
                 "delay": true,
-                "req_1": false,
-                "state0": true,
-                "state2": false
+                "state0": false,
+                "req_0": true,
+                "grant_0": false,
+                "state2": false,
+                "grant_1": false,
+                "req_1": true,
+                "state1": false,
+                "tb_secret": false
             },
             {
                 "state": -1,
-                "tb_secret": false,
-                "req_0": false,
-                "state1": false,
-                "grant_1": false,
-                "grant_0": true,
                 "delay": true,
-                "req_1": false,
+                "state0": false,
+                "req_0": true,
+                "grant_0": false,
+                "state2": false,
+                "grant_1": true,
+                "req_1": true,
+                "state1": true,
+                "tb_secret": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "delay": true,
+                "state0": false,
+                "req_0": false,
+                "grant_0": false,
+                "state2": true,
+                "grant_1": true,
+                "req_1": true,
+                "state1": false,
+                "tb_secret": false
+            },
+            {
+                "state": -1,
+                "delay": true,
                 "state0": true,
-                "state2": false
+                "req_0": false,
+                "grant_0": true,
+                "state2": false,
+                "grant_1": false,
+                "req_1": true,
+                "state1": true,
+                "tb_secret": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "delay": true,
+                "state0": true,
+                "req_0": true,
+                "grant_0": true,
+                "state2": false,
+                "grant_1": false,
+                "req_1": false,
+                "state1": true,
+                "tb_secret": false
+            },
+            {
+                "state": -1,
+                "delay": true,
+                "state0": false,
+                "req_0": true,
+                "grant_0": false,
+                "state2": false,
+                "grant_1": true,
+                "req_1": false,
+                "state1": true,
+                "tb_secret": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "delay": true,
+                "state0": false,
+                "req_0": false,
+                "grant_0": false,
+                "state2": true,
+                "grant_1": true,
+                "req_1": false,
+                "state1": false,
+                "tb_secret": false
+            },
+            {
+                "state": -1,
+                "delay": true,
+                "state0": true,
+                "req_0": false,
+                "grant_0": true,
+                "state2": false,
+                "grant_1": false,
+                "req_1": false,
+                "state1": false,
+                "tb_secret": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "delay": true,
+                "state0": true,
+                "req_0": false,
+                "grant_0": true,
+                "state2": false,
+                "grant_1": false,
+                "req_1": false,
+                "state1": false,
+                "tb_secret": false
+            },
+            {
+                "state": -1,
+                "delay": true,
+                "state0": false,
+                "req_0": false,
+                "grant_0": false,
+                "state2": false,
+                "grant_1": false,
+                "req_1": false,
+                "state1": false,
+                "tb_secret": false
             }
         ]
     ],

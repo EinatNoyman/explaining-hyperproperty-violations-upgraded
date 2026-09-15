@@ -16,69 +16,69 @@
         [
             {
                 "state": false,
-                "x": false,
-                "out": false
+                "out": false,
+                "x": false
             },
             {
                 "state": false,
-                "x": false,
-                "out": false
+                "out": false,
+                "x": false
             },
             {
                 "state": false,
-                "x": false,
-                "out": false
+                "out": false,
+                "x": false
             }
         ],
         [
             {
                 "state": false,
-                "x": false,
-                "out": false
+                "out": false,
+                "x": false
             },
             {
                 "state": false,
-                "x": false,
-                "out": false
+                "out": false,
+                "x": false
             },
             {
                 "state": false,
-                "x": false,
-                "out": false
+                "out": false,
+                "x": false
             }
         ],
         [
             {
                 "state": false,
-                "x": false,
-                "out": false
+                "out": false,
+                "x": false
             },
             {
                 "state": false,
-                "x": false,
-                "out": false
+                "out": false,
+                "x": false
             },
             {
                 "state": false,
-                "x": false,
-                "out": false
+                "out": false,
+                "x": false
             }
         ],
         [
             {
                 "state": false,
-                "x": true,
-                "out": false
+                "out": false,
+                "x": true
             },
             {
                 "state": false,
-                "x": true,
-                "out": false
+                "out": false,
+                "x": true
             },
             {
                 "state": false,
-                "x": true,
-                "out": false
+                "out": false,
+                "x": true
             }
         ]
     ],

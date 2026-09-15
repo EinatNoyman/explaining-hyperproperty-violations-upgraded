@@ -7,10 +7,10 @@
         "bound": {
             "type": "input"
         },
-        "emergency": {
+        "increase": {
             "type": "output"
         },
-        "increase": {
+        "emergency": {
             "type": "output"
         },
         "state0": {
@@ -26,80 +26,80 @@
             {
                 "state": -1,
                 "emergency": false,
+                "state0": false,
+                "increase": false,
                 "up": false,
                 "bound": false,
-                "state1": false,
-                "state0": false,
-                "increase": false
+                "state1": false
             },
             {
                 "state": -1,
                 "emergency": false,
+                "state0": false,
+                "increase": false,
                 "up": false,
                 "bound": false,
-                "state1": false,
-                "state0": false,
-                "increase": false
+                "state1": false
             }
         ],
         [
             {
                 "state": -1,
                 "emergency": false,
+                "state0": true,
+                "increase": false,
                 "up": true,
                 "bound": false,
-                "state1": false,
-                "state0": true,
-                "increase": false
+                "state1": false
             },
             {
                 "state": -1,
                 "emergency": false,
-                "up": false,
-                "bound": false,
-                "state1": false,
                 "state0": true,
-                "increase": false
+                "increase": false,
+                "up": false,
+                "bound": true,
+                "state1": false
             }
         ],
         [
             {
                 "state": -1,
                 "emergency": false,
+                "state0": true,
+                "increase": true,
                 "up": false,
                 "bound": true,
-                "state1": true,
-                "state0": true,
-                "increase": true
+                "state1": true
             },
             {
                 "state": -1,
-                "emergency": false,
+                "emergency": true,
+                "state0": false,
+                "increase": false,
                 "up": false,
-                "bound": false,
-                "state1": false,
-                "state0": true,
-                "increase": false
+                "bound": true,
+                "state1": true
             }
         ],
         [
             {
                 "state": -1,
                 "emergency": false,
+                "state0": true,
+                "increase": false,
                 "up": false,
                 "bound": false,
-                "state1": false,
-                "state0": true,
-                "increase": false
+                "state1": false
             },
             {
                 "state": -1,
-                "emergency": false,
+                "emergency": true,
+                "state0": false,
+                "increase": false,
                 "up": false,
                 "bound": true,
-                "state1": false,
-                "state0": true,
-                "increase": false
+                "state1": true
             }
         ]
     ],

@@ -98,12 +98,12 @@ A cause is a tuple `(AP name, time step, truth value, trace index)`.
 ## Dependencies
 
 - Python >= 3.7
-- py-aiger, graphviz, pygraphviz, numpy, python-sat, satispy (installed via `pip install .`)
+- py-aiger, graphviz, pygraphviz, numpy, cvc5 (installed via `pip install .`)
 - [Spot](https://spot.lrde.epita.fr/) >= 2.10.4 (installed separately — LTL/automata library)
 
 ## Development Notes
 
 - The HyperLTL-to-LTL reduction zips multiple traces into a single trace with renamed atomic propositions (e.g., `a_pi` becomes a distinct AP). This works due to HyperLTL's synchronous semantics.
 - Finite trace model checking uses the linear algorithm of Finkbeiner & Sipma (2004) via alternating automata with backwards analysis.
-- SAT solving (Glucose4 via PySAT) is used for: unsatisfiable core computation in candidate cause generation, and state machine minimization.
+- SMT solving (cvc5) is used for: unsatisfiable core computation in candidate cause generation, and state machine minimization. The encoding is currently purely propositional — cvc5's richer theories are the intended path for supporting non-Boolean (e.g. bitvector/integer) signals.
 - Traces are in lasso form `t = u(v)^omega` matching MCHyper's output format.

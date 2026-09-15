@@ -16,25 +16,25 @@
         [
             {
                 "state": false,
-                "secret": true,
-                "out": false
+                "out": false,
+                "secret": true
             },
             {
                 "state": false,
-                "secret": true,
-                "out": false
+                "out": false,
+                "secret": true
             }
         ],
         [
             {
                 "state": true,
-                "secret": true,
-                "out": true
+                "out": true,
+                "secret": true
             },
             {
                 "state": true,
-                "secret": false,
-                "out": true
+                "out": true,
+                "secret": false
             }
         ]
     ],

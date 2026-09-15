@@ -1,0 +1,9 @@
+# One build file per path quantifier. Both are identical here because
+# both quantifiers range over the same design.
+#
+# read_verilog  -> filename MUST match the Verilog tab name in the playground
+# prep -top     -> module name inside the .v
+# write_smt2    -> MUST match what the playground passes to -o (default: model.smt2)
+read_verilog -pwires verilog1.v
+prep -top divider -flatten
+write_smt2 -stdt -wires model.smt2

@@ -1,10 +1,10 @@
 {
     "stateVariable": "state",
     "variables": {
-        "li": {
+        "hi": {
             "type": "input"
         },
-        "hi": {
+        "li": {
             "type": "input"
         },
         "ho": {
@@ -13,10 +13,10 @@
         "lo": {
             "type": "output"
         },
-        "state0": {
+        "state2": {
             "type": "latch"
         },
-        "state2": {
+        "state0": {
             "type": "latch"
         },
         "state1": {
@@ -28,111 +28,111 @@
         [
             {
                 "state": -1,
-                "hi": false,
-                "state1": false,
-                "ho": false,
                 "lo": false,
+                "li": false,
                 "state0": false,
+                "hi": false,
+                "ho": false,
                 "state2": false,
-                "li": false
+                "state1": false
             },
             {
                 "state": -1,
-                "hi": true,
-                "state1": false,
-                "ho": false,
                 "lo": false,
+                "li": false,
                 "state0": false,
-                "state2": false,
-                "li": false
-            }
-        ],
-        [
-            {
-                "state": -1,
-                "hi": false,
-                "state1": false,
-                "ho": true,
-                "lo": false,
-                "state0": true,
-                "state2": true,
-                "li": false
-            },
-            {
-                "state": -1,
                 "hi": true,
-                "state1": false,
                 "ho": false,
-                "lo": false,
-                "state0": true,
                 "state2": false,
-                "li": false
+                "state1": false
             }
         ],
         [
             {
                 "state": -1,
-                "hi": true,
-                "state1": false,
-                "ho": true,
                 "lo": false,
+                "li": false,
                 "state0": true,
+                "hi": false,
+                "ho": true,
                 "state2": true,
-                "li": false
+                "state1": false
             },
             {
                 "state": -1,
+                "lo": false,
+                "li": false,
+                "state0": true,
                 "hi": true,
-                "state1": true,
+                "ho": false,
+                "state2": false,
+                "state1": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "lo": false,
+                "li": false,
+                "state0": true,
+                "hi": false,
                 "ho": true,
+                "state2": true,
+                "state1": false
+            },
+            {
+                "state": -1,
                 "lo": true,
+                "li": false,
                 "state0": false,
+                "hi": true,
+                "ho": true,
                 "state2": false,
-                "li": false
+                "state1": true
             }
         ],
         [
             {
                 "state": -1,
-                "hi": false,
-                "state1": false,
-                "ho": false,
                 "lo": false,
+                "li": false,
                 "state0": true,
-                "state2": false,
-                "li": false
+                "hi": false,
+                "ho": true,
+                "state2": true,
+                "state1": false
             },
             {
                 "state": -1,
-                "hi": false,
-                "state1": true,
-                "ho": true,
                 "lo": true,
+                "li": false,
                 "state0": true,
+                "hi": false,
+                "ho": true,
                 "state2": false,
-                "li": false
+                "state1": true
             }
         ],
         [
             {
                 "state": -1,
-                "hi": true,
-                "state1": false,
-                "ho": true,
                 "lo": false,
+                "li": false,
                 "state0": true,
+                "hi": true,
+                "ho": true,
                 "state2": true,
-                "li": false
+                "state1": false
             },
             {
                 "state": -1,
-                "hi": true,
-                "state1": true,
-                "ho": true,
                 "lo": true,
+                "li": false,
                 "state0": true,
+                "hi": true,
+                "ho": true,
                 "state2": true,
-                "li": false
+                "state1": true
             }
         ]
     ],
@@ -154,11 +154,11 @@
             "children": [
                 {
                     "high": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
                     ],
                     "isAtomic": false,
                     "id": 1,
@@ -166,11 +166,11 @@
                     "children": [
                         {
                             "high": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
+                                1,
+                                1,
+                                1,
+                                1,
+                                1
                             ],
                             "isAtomic": false,
                             "id": 2,
@@ -178,11 +178,11 @@
                             "children": [
                                 {
                                     "high": [
-                                        0,
-                                        0,
-                                        0,
-                                        0,
-                                        0
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1
                                     ],
                                     "isAtomic": true,
                                     "id": 5,
@@ -193,11 +193,11 @@
                                 },
                                 {
                                     "high": [
-                                        0,
-                                        0,
-                                        0,
-                                        0,
-                                        0
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1
                                     ],
                                     "isAtomic": true,
                                     "id": 6,
@@ -212,9 +212,9 @@
                 },
                 {
                     "high": [
-                        0,
-                        0,
-                        0,
+                        1,
+                        1,
+                        1,
                         0,
                         0
                     ],
@@ -226,7 +226,7 @@
                             "high": [
                                 0,
                                 0,
-                                0,
+                                1,
                                 0,
                                 0
                             ],
@@ -238,7 +238,7 @@
                                     "high": [
                                         0,
                                         0,
-                                        0,
+                                        1,
                                         0,
                                         0
                                     ],
@@ -253,7 +253,7 @@
                                     "high": [
                                         0,
                                         0,
-                                        0,
+                                        1,
                                         0,
                                         0
                                     ],

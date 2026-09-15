@@ -1,0 +1,4 @@
+# build.ys
+read_verilog -pwires benchmarks/verilog/divider/divider.v
+prep -top divider -flatten
+write_smt2 -stdt -wires model.smt2

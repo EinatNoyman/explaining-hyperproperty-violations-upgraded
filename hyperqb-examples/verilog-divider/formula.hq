@@ -1,0 +1,17 @@
+Forall A . Forall B . (
+    (
+        (rst[A] & rst[B])
+        & X G (~rst[A] & ~rst[B])
+    )
+    -> (
+    X G (
+        (
+            (input_b_stb[A]) & (s_input_b_ack[A]=#b1)
+            &
+            (input_b_stb[B]) & (s_input_b_ack[B]=#b1)
+        )
+        ->
+        ( 
+            G ((s_output_z_stb[A]) = (s_output_z_stb[B]))
+        )
+    )))

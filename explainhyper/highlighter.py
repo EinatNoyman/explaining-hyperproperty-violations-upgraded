@@ -7,10 +7,77 @@ from translator import Translator
 import trace
 import output
 import pygraphviz as viz
-from satispy import CnfFromString
-from pysat.solvers import Glucose4, Lingeling, Minisat22
-from pysat.formula import CNF
+import cvc5
+from cvc5 import Kind
 import re
+
+
+def _get_atom(term_manager, cache, name):
+    """Returns the (cached) cvc5 boolean constant for a given 'ap#timestep' name.
+    cvc5's mkConst creates a fresh symbol on every call even for the same name,
+    so callers must share one cache to get back the same Term for the same name."""
+    if name not in cache:
+        cache[name] = term_manager.mkConst(term_manager.getBooleanSort(), name)
+    return cache[name]
+
+
+def _literal_term(term_manager, cache, literal, term_to_info):
+    """Builds the cvc5 term for a trace assumption literal ('ap#t' or the
+    negated '¬ap#t'), and records (ap_name, timestep, polarity) so the term
+    can be mapped back to a cause tuple once it comes back in an unsat core."""
+    negated = literal.startswith("¬")
+    raw = literal[1:] if negated else literal
+    ap_name, ts_str = raw.split("#")
+    atom = _get_atom(term_manager, cache, raw)
+    term = term_manager.mkTerm(Kind.NOT, atom) if negated else atom
+    term_to_info[term] = (ap_name, int(ts_str), 0 if negated else 1)
+    return term
+
+
+def _edge_literal_term(term_manager, cache, literal, timestep):
+    """Builds the term for one literal of a DOT edge guard, which may carry an
+    inline negation (e.g. '¬req_0'). The atom must be shared with the trace
+    assumptions, so the '¬' becomes a NOT term rather than part of the name."""
+    negated = literal.startswith("¬")
+    raw = literal[1:] if negated else literal
+    atom = _get_atom(term_manager, cache, raw + "#" + str(timestep))
+    return term_manager.mkTerm(Kind.NOT, atom) if negated else atom
+
+
+def _edge_label_term(term_manager, cache, label, timestep):
+    """cvc5-Term equivalent of the old string-based and/or chain built from a
+    DOT edge label: a left-to-right fold over the label's ∧/∨-separated
+    literals (no operator precedence), matching the original semantics."""
+    label = label.replace(" ", "")
+    parts = re.split('∧|∨', label)
+    delims = re.findall('∧|∨', label)
+    term = _edge_literal_term(term_manager, cache, parts[0], timestep)
+    for op_char, part in zip(delims, parts[1:]):
+        nxt = _edge_literal_term(term_manager, cache, part, timestep)
+        kind = Kind.AND if op_char == '∧' else Kind.OR
+        term = term_manager.mkTerm(kind, term, nxt)
+    return term
+
+
+def _build_wp_term(term_manager, cache, edgelist):
+    """cvc5 equivalent of the old build_wp_from_edges: conjunction, over every
+    edge taken by the trace, of the negation of that edge's transition guard."""
+    conjuncts = []
+    for timestep, edge in enumerate(edgelist):
+        guard = _edge_label_term(term_manager, cache, edge.attr['label'], timestep)
+        negated_guard = term_manager.mkTerm(Kind.NOT, guard)
+        # A tautological guard (e.g. 'up ∨ ¬up') means the transition accepts any
+        # input, so it constrains nothing. Conjoining its negation would make the
+        # whole query unsat on its own and mask every real cause.
+        if cvc5.Solver(term_manager).checkSatAssuming(negated_guard).isUnsat():
+            continue
+        conjuncts.append(negated_guard)
+    if not conjuncts:
+        return term_manager.mkTrue()
+    if len(conjuncts) == 1:
+        return conjuncts[0]
+    return term_manager.mkTerm(Kind.AND, *conjuncts)
+
 
 class Highlighter:
     aut = None
@@ -25,7 +92,7 @@ class Highlighter:
         for node in reversed(self.aut.get_nodes()):
             f = spot.formula(node.label)
             if node.is_original():
-                if node.is_accepting() and self.trace.is_liveness():#TODO:EVALUATE FORMULA IF NOT TRUE
+                if node.is_accepting() and self.trace.accepting_holds_at_end():#TODO:EVALUATE FORMULA IF NOT TRUE
                     if self.is_true(int(node.get_label().to_str())):
                         node.set_array_at(self.trace.get_length()-1, spot.tt())
                 if f._is(op.ap):
@@ -248,125 +315,44 @@ class Highlighter:
                 false_input_list.append(append_not_set)
             false_inputs[tid] = set().union(*false_input_list)
 
-        ##Build sat formula from trace inputs as string (all true inputs and false inputs)
+        ##Collect the trace's input literals (all true inputs and false inputs)
         wp_traces = []
         for tid in range(num_traces):
-            wp_traces.append("&".join(list(true_inputs[tid].union(false_inputs[tid]))))
+            wp_traces.append(list(true_inputs[tid].union(false_inputs[tid])))
 
-        ##Build sat formula from edge labels (negated) for each trace
-        def build_wp_from_edges(edgelist):
-            timestep = 0
-            wp_help = edgelist[0].attr['label'].replace(" ","")
-            wp_list = re.split('∧|∨', wp_help)
-            wp = wp_list[0] + "#" + "0"
-            index = 1
-            for el in wp_help[1:]:
-                if el == '∧':
-                    wp = wp + " & " + wp_list[index] + "#" + str(timestep)
-                    index = index + 1
-                elif el == '∨':
-                    wp = wp + " | " + wp_list[index] + "#" + str(timestep)
-                    index = index + 1
-            wp = "(¬(" + wp + "))"
-            timestep = 1
-            for edge in edgelist[1:]:
-                wp_help = edge.attr['label'].replace(" ","")
-                wp_list = re.split('∧|∨', wp_help)
-                wp_1 = "(¬(" + wp_list[0] + "#" + str(timestep)
-                index = 1
-                for el in wp_help[1:]:
-                    if el == '∧':
-                        wp_1 = wp_1 + " & " + wp_list[index] + "#" + str(timestep)
-                        index = index + 1
-                    elif el == '∨':
-                        wp_1 = wp_1 + " | " + wp_list[index] + "#" + str(timestep)
-                        index = index + 1
-                wp = wp + " & " + wp_1 + "))"
-                timestep = timestep + 1
-            return wp
-
-        wp_formulas = []
-        for tid in range(num_traces):
-            wp_formulas.append(build_wp_from_edges(edgelists[tid]))
-
-        #construct cnf, build solvers, solve for each trace
+        #build the solver query per trace and extract unsat cores with cvc5
         all_candidate_lists = []
         all_counterfactuals = []
         for tid in range(num_traces):
-            cnf_wp, aps_wp = CnfFromString.create(wp_formulas[tid].replace("¬","-"))
-            cnf_wp_trace, aps_trace = CnfFromString.create(wp_traces[tid])
-            aps_combined = {**aps_wp, **aps_trace}
+            term_manager = cvc5.TermManager()
+            solver = cvc5.Solver(term_manager)
+            solver.setOption("produce-unsat-cores", "true")
+            solver.setOption("incremental", "true")
 
-            cnf_wp = str(cnf_wp).replace("¬","-")
-            cnf_wp_trace = str(cnf_wp_trace).replace("¬","-")
+            atom_cache = {}
+            term_to_info = {}
 
-            #construct a unique mapping from ap to int
-            ap_to_int_map = {}
-            index = 1
-            for ap in aps_combined:
-                if ap not in ap_to_int_map.keys():
-                    ap_to_int_map[ap.replace("¬","")] = index
-                    index = index + 1
+            #the negated transition guards along the trace are the hard constraint
+            solver.assertFormula(_build_wp_term(term_manager, atom_cache, edgelists[tid]))
 
-            #for every ap in cnf, convert to int according to map
-            for ap in aps_combined:
-                cnf_wp = cnf_wp.replace(ap.replace("¬",""),str(ap_to_int_map[ap.replace("¬","")]))
+            #the trace's own input valuation enters as retractable assumptions
+            assumptions = [
+                _literal_term(term_manager, atom_cache, literal, term_to_info)
+                for literal in wp_traces[tid]
+            ]
 
-            # build sat solver
-            solver = Glucose4()
-
-            #split clauses
-            cnf_wp = cnf_wp.replace(" ","")
-            clause_list = cnf_wp.split("&")
-            split_clause_list = []
-            cnf_wp_trace = cnf_wp_trace.replace(" ", "").replace("(","").replace(")","")
-            cnf_wp_trace_split = cnf_wp_trace.split("&")
-
-            for c in clause_list:
-                c = c.replace("(","").replace(")","")
-                c = c.split('|')
-                int_c = list(map(int,c))
-                split_clause_list.append(int_c)
-            for c in split_clause_list:
-                solver.add_clause(c)
-
-            #get trace as cnf and int encoded
-            cnf_trace_encoded = []
-            for c in cnf_wp_trace_split:
-                if c.startswith("-"):
-                    cnf_trace_encoded.append(ap_to_int_map[c.replace("-","")]*-1)
-                else:
-                    cnf_trace_encoded.append(ap_to_int_map[c.replace("-","")])
-
-            #try to solve and get unsat core
-            assumpt = cnf_trace_encoded
-            core_list = []
-            while (solver.solve(assumptions = assumpt) != True):
-                core = solver.get_core()
-                core_list.append(core)
-                map(lambda x: x*-1,core)
-                deleted = [item for item in assumpt if item not in core]
-                assumpt = deleted
-            solver.delete()
-
-            ## reconstruct aps X timestep:
-            candidate_list = []
-            for cl in core_list:
-                candidate = []
-                for c in cl:
-                    ap = list(ap_to_int_map.keys())[list(ap_to_int_map.values()).index(abs(c))]
-                    ap_split_timestep = ap.split('#')
-                    if (c < 0):
-                        candidate.append((ap_split_timestep[0],int(ap_split_timestep[1]),0,tid))
-                    else:
-                        candidate.append((ap_split_timestep[0],int(ap_split_timestep[1]),1,tid))
-                candidate_list.append(candidate)
-
-            #flatten candidate list
+            #repeatedly extract a core and drop it, until the rest is satisfiable
             new_candidate_list = []
-            for lst in candidate_list:
-                for elm in lst:
-                    new_candidate_list.append(elm)
+            while assumptions:
+                if not solver.checkSatAssuming(*assumptions).isUnsat():
+                    break
+                core = [t for t in solver.getUnsatCore() if t in term_to_info]
+                if not core:
+                    break
+                for term in core:
+                    ap_name, timestep, truth_value = term_to_info[term]
+                    new_candidate_list.append((ap_name, timestep, truth_value, tid))
+                assumptions = [a for a in assumptions if a not in core]
 
             #compute new input set where candidate elements are flipped
             tmp_true = set(true_inputs[tid])

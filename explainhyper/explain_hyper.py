@@ -170,7 +170,50 @@ def get_circuit_outputs(circuit, inputs):
         output_list[timestep] = {**output_list[timestep] , **inputs[timestep], **result[0]}
         output_list[timestep+1] = {**output_list[timestep+1] , **result[1]}
     return output_list[:len(inputs)]
-        
+
+
+def _finite_semantics(args):
+    """End-of-trace semantics for a counterexample with no detected loop.
+
+    Defaults to FINITE_STRONG, which reproduces the historical behaviour
+    exactly. Pass `-finiteSemantics weak` to treat the horizon as
+    "nothing further observed" instead.
+    """
+    choice = getattr(args, "finiteSemantics", "strong")
+    return tr.TraceSemantics.FINITE_WEAK if choice == "weak" else tr.TraceSemantics.FINITE_STRONG
+
+
+def make_counterfactual_trace(rows, original_trace, lasso_start, all_aps, num_traces):
+    """Build a counterfactual Trace that is evaluated under the same semantics
+    as the counterexample it was derived from.
+
+    An intervention flips input values; it does not change the shape of the
+    trace. So a counterfactual of a lasso counterexample is itself a lasso with
+    the same loop point, and gets the same prefix/lasso split.
+
+    This used to be `tr.Trace(); set_values(rows)` with no `set_lasso`, so every
+    counterfactual fell back to finite semantics while the original was
+    evaluated as omega-regular. Because `G` is unsatisfiable on a finite trace
+    (`highlighter.run` only seeds accepting nodes when the trace loops),
+    `check_formula` then returned False for every candidate and the minimality
+    search accepted the first subset it enumerated. See STAGE0-FINDING.md.
+
+    `loop_closed` reports whether the latch valuation actually still loops at
+    `lasso_start`; a False here means the flip broke the cycle and the lasso
+    reading is an approximation.
+    """
+    counterfactual = tr.Trace(original_trace.semantics)
+    latch_aps = all_aps[2] if len(all_aps) > 2 else set()
+    loop_closed = None
+    if lasso_start is not None and 0 <= lasso_start < len(rows):
+        counterfactual.set_values(rows[:lasso_start])
+        counterfactual.set_lasso(rows[lasso_start:])
+        detected = tr.detect_lasso(rows, latch_aps, num_traces)
+        loop_closed = (detected == lasso_start)
+    else:
+        counterfactual.set_values(rows)
+    return counterfactual, loop_closed
+
 
 def run_preprocess(args):
     # load circuit to use for simulation and formula transformation
@@ -187,6 +230,14 @@ def run_preprocess(args):
     trace = tr.Trace()
     if (lasso_start == -1):
         trace.set_values(traces)
+        # A trace with no detected loop is finite. Under FINITE_STRONG (the
+        # historical default) `G phi` is false at the horizon and therefore
+        # false everywhere, so the negated specification -- which for
+        # `G A -> G B` is `G A & F !B` -- can never hold and the counterexample
+        # is not even recognised as a violation. FINITE_WEAK reads the horizon
+        # as "no violation observed within the bound" instead. See
+        # STAGE0-FINDING.md.
+        trace.set_semantics(_finite_semantics(args))
     else:
         trace.set_values(traces[:lasso_start])
         trace.set_lasso(traces[lasso_start:len(traces)-1])
@@ -234,8 +285,7 @@ def minimality(i, cause, original_trace, f, fold, args, circuit, all_aps, lasso_
             for tid in range(num_traces):
                 combined.extend(trace_outputs[tid][time])
             trace.append(combined)
-        counterfactual = tr.Trace()
-        counterfactual.set_values(trace)
+        counterfactual, _ = make_counterfactual_trace(trace, original_trace, lasso_start, all_aps, num_traces)
         if not (check_formula(f, counterfactual, args, fold, all_aps, lasso_start, num_traces)):
             return current_cause_candidate_size_i
     return []
@@ -258,8 +308,7 @@ def verify_cause(cause, original_trace, f, fold, args, circuit, all_aps, lasso_s
         for tid in range(num_traces):
             combined.extend(trace_outputs[tid][time])
         trace.append(combined)
-    counterfactual = tr.Trace()
-    counterfactual.set_values(trace)
+    counterfactual, _ = make_counterfactual_trace(trace, original_trace, lasso_start, all_aps, num_traces)
     if check_formula(f, counterfactual, args, fold, all_aps, lasso_start, num_traces):
         raise CauseVerificationError(
             f"Invalid cause detected: {cause}\n"
@@ -331,6 +380,14 @@ def actual_causality(args):
     trace = tr.Trace()
     if (lasso_start == -1):
         trace.set_values(traces)
+        # A trace with no detected loop is finite. Under FINITE_STRONG (the
+        # historical default) `G phi` is false at the horizon and therefore
+        # false everywhere, so the negated specification -- which for
+        # `G A -> G B` is `G A & F !B` -- can never hold and the counterexample
+        # is not even recognised as a violation. FINITE_WEAK reads the horizon
+        # as "no violation observed within the bound" instead. See
+        # STAGE0-FINDING.md.
+        trace.set_semantics(_finite_semantics(args))
     else:
         trace.set_values(traces[:lasso_start])
         trace.set_lasso(traces[lasso_start:len(traces)-1])
@@ -371,8 +428,7 @@ def actual_causality(args):
         for tid in range(num_traces):
             combined.extend(trace_outputs[tid][timee])
         trace.append(combined)
-    counterfactual = tr.Trace()
-    counterfactual.set_values(trace)
+    counterfactual, _ = make_counterfactual_trace(trace, original_trace, lasso_start, all_aps, num_traces)
     high = highlight(f, counterfactual, args, fold)
     total_cause = []
     for tid in range(num_traces):

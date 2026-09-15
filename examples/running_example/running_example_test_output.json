@@ -22,37 +22,37 @@
         [
             {
                 "state": -1,
-                "hi": false,
-                "state1": false,
-                "ho": false,
                 "lo": false,
-                "state0": false
+                "state0": false,
+                "hi": false,
+                "ho": false,
+                "state1": false
             },
             {
                 "state": -1,
-                "hi": false,
-                "state1": false,
-                "ho": false,
                 "lo": false,
-                "state0": false
+                "state0": false,
+                "hi": false,
+                "ho": false,
+                "state1": false
             }
         ],
         [
             {
                 "state": -1,
-                "hi": false,
-                "state1": true,
-                "ho": false,
                 "lo": true,
-                "state0": false
+                "state0": false,
+                "hi": false,
+                "ho": false,
+                "state1": true
             },
             {
                 "state": -1,
-                "hi": false,
-                "state1": true,
-                "ho": false,
                 "lo": true,
-                "state0": false
+                "state0": false,
+                "hi": false,
+                "ho": false,
+                "state1": true
             }
         ]
     ],

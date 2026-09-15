@@ -9,8 +9,7 @@ setup(
         'graphviz',
         'pygraphviz',
         'numpy',
-        'python-sat',
-        'satispy'
+        'cvc5'
     ],
     python_requires='>=3.7'
 )
