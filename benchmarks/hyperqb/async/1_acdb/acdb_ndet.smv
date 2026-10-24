@@ -1,0 +1,120 @@
+MODULE main
+VAR
+    -- original globals
+    LOCKED   : boolean;      -- semaphore
+    in_HIGH  : boolean;      -- in_HIGH-value
+    SCHEDULE : 0..1;         -- 0: p1 moves, 1: p2 moves
+
+    -- flattened variables for proc1 (programs(ID_one, ..., initline=1))
+    proc1_line       : 1..11;
+    proc1_loop_count : 0..2;
+
+    -- flattened variables for proc2 (programs(ID_two, ..., initline=6))
+    proc2_line       : 1..11;
+    proc2_loop_count : 0..2;
+
+ASSIGN
+
+    ----------------------------------------------------------------
+    -- LOCKED (updated to use flattened line names)
+    ----------------------------------------------------------------
+    init(LOCKED) := FALSE;
+    next(LOCKED) :=
+        case
+            (proc1_line = 2 | proc1_line = 3 | proc1_line = 4) : TRUE;
+            (proc2_line = 2 | proc2_line = 3 | proc2_line = 4) : TRUE;
+            (proc1_line = 9 | proc2_line = 9)                  : TRUE;
+            TRUE                                               : FALSE;
+        esac;
+
+    ----------------------------------------------------------------
+    -- SCHEDULE (updated to use flattened line names)
+    ----------------------------------------------------------------
+    init(SCHEDULE) := {0,1};
+    next(SCHEDULE) := {0,1};
+
+    ----------------------------------------------------------------
+    -- in_HIGH (unchanged dynamics)
+    ----------------------------------------------------------------
+    init(in_HIGH) := {TRUE, FALSE};
+    next(in_HIGH) := in_HIGH;
+
+    ----------------------------------------------------------------
+    -- proc1 instance (ID_one, initline = 1) — flattened
+    ----------------------------------------------------------------
+    init(proc1_line) := 1;
+    next(proc1_line) :=
+        case
+            -- (SCHEDULE = 1)                   : proc1_line;
+            -- program1, diameter = 4
+            (proc1_line = 1 & LOCKED)        : {1};   -- wait if LOCKED
+            (proc1_line = 1 & !LOCKED)       : {2};   -- else go to 2
+            (proc1_line = 2)                 : {3};   -- LOCK it
+            (proc1_line = 3)                 : {4};   -- print A
+            (proc1_line = 4)                 : {5};   -- print B
+            (proc1_line = 5)                 : {1};   -- UNLOCK, END (loop back)
+
+            -- program2, diameter == 5
+            (proc1_line = 6)                 : {7};   -- print C
+            (proc1_line = 7 & in_HIGH)       : {8};   -- if in_HIGH, proceed
+            (proc1_line = 7 & !in_HIGH)      : {11};  -- if !in_HIGH, skip to end
+            (proc1_line = 8 & LOCKED)        : {8};   -- wait if LOCKED
+            (proc1_line = 8 & !LOCKED)       : {9};   -- else, proceed
+            (proc1_line = 9)                 : {10};  -- LOCK
+            (proc1_line = 10)                : {11};  -- UNLOCKed
+            (proc1_line = 11)                : {6};   -- print D, END (loop back)
+            TRUE                             : proc1_line;
+        esac;
+
+    init(proc1_loop_count) := 0;
+    next(proc1_loop_count) :=
+        case
+            (proc1_loop_count = 2) : proc1_loop_count;
+            (proc1_line = 5)       : (proc1_loop_count + 1);
+            (proc1_line = 11)      : (proc1_loop_count + 1);
+            TRUE                   : proc1_loop_count;
+        esac;
+
+    ----------------------------------------------------------------
+    -- proc2 instance (ID_two, initline = 6) — flattened
+    ----------------------------------------------------------------
+    init(proc2_line) := 6;
+    next(proc2_line) :=
+        case
+            -- (SCHEDULE = 0)                   : proc2_line;
+            -- program1, diameter = 4
+            (proc2_line = 1 & LOCKED)        : {1};   -- wait if LOCKED
+            (proc2_line = 1 & !LOCKED)       : {2};   -- else go to 2
+            (proc2_line = 2)                 : {3};   -- LOCK it
+            (proc2_line = 3)                 : {4};   -- print A
+            (proc2_line = 4)                 : {5};   -- print B
+            (proc2_line = 5)                 : {1};   -- UNLOCK, END (loop back)
+
+            -- program2, diameter == 5
+            (proc2_line = 6)                 : {7};   -- print C
+            (proc2_line = 7 & in_HIGH)       : {8};   -- if in_HIGH, proceed
+            (proc2_line = 7 & !in_HIGH)      : {11};  -- if !in_HIGH, skip to end
+            (proc2_line = 8 & LOCKED)        : {8};   -- wait if LOCKED
+            (proc2_line = 8 & !LOCKED)       : {9};   -- else, proceed
+            (proc2_line = 9)                 : {10};  -- LOCK
+            (proc2_line = 10)                : {11};  -- UNLOCKed
+            (proc2_line = 11)                : {6};   -- print D, END (loop back)
+            TRUE                             : proc2_line;
+        esac;
+
+    init(proc2_loop_count) := 0;
+    next(proc2_loop_count) :=
+        case
+            (proc2_loop_count = 2) : proc2_loop_count;
+            (proc2_line = 5)       : (proc2_loop_count + 1);
+            (proc2_line = 11)      : (proc2_loop_count + 1);
+            TRUE                   : proc2_loop_count;
+        esac;
+
+DEFINE
+    obs_printA  := (proc1_line = 3);
+    obs_printB  := (proc1_line = 4);
+    obs_printC  := (proc2_line = 6);
+    obs_printD  := (proc2_line = 11);
+    -- halting condition
+    halt := ((proc1_line = 1) & (proc2_line = 6) & (proc1_loop_count = 1) & (proc2_loop_count = 1));

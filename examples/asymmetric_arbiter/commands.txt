@@ -1,0 +1,5 @@
+read_model -i /mnt/c/Users/einat/Desktop/תואר/תואר שני/תזה/Projects/explaining-hyperproperty-violations-upgraded/examples/asymmetric_arbiter/asymmetric_arbiter.smv
+flatten_hierarchy
+build_flat_model
+write_flat_model -o flattened.txt
+quit

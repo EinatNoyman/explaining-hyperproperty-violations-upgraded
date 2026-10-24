@@ -1,0 +1,26 @@
+ODULE main
+VAR
+  s : 0..8;
+
+ASSIGN
+  init(s) := 0;
+
+  next(s) :=
+    case
+      s = 0 : 1;
+
+      -- BUG: from the abstract mid state, we no longer branch to 3 or 4
+      -- (both “edge” cases collapse elsewhere)
+      s = 1 : {2, 5, 6, 7, 8};
+
+      -- terminals (self-loops)
+      s = 2 : 2;
+      s = 3 : 3;  -- unreachable under the bug
+      s = 4 : 4;  -- unreachable under the bug
+      s = 5 : 5;
+      s = 6 : 6;
+      s = 7 : 7;
+      s = 8 : 8;
+
+      TRUE  : s; -- totalize
+    esac;

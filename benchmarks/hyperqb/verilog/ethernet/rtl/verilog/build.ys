@@ -1,0 +1,8 @@
+# build.ys
+read_verilog benchmarks/verilog/ethernet/rtl/verilog/eth_top.v benchmarks/verilog/ethernet/rtl/verilog/eth_macstatus.v benchmarks/verilog/ethernet/rtl/verilog/eth_wishbone.v benchmarks/verilog/ethernet/rtl/verilog/eth_rxethmac.v benchmarks/verilog/ethernet/rtl/verilog/eth_txethmac.v benchmarks/verilog/ethernet/rtl/verilog/eth_maccontrol.v benchmarks/verilog/ethernet/rtl/verilog/eth_registers.v benchmarks/verilog/ethernet/rtl/verilog/eth_miim.v benchmarks/verilog/ethernet/rtl/verilog/eth_outputcontrol.v benchmarks/verilog/ethernet/rtl/verilog/eth_shiftreg.v benchmarks/verilog/ethernet/rtl/verilog/eth_clockgen.v benchmarks/verilog/ethernet/rtl/verilog/eth_transmitcontrol.v benchmarks/verilog/ethernet/rtl/verilog/eth_register.v benchmarks/verilog/ethernet/rtl/verilog/eth_receivecontrol.v benchmarks/verilog/ethernet/rtl/verilog/eth_random.v benchmarks/verilog/ethernet/rtl/verilog/eth_crc.v benchmarks/verilog/ethernet/rtl/verilog/eth_txstatem.v benchmarks/verilog/ethernet/rtl/verilog/eth_txcounters.v benchmarks/verilog/ethernet/rtl/verilog/eth_rxaddrcheck.v benchmarks/verilog/ethernet/rtl/verilog/eth_rxcounters.v benchmarks/verilog/ethernet/rtl/verilog/eth_rxstatem.v benchmarks/verilog/ethernet/rtl/verilog/eth_fifo.v benchmarks/verilog/ethernet/rtl/verilog/eth_spram_256x32.v
+hierarchy -top eth_top 
+proc
+flatten
+async2sync
+dffunmap
+write_smt2 -stdt model.smt2

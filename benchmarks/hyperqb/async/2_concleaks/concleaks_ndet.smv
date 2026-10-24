@@ -1,0 +1,187 @@
+MODULE main
+  VAR
+    -- top-level shared state
+    in_HIGH : 0..5;    -- in_HIGH-value
+    LOW     : 0..5;    -- low-value
+    var_X     : boolean;       -- X
+    var_Y     : boolean;       -- Y
+    SCHEDULE  : 0..2;          -- 0:p1 moves, 1:p2 moves, 2:p3 moves
+    ID_one    : 0..2;
+    ID_two    : 0..2;
+    ID_three  : 0..2;
+
+    -- inlined programs(ID_one, SCHEDULE, ..., initline=1)  as proc1
+    proc1_line        : 0..12;
+    proc1_loop_count  : 0..2;
+
+    -- inlined programs(ID_two, SCHEDULE, ..., initline=6)  as proc2
+    proc2_line        : 0..12;
+    proc2_loop_count  : 0..2;
+
+    -- inlined programs(ID_three, SCHEDULE, ..., initline=9) as proc3
+    proc3_line        : 0..12;
+    proc3_loop_count  : 0..2;
+
+  ASSIGN
+    -- IDs are fixed to 0,1,2
+    init(ID_one)   := 0;
+    next(ID_one)   := 0;
+    init(ID_two)   := 1;
+    next(ID_two)   := 1;
+    init(ID_three) := 2;
+    next(ID_three) := 2;
+
+    -- inputs toggled by proc3
+    init(in_HIGH) := {0,1,2,3,4,5};
+    next(in_HIGH) := in_HIGH; 
+        -- case
+        --     in_HIGH: TRUE;
+        --     TRUE   : FALSE;
+        -- esac;
+        
+    init(LOW) := {0,1,2,3,4,5};
+    next(LOW) := LOW;
+
+    -- X updated by proc1
+    init(var_X) := FALSE;
+    next(var_X) :=
+      case
+        (proc1_line = 0)               : {FALSE};
+        ((proc1_line = 2 | proc1_line = 5) & ((in_HIGH = 1))) : {TRUE};
+        TRUE                           : var_X;
+      esac;
+
+    -- Y updated by proc1
+    init(var_Y) := FALSE;
+    next(var_Y) :=
+      case
+        (proc1_line = 0)               : {FALSE};
+        ((proc1_line = 3 | proc1_line = 4) &  (in_HIGH = 1)) : {TRUE};
+        TRUE                           : var_Y;
+      esac;
+
+    -- round-robin-ish schedule updates after each program finishes 2 loops
+    init(SCHEDULE) := {0, 1, 2};
+    next(SCHEDULE) := {0, 1, 2};
+      -- case
+      --   (proc1_loop_count = 2) : {1, 2};
+      --   (proc2_loop_count = 2) : {0, 2};
+      --   (proc3_loop_count = 2) : {0, 1};
+      --   TRUE                   : SCHEDULE;
+      -- esac;
+
+    ----------------------------------------------------------------------------
+    -- Inlined programs(ID_one, SCHEDULE, LOW, in_HIGH, var_X, var_Y, initline=1)
+    ----------------------------------------------------------------------------
+    init(proc1_loop_count) := 0;
+    next(proc1_loop_count) :=
+      case
+        (proc1_loop_count = 2)                           : 2;
+        (proc1_line = 0 & (SCHEDULE = ID_one))           : proc1_loop_count + 1;
+        TRUE                                             : proc1_loop_count;
+      esac;
+
+    init(proc1_line) := 1;
+    next(proc1_line) :=
+      case
+        -- scheduler gate: if not this program’s turn, it stutters
+        -- !(SCHEDULE = ID_one)                                 : proc1_line;
+        -- program 1 (lines 0..5)
+        (proc1_line = 0)                                     : {1};                   -- x=0, y=0
+        (proc1_line = 1 & (in_HIGH = LOW))                : {2};   
+        (proc1_line = 1 & !(in_HIGH = LOW))               : {4};                -- if (h == l)
+        (proc1_line = 2)                                     : {3};                   -- x=1
+        (proc1_line = 3)                                     : {0};                   -- y=1
+        (proc1_line = 4)                                     : {5};                   -- y=1
+        (proc1_line = 5)                                     : {0};                   -- x=1
+
+        -- program 2 (lines 6..8)
+        (proc1_line = 6)                                     : {7};
+        (proc1_line = 7)                                     : {8};                   -- output x
+        (proc1_line = 8)                                     : {6};                   -- output y
+
+        -- program 3 (lines 9..11)
+        (proc1_line = 9)                                     : {10};
+        (proc1_line = 10)                                    : {11};                  -- in_HIGH := {0,1} at top-level
+        (proc1_line = 11)                                    : {9};                   -- LOW  := {0,1}  at top-level
+
+        TRUE                                                 : proc1_line;
+      esac;
+
+    ----------------------------------------------------------------------------
+    -- Inlined programs(ID_two, SCHEDULE, LOW, in_HIGH, var_X, var_Y, initline=6)
+    ----------------------------------------------------------------------------
+    init(proc2_loop_count) := 0;
+    next(proc2_loop_count) :=
+      case
+        (proc2_loop_count = 2)                           : 2;
+        (proc2_line = 6 & (SCHEDULE = ID_two))           : proc2_loop_count + 1;
+        TRUE                                             : proc2_loop_count;
+      esac;
+
+    init(proc2_line) := 6;
+    next(proc2_line) :=
+      case
+        -- !(SCHEDULE = ID_two)                                 : proc2_line;
+        (proc2_line = 0)                                     : {1};
+        (proc2_line = 1 & (in_HIGH = LOW))                : {2};
+        (proc2_line = 1 & !(in_HIGH = LOW))               : {4};
+        (proc2_line = 2)                                     : {3};
+        (proc2_line = 3)                                     : {0};
+        (proc2_line = 4)                                     : {5};
+        (proc2_line = 5)                                     : {0};
+
+        (proc2_line = 6)                                     : {7};
+        (proc2_line = 7)                                     : {8};
+        (proc2_line = 8)                                     : {6};
+
+        (proc2_line = 9)                                     : {10};
+        (proc2_line = 10)                                    : {11};
+        (proc2_line = 11)                                    : {9};
+
+        TRUE                                                 : proc2_line;
+      esac;
+
+    ----------------------------------------------------------------------------
+    -- Inlined programs(ID_three, SCHEDULE, LOW, in_HIGH, var_X, var_Y, initline=9)
+    ----------------------------------------------------------------------------
+    init(proc3_loop_count) := 0;
+    next(proc3_loop_count) :=
+      case
+        (proc3_loop_count = 2)                           : 2;
+        (proc3_line = 9 & (SCHEDULE = ID_three))         : proc3_loop_count + 1;
+        TRUE                                             : proc3_loop_count;
+      esac;
+
+    init(proc3_line) := 9;
+    next(proc3_line) :=
+      case
+        -- !(SCHEDULE = ID_three)                               : proc3_line;
+        (proc3_line = 0)                                     : {1};
+        (proc3_line = 1 & (in_HIGH = LOW))                : {2};
+        (proc3_line = 1 & !(in_HIGH = LOW))               : {4};
+        (proc3_line = 2)                                     : {3};
+        (proc3_line = 3)                                     : {0};
+        (proc3_line = 4)                                     : {5};
+        (proc3_line = 5)                                     : {0};
+
+        (proc3_line = 6)                                     : {7};
+        (proc3_line = 7)                                     : {8};
+        (proc3_line = 8)                                     : {6};
+
+        (proc3_line = 9)                                     : {10};
+        (proc3_line = 10)                                    : {11};
+        (proc3_line = 11)                                    : {9};
+
+        TRUE                                                 : proc3_line;
+      esac;
+
+  DEFINE
+    -- observables (now refer to inlined proc2 state)
+    obs_X_is_zero := ((proc2_line = 7) & (var_X));
+    obs_X_is_one  := ((proc2_line = 7) & !(var_X));
+    obs_Y_is_zero := ((proc2_line = 8) & (var_Y));
+    obs_Y_is_one  := ((proc2_line = 8) & !(var_Y));
+
+    -- global halt: each inlined program finished two loops
+    halt := ((proc1_loop_count = 2) & (proc2_loop_count = 2) & (proc3_loop_count = 2));

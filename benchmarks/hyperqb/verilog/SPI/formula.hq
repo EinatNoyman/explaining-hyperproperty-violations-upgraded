@@ -1,0 +1,26 @@
+Forall p . Forall q .
+(
+  G( sclk_in[p] = sclk_in[q] )
+& G( ss_in[p]   = ss_in[q] )
+& G( mosi_in[p] = mosi_in[q] )
+
+& ( ~sclk_in[p] & ss_in[p] ) & ( ~sclk_in[q] & ss_in[q] )
+& X( ~sclk_in[p] & ss_in[p] ) & X( ~sclk_in[q] & ss_in[q] )
+& (  tx_pos__0_[p] = tx_pos__0_[q]
+   & tx_pos__1_[p] = tx_pos__1_[q]
+   & tx_pos__2_[p] = tx_pos__2_[q]
+   & tx_pos__3_[p] = tx_pos__3_[q]
+   & tx_pos__4_[p] = tx_pos__4_[q] )
+
+& (  tx_buffer__0_[p] = tx_buffer__0_[q]
+    & tx_buffer__1_[p] = tx_buffer__1_[q]
+    & tx_buffer__2_[p] = tx_buffer__2_[q]
+    & tx_buffer__3_[p] = tx_buffer__3_[q]
+    & tx_buffer__4_[p] = tx_buffer__4_[q]
+    & tx_buffer__5_[p] = tx_buffer__5_[q]
+    & tx_buffer__6_[p] = tx_buffer__6_[q]
+    & tx_buffer__7_[p] = tx_buffer__7_[q] )
+)
+-> 
+X G( ( miso[p] & ~sclk_in[p] & ~ss_in[p] )
+    = ( miso[q] & ~sclk_in[q] & ~ss_in[q] ) )

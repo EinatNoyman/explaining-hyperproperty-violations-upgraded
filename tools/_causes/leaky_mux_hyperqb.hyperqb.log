@@ -1,0 +1,74 @@
+Model Creation Time: 0.800713496
+Encoding Time: 0.158048199
+result: unsat.
+
+State 0:
+  a_0_A = false
+  a_0_B = false
+  b_0_A = true
+  b_0_B = true
+  sel_0_A = false
+  sel_0_B = true
+  state_0_A = false
+  state_0_B = false
+
+State 1:
+  a_1_A = false
+  a_1_B = false
+  b_1_A = true
+  b_1_B = true
+  sel_1_A = false
+  sel_1_B = true
+  state_1_A = true
+  state_1_B = false
+
+State 2:
+  a_2_A = false
+  a_2_B = false
+  b_2_A = true
+  b_2_B = true
+  sel_2_A = false
+  sel_2_B = true
+  state_2_A = true
+  state_2_B = false
+
+State 3:
+  a_3_A = false
+  a_3_B = false
+  b_3_A = true
+  b_3_B = true
+  sel_3_A = false
+  sel_3_B = true
+  state_3_A = true
+  state_3_B = false
+
+State 4:
+  a_4_A = false
+  a_4_B = false
+  b_4_A = true
+  b_4_B = true
+  sel_4_A = false
+  sel_4_B = true
+  state_4_A = true
+  state_4_B = false
+
+State 5:
+  a_5_A = false
+  a_5_B = false
+  b_5_A = true
+  b_5_B = true
+  sel_5_A = false
+  sel_5_B = true
+  state_5_A = true
+  state_5_B = false
+
+State 6:
+  a_6_A = false
+  a_6_B = false
+  b_6_A = true
+  b_6_B = true
+  sel_6_A = true
+  sel_6_B = false
+  state_6_A = true
+  state_6_B = false
+Solve Time: 0.109

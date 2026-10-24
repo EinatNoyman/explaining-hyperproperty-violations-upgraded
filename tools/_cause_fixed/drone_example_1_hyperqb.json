@@ -1,0 +1,323 @@
+{
+    "stateVariable": "state",
+    "variables": {
+        "bound": {
+            "type": "input"
+        },
+        "up": {
+            "type": "input"
+        },
+        "emergency": {
+            "type": "output"
+        },
+        "increase": {
+            "type": "output"
+        },
+        "state0": {
+            "type": "latch"
+        },
+        "state1": {
+            "type": "latch"
+        }
+    },
+    "lassoStart": -1,
+    "timesteps": [
+        [
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": false,
+                "up": false,
+                "state0": false,
+                "increase": false,
+                "state1": false
+            },
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": false,
+                "up": false,
+                "state0": false,
+                "increase": false,
+                "state1": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": false,
+                "up": false,
+                "state0": true,
+                "increase": false,
+                "state1": false
+            },
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": false,
+                "up": true,
+                "state0": true,
+                "increase": false,
+                "state1": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": false,
+                "up": false,
+                "state0": true,
+                "increase": false,
+                "state1": false
+            },
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": false,
+                "up": true,
+                "state0": true,
+                "increase": true,
+                "state1": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": true,
+                "up": false,
+                "state0": true,
+                "increase": false,
+                "state1": false
+            },
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": true,
+                "up": true,
+                "state0": true,
+                "increase": true,
+                "state1": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "emergency": true,
+                "bound": false,
+                "up": false,
+                "state0": false,
+                "increase": false,
+                "state1": true
+            },
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": false,
+                "up": false,
+                "state0": true,
+                "increase": false,
+                "state1": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": false,
+                "up": false,
+                "state0": true,
+                "increase": false,
+                "state1": false
+            },
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": false,
+                "up": false,
+                "state0": true,
+                "increase": false,
+                "state1": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": false,
+                "up": false,
+                "state0": true,
+                "increase": false,
+                "state1": false
+            },
+            {
+                "state": -1,
+                "emergency": false,
+                "bound": false,
+                "up": false,
+                "state0": true,
+                "increase": false,
+                "state1": false
+            }
+        ]
+    ],
+    "plain": "(G((bound_0)<->(bound_1)))->(G((emergency_0)<->(emergency_1)))",
+    "tree": {
+        "name": "root",
+        "id": -1,
+        "children": {
+            "high": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "isAtomic": false,
+            "id": 0,
+            "name": "->",
+            "children": [
+                {
+                    "high": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "isAtomic": false,
+                    "id": 1,
+                    "name": "G",
+                    "children": [
+                        {
+                            "high": [
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1
+                            ],
+                            "isAtomic": false,
+                            "id": 2,
+                            "name": "<->",
+                            "children": [
+                                {
+                                    "high": [
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1
+                                    ],
+                                    "isAtomic": true,
+                                    "id": 5,
+                                    "name": "bound",
+                                    "value": 200,
+                                    "variable": "bound",
+                                    "trace": 0
+                                },
+                                {
+                                    "high": [
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1
+                                    ],
+                                    "isAtomic": true,
+                                    "id": 6,
+                                    "name": "bound",
+                                    "value": 200,
+                                    "variable": "bound",
+                                    "trace": 1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "high": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        0,
+                        0
+                    ],
+                    "isAtomic": false,
+                    "id": 10,
+                    "name": "G",
+                    "children": [
+                        {
+                            "high": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                1,
+                                0,
+                                0
+                            ],
+                            "isAtomic": false,
+                            "id": 11,
+                            "name": "<->",
+                            "children": [
+                                {
+                                    "high": [
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": true,
+                                    "id": 14,
+                                    "name": "emergency",
+                                    "value": 200,
+                                    "variable": "emergency",
+                                    "trace": 0
+                                },
+                                {
+                                    "high": [
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": true,
+                                    "id": 15,
+                                    "name": "emergency",
+                                    "value": 200,
+                                    "variable": "emergency",
+                                    "trace": 1
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "prefix": [
+        "Exists",
+        "Exists"
+    ]
+}

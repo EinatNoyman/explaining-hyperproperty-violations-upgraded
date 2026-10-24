@@ -1,0 +1,2 @@
+forall A. forall B.
+(G (({"bound"_A} <-> {"bound"_B})) -> G (({"emergency"_A} <-> {"emergency"_B})))

@@ -1,0 +1,10 @@
+example,n_mchyper,sizes_mchyper,gamma_mchyper,wall_s_mchyper,causes_mchyper,n_autohyper,sizes_autohyper,gamma_autohyper,wall_s_autohyper,causes_autohyper,n_hyperqb,sizes_hyperqb,gamma_hyperqb,wall_s_hyperqb,causes_hyperqb,checkers_compared,same_causes
+asymmetric_arbiter,24,1,72,6.733,req_0@5=1(t0) | req_1@6=0(t0) | req_1@4=1(t0) | req_0@1=0(t0) | req_0@0=1(t0) | req_1@0=1(t0) | req_0@3=1(t0) | req_1@3=1(t0) | tb_secret@3=0(t0) | req_0@2=0(t0) | req_1@2=0(t0) | req_0@4=0(t1) | req_0@1=0(t1) | req_0@0=1(t1) | req_1@0=1(t1) | req_0@3=1(t1) | req_1@3=1(t1) | tb_secret@3=1(t1) | req_0@5=1(t1) | req_1@5=0(t1) | req_0@6=0(t1) | req_1@6=0(t1) | req_0@2=0(t1) | req_1@2=0(t1),,,,900.238,,,,,2.408,,1,
+asymmetric_arbiter_19,10,1,28,1.716,req0@1=0(t0) | req0@0=1(t0) | req1@0=1(t0) | req0@2=0(t0) | req1@2=0(t0) | req0@1=0(t1) | req0@0=1(t1) | req1@0=1(t1) | req0@2=0(t1) | req1@2=0(t1),,,,1.498,,,,,0.849,,1,
+drone_example_1,7,1,24,1.133,bound@2=1(t0) | up@2=0(t0) | up@1=1(t0) | bound@1=0(t0) | bound@2=1(t1) | up@1=0(t1) | bound@1=0(t1),,,,900.209,,,,,3.969,,1,
+drone_example_2,3,1,18,1.018,bound@1=1(t0) | up@1=1(t1) | bound@1=0(t1),,,,1.632,,,,,0.578,,1,
+leaky_mux,2,1,10,0.750,b@0=0(t1) | sel@0=1(t1),16,1,255,461.859,a@19=1(t0) | a@24=1(t0) | a@23=1(t0) | a@45=1(t0) | a@41=1(t0) | a@42=1(t0) | a@20=1(t0) | a@46=1(t0) | a@21=1(t1) | a@19=1(t1) | a@43=1(t1) | a@23=1(t1) | a@45=1(t1) | a@26=1(t1) | a@41=1(t1) | a@48=1(t1),0,,35,1.518,,2,NO
+running_example,2,1,10,0.928,hi@0=0(t0) | hi@0=1(t1),3,1;2,50,1.859,hi@1=0(t0) | hi@1=1(t1) | hi@0=0(t0) & hi@0=0(t1),,,,0.704,,2,NO
+security_in_and_out,3,2,35,1.309,hi@0=0(t0) & hi@1=0(t0) | hi@3=0(t0) & hi@1=1(t1) | hi@0=1(t1) & hi@2=1(t1),,,,900.146,,,,,1.173,,1,
+simple_buffer,2,1,6,0.721,secret@0=1(t0) | secret@0=0(t1),0,,45,76.837,,0,,21,5.596,,1,
+triple_forall,0,,12,2.507,,,,,1330.534,,1,1,21,165383.328,x@0=1(t0),1,

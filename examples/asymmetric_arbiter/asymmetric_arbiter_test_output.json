@@ -10,22 +10,22 @@
         "tb_secret": {
             "type": "input"
         },
-        "grant_0": {
+        "grant_1": {
             "type": "output"
         },
-        "grant_1": {
+        "grant_0": {
             "type": "output"
         },
         "delay": {
             "type": "latch"
         },
-        "state2": {
+        "state1": {
             "type": "latch"
         },
         "state0": {
             "type": "latch"
         },
-        "state1": {
+        "state2": {
             "type": "latch"
         }
     },
@@ -33,210 +33,210 @@
     "timesteps": [
         [
             {
-                "state": -1,
-                "req_0": true,
-                "tb_secret": false,
-                "req_1": true,
+                "state": 0,
                 "delay": false,
-                "state0": false,
-                "grant_1": false,
                 "grant_0": false,
+                "grant_1": false,
+                "req_0": true,
+                "state0": false,
                 "state2": false,
-                "state1": false
+                "req_1": true,
+                "state1": false,
+                "tb_secret": false
             },
             {
-                "state": -1,
-                "req_0": true,
-                "tb_secret": false,
-                "req_1": true,
+                "state": 0,
                 "delay": false,
-                "state0": false,
-                "grant_1": false,
                 "grant_0": false,
-                "state2": false,
-                "state1": false
-            }
-        ],
-        [
-            {
-                "state": -1,
-                "req_0": false,
-                "tb_secret": false,
-                "req_1": false,
-                "delay": true,
-                "state0": true,
                 "grant_1": false,
-                "grant_0": true,
-                "state2": false,
-                "state1": true
-            },
-            {
-                "state": -1,
-                "req_0": false,
-                "tb_secret": true,
-                "req_1": false,
-                "delay": true,
-                "state0": true,
-                "grant_1": false,
-                "grant_0": true,
-                "state2": false,
-                "state1": true
-            }
-        ],
-        [
-            {
-                "state": -1,
-                "req_0": false,
-                "tb_secret": false,
-                "req_1": false,
-                "delay": true,
-                "state0": false,
-                "grant_1": true,
-                "grant_0": false,
-                "state2": false,
-                "state1": true
-            },
-            {
-                "state": -1,
-                "req_0": false,
-                "tb_secret": true,
-                "req_1": true,
-                "delay": true,
-                "state0": false,
-                "grant_1": true,
-                "grant_0": false,
-                "state2": false,
-                "state1": true
-            }
-        ],
-        [
-            {
-                "state": -1,
                 "req_0": true,
-                "tb_secret": false,
-                "req_1": true,
-                "delay": true,
                 "state0": false,
-                "grant_1": false,
-                "grant_0": false,
                 "state2": false,
-                "state1": false
-            },
-            {
-                "state": -1,
-                "req_0": true,
-                "tb_secret": true,
                 "req_1": true,
-                "delay": true,
-                "state0": false,
-                "grant_1": true,
-                "grant_0": false,
-                "state2": false,
-                "state1": true
+                "state1": false,
+                "tb_secret": false
             }
         ],
         [
             {
-                "state": -1,
-                "req_0": false,
-                "tb_secret": false,
-                "req_1": true,
+                "state": 1,
                 "delay": true,
-                "state0": false,
-                "grant_1": true,
+                "grant_0": true,
+                "grant_1": false,
+                "req_0": false,
+                "state0": true,
+                "state2": false,
+                "req_1": false,
+                "state1": true,
+                "tb_secret": false
+            },
+            {
+                "state": 1,
+                "delay": true,
+                "grant_0": true,
+                "grant_1": false,
+                "req_0": false,
+                "state0": true,
+                "state2": false,
+                "req_1": false,
+                "state1": true,
+                "tb_secret": true
+            }
+        ],
+        [
+            {
+                "state": 4,
+                "delay": true,
                 "grant_0": false,
+                "grant_1": true,
+                "req_0": false,
+                "state0": false,
+                "state2": false,
+                "req_1": false,
+                "state1": true,
+                "tb_secret": false
+            },
+            {
+                "state": 4,
+                "delay": true,
+                "grant_0": false,
+                "grant_1": true,
+                "req_0": false,
+                "state0": false,
+                "state2": false,
+                "req_1": false,
+                "state1": true,
+                "tb_secret": true
+            }
+        ],
+        [
+            {
+                "state": 7,
+                "delay": true,
+                "grant_0": false,
+                "grant_1": false,
+                "req_0": true,
+                "state0": false,
+                "state2": false,
+                "req_1": true,
+                "state1": false,
+                "tb_secret": false
+            },
+            {
+                "state": 7,
+                "delay": true,
+                "grant_0": false,
+                "grant_1": false,
+                "req_0": true,
+                "state0": false,
+                "state2": false,
+                "req_1": true,
+                "state1": false,
+                "tb_secret": true
+            }
+        ],
+        [
+            {
+                "state": 5,
+                "delay": true,
+                "grant_0": false,
+                "grant_1": true,
+                "req_0": false,
+                "state0": false,
                 "state2": true,
-                "state1": false
-            },
-            {
-                "state": -1,
-                "req_0": false,
-                "tb_secret": true,
                 "req_1": true,
-                "delay": true,
-                "state0": true,
-                "grant_1": false,
-                "grant_0": true,
-                "state2": false,
-                "state1": true
-            }
-        ],
-        [
-            {
-                "state": -1,
-                "req_0": true,
-                "tb_secret": false,
-                "req_1": false,
-                "delay": true,
-                "state0": true,
-                "grant_1": false,
-                "grant_0": true,
-                "state2": false,
-                "state1": true
+                "state1": false,
+                "tb_secret": false
             },
             {
-                "state": -1,
-                "req_0": true,
-                "tb_secret": true,
-                "req_1": false,
+                "state": 1,
                 "delay": true,
-                "state0": false,
-                "grant_1": true,
-                "grant_0": false,
+                "grant_0": true,
+                "grant_1": false,
+                "req_0": false,
+                "state0": true,
                 "state2": false,
-                "state1": true
+                "req_1": true,
+                "state1": true,
+                "tb_secret": true
             }
         ],
         [
             {
-                "state": -1,
-                "req_0": false,
-                "tb_secret": false,
-                "req_1": false,
+                "state": 1,
                 "delay": true,
-                "state0": false,
-                "grant_1": true,
+                "grant_0": true,
+                "grant_1": false,
+                "req_0": true,
+                "state0": true,
+                "state2": false,
+                "req_1": false,
+                "state1": true,
+                "tb_secret": false
+            },
+            {
+                "state": 4,
+                "delay": true,
                 "grant_0": false,
+                "grant_1": true,
+                "req_0": true,
+                "state0": false,
+                "state2": false,
+                "req_1": false,
+                "state1": true,
+                "tb_secret": true
+            }
+        ],
+        [
+            {
+                "state": 5,
+                "delay": true,
+                "grant_0": false,
+                "grant_1": true,
+                "req_0": false,
+                "state0": false,
                 "state2": true,
-                "state1": false
+                "req_1": false,
+                "state1": false,
+                "tb_secret": false
             },
             {
-                "state": -1,
-                "req_0": false,
-                "tb_secret": false,
-                "req_1": false,
+                "state": 6,
                 "delay": true,
-                "state0": true,
-                "grant_1": false,
                 "grant_0": true,
+                "grant_1": false,
+                "req_0": false,
+                "state0": true,
                 "state2": false,
-                "state1": false
+                "req_1": false,
+                "state1": false,
+                "tb_secret": false
             }
         ],
         [
             {
-                "state": -1,
-                "req_0": false,
-                "tb_secret": false,
-                "req_1": false,
+                "state": 6,
                 "delay": true,
-                "state0": true,
-                "grant_1": false,
                 "grant_0": true,
+                "grant_1": false,
+                "req_0": false,
+                "state0": true,
                 "state2": false,
-                "state1": false
+                "req_1": false,
+                "state1": false,
+                "tb_secret": false
             },
             {
-                "state": -1,
-                "req_0": false,
-                "tb_secret": false,
-                "req_1": false,
+                "state": 7,
                 "delay": true,
-                "state0": false,
-                "grant_1": false,
                 "grant_0": false,
+                "grant_1": false,
+                "req_0": false,
+                "state0": false,
                 "state2": false,
-                "state1": false
+                "req_1": false,
+                "state1": false,
+                "tb_secret": false
             }
         ]
     ],
@@ -261,14 +261,14 @@
             "children": [
                 {
                     "high": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
                     ],
                     "isAtomic": false,
                     "id": 1,
@@ -276,14 +276,14 @@
                     "children": [
                         {
                             "high": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1
                             ],
                             "isAtomic": false,
                             "id": 2,
@@ -291,14 +291,14 @@
                             "children": [
                                 {
                                     "high": [
-                                        0,
-                                        0,
-                                        0,
-                                        0,
-                                        0,
-                                        0,
-                                        0,
-                                        0
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1
                                     ],
                                     "isAtomic": false,
                                     "id": 4,
@@ -306,14 +306,14 @@
                                     "children": [
                                         {
                                             "high": [
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1
                                             ],
                                             "isAtomic": true,
                                             "id": 6,
@@ -324,14 +324,14 @@
                                         },
                                         {
                                             "high": [
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1
                                             ],
                                             "isAtomic": true,
                                             "id": 7,
@@ -344,14 +344,14 @@
                                 },
                                 {
                                     "high": [
-                                        0,
-                                        0,
-                                        0,
-                                        0,
-                                        0,
-                                        0,
-                                        0,
-                                        0
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1
                                     ],
                                     "isAtomic": false,
                                     "id": 11,
@@ -359,14 +359,14 @@
                                     "children": [
                                         {
                                             "high": [
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1
                                             ],
                                             "isAtomic": true,
                                             "id": 13,
@@ -377,14 +377,14 @@
                                         },
                                         {
                                             "high": [
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1,
+                                                1
                                             ],
                                             "isAtomic": true,
                                             "id": 14,
@@ -401,11 +401,11 @@
                 },
                 {
                     "high": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
                         0,
                         0,
                         0
@@ -420,7 +420,7 @@
                                 0,
                                 0,
                                 0,
-                                0,
+                                1,
                                 0,
                                 0,
                                 0
@@ -435,7 +435,7 @@
                                         0,
                                         0,
                                         0,
-                                        0,
+                                        1,
                                         0,
                                         0,
                                         0
@@ -450,7 +450,7 @@
                                                 0,
                                                 0,
                                                 0,
-                                                0,
+                                                1,
                                                 0,
                                                 0,
                                                 0
@@ -468,7 +468,7 @@
                                                 0,
                                                 0,
                                                 0,
-                                                0,
+                                                1,
                                                 0,
                                                 0,
                                                 0
@@ -543,7 +543,7 @@
         }
     },
     "prefix": [
-        "Exists",
-        "Exists"
+        "Forall",
+        "Forall"
     ]
 }

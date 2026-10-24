@@ -1,0 +1,1 @@
+Forall A . Exists B . G(((a_state[A] = 1) = (b_state[B] = 1)) & ((a_state[A] = 2) = (b_state[B] = 9)) & ((a_state[A] = 3) = (b_state[B] = 10)) & (((a_state[A] = 6) | (a_state[A] = 7)) = ((b_state[B] = 2) | (b_state[B] = 6))) & ((a_state[A] = 11) = (b_state[B] = 8)))

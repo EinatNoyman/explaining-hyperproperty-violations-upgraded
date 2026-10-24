@@ -1,0 +1,250 @@
+MODULE main
+VAR
+  -- Shared lazy list structure: HEAD -> (maybe X) -> TAIL
+  ptrh    : 0..2;    -- head's next-pointer (0=head, 1=X, 2=tail)
+  ptrx    : 0..2;    -- X's next-pointer
+  ptrt    : 0..2;    -- tail's next-pointer
+  marked  : 0..1;    -- logical deletion flag for X (1=absent, 0=present)
+
+  -- Fine-grained locking mechanism
+  l_1     : 0..1;    -- HEAD lock (0=unlocked, 1=locked)
+  l_2     : 0..1;    -- X lock (0=unlocked, 1=locked)
+  l_3     : 0..1;    -- TAIL lock (0=unlocked, 1=locked)
+
+  -- Concurrency control
+  stutter : 0..1;    -- process scheduler (0=p1 turn, 1=p2 turn)
+  ret_delay : 0..2;  -- return delay to synchronize with sequential model
+
+  -- Process 1: Concurrent lazy list operations
+  p1_pc       : 0..7;    -- program counter (0=select, 1=find, 2=lock_pred, 3=lock_curr, 4=validate, 5=execute, 6=unlock, 7=return)
+  p1_pred     : 0..2;    -- predecessor node pointer
+  p1_curr     : 0..2;    -- current node pointer
+  p1_op       : 0..2;    -- operation type {ADD=0, REMOVE=1, LOOKUP=2}
+  p1_enq_ret  : 0..1;    -- ADD operation return value
+  p1_deq_ret  : 0..1;    -- REMOVE operation return value
+  p1_look_ret : 0..1;    -- LOOKUP operation return value
+
+  -- Process 2: Identical structure to Process 1
+  p2_pc       : 0..7;    -- program counter
+  p2_pred     : 0..2;    -- predecessor node pointer
+  p2_curr     : 0..2;    -- current node pointer
+  p2_op       : 0..2;    -- operation type {ADD=0, REMOVE=1, LOOKUP=2}
+  p2_enq_ret  : 0..1;    -- ADD operation return value
+  p2_deq_ret  : 0..1;    -- REMOVE operation return value
+  p2_look_ret : 0..1;    -- LOOKUP operation return value
+
+ASSIGN
+  -- initialize list as HEAD->TAIL (X absent
+  init(ptrh)    := 1;
+  init(ptrx)    := 2;
+  init(ptrt)    := 2;
+  init(marked)  := 0;
+
+  init(l_1)     := 0;
+  init(l_2)     := 0;
+  init(l_3)     := 0;
+
+  -- Thread 1 (REMOVE)
+  init(p1_pc)       := 0;
+  init(p1_pred)     := 0;
+  init(p1_curr)     := 0;
+  -- init(p1_op_sub1)  := 0;    -- choose REMOVE
+  -- init(p1_op_sub2)  := 0;
+  init(p1_op)       := 0;
+  init(p1_enq_ret)  := 0;
+  init(p1_deq_ret)  := 0;
+  init(p1_look_ret) := 0;
+
+  -- Thread 2 (LOOKUP)
+  init(p2_pc)       := 0;
+  init(p2_pred)     := 0;
+  init(p2_curr)     := 0;
+  -- init(p2_op_sub1)  := 0;    -- choose LOOKUP
+  -- init(p2_op_sub2)  := 0;
+  init(p2_op)       := 0;
+  init(p2_enq_ret)  := 0;
+  init(p2_deq_ret)  := 0;
+  init(p2_look_ret) := 0;
+  init(stutter)      := 0;
+  init(ret_delay)     := 0;
+
+  ----------------------------------------------------------------
+
+  next(stutter) := case
+    stutter = 0 : 1; -- stutter on
+    stutter = 1 : 0; -- stutter off
+    TRUE        : stutter; -- keep current value
+  esac;
+
+  next(ret_delay) := case
+    ret_delay = 0 & (p1_pc = 7 | p2_pc = 7) : 1; -- delay return for one step
+    ret_delay = 1 : 2;
+    ret_delay = 2 : 0; -- reset delay
+    TRUE                      : ret_delay; -- keep current value
+  esac;
+  
+  next(p1_op) := case
+    p1_pc = 0 & stutter = 1 : {0,1,2}; -- choose operation ADD/REMOVE/LOOKUP
+    TRUE                    : p1_op; -- keep current value
+  esac;
+  
+  -- proc1 state-machine
+  next(p1_pc) := case
+    (stutter = 0) & p1_pc = 0                                                                                 : 1; -- find
+    (stutter = 0) & p1_pc = 1 & p1_op = 2                                                                     : 3;
+    (stutter = 0) & p1_pc = 1 & ((p1_pred = 0 & l_1 = 0) | (p1_pred = 1 & l_2 = 0) | (p1_pred = 2 & l_3 = 0)) : 2; -- lock pred success
+    (stutter = 0) & p1_pc = 1 & ((p1_pred = 0 & l_1 = 1) | (p1_pred = 1 & l_2 = 1) | (p1_pred = 2 & l_3 = 1)) : 1; -- lock pred fail
+    (stutter = 0) & p1_pc = 2 & ((p1_curr = 0 & l_1 = 0) | (p1_curr = 1 & l_2 = 0) | (p1_curr = 2 & l_3 = 0)) : 3; -- lock curr success
+    (stutter = 0) & p1_pc = 2 & ((p1_curr = 0 & l_1 = 1) | (p1_curr = 1 & l_2 = 1) | (p1_curr = 2 & l_3 = 1)) : 2; -- lock curr fail
+    (stutter = 0) & p1_pc = 3                                                                                 : 4; -- validate
+    (stutter = 0) & p1_pc = 4 & ((p1_pred = 0 & ptrh = p1_curr) | (p1_pred = 1 & ptrx = p1_curr) | (p1_pred = 2 & ptrt = p1_curr))  : 5;
+    (stutter = 0) & p1_pc = 4 & !((p1_pred = 0 & ptrh = p1_curr) | (p1_pred = 1 & ptrx = p1_curr) | (p1_pred = 2 & ptrt = p1_curr)) : 6; 
+    (stutter = 0) & p1_pc = 5                                                                                 : {5, 6}; 
+    (stutter = 0) & p1_pc = 6 & (ret_delay = 0)                                                               : 7; -- unlock
+    (stutter = 0) & p1_pc = 6                                                                                 : 6; -- unlock
+    (stutter = 0) & p1_pc = 7                                                                                 : 0; -- done
+    TRUE                                                                                      : p1_pc;
+  esac;
+  -- find: advance pred/curr until curr.key >= X (X=1, TAIL=2)
+  next(p1_pred) := case
+    (p1_pc = 1) & (stutter = 0): p1_curr;
+    TRUE      : p1_pred;
+  esac;
+
+  next(p1_curr) := case
+      (p1_pc = 1) & (stutter = 0) & p1_curr = 0 : ptrh;
+      (p1_pc = 1) & (stutter = 0) & p1_curr = 1 : ptrx;
+      (p1_pc = 1) & (stutter = 0) & p1_curr = 2 : ptrt;
+      TRUE      : p1_curr;
+  esac;
+
+  -- Locks update
+  next(l_1) := case
+    (p1_op != 2) & (p2_op != 2) & ((p1_pc = 2 & p1_pred = 0) | (p2_pc = 2 & p2_pred = 0)) : 1;
+    (p1_op != 2) & (p2_op != 2) & ((p1_pc = 3 & p1_curr = 0) | (p2_pc = 3 & p2_curr = 0)) : 1;
+    (p1_pc = 6 | p2_pc = 6) & (ret_delay = 0)             : 0;
+    TRUE                                                  : l_1;
+  esac;
+
+  next(l_2) := case
+    (p1_op != 2) & (p2_op != 2) & ((p1_pc = 2 & p1_pred = 1) | (p2_pc = 2 & p2_pred = 1)) : 1;
+    (p1_op != 2) & (p2_op != 2) & ((p1_pc = 3 & p1_curr = 1) | (p2_pc = 3 & p2_curr = 1)) : 1;
+    (p1_pc = 6 | p2_pc = 6) & (ret_delay = 0)             : 0;
+    TRUE                                                  : l_2;
+  esac;
+
+  next(l_3) := case
+    (p1_op != 2) & (p2_op != 2) & ((p1_pc = 2 & p1_pred = 2) | (p2_pc = 2 & p2_pred = 2)) : 1;
+    (p1_op != 2) & (p2_op != 2) & ((p1_pc = 3 & p1_curr = 2) | (p2_pc = 3 & p2_curr = 2)) : 1;
+    (p1_pc = 6 | p2_pc = 6) & (ret_delay = 0)             : 0;
+    TRUE                                                  : l_3;
+  esac;
+
+  -- perform the chosen operation in state 5
+  next(marked) := case
+    (p1_pc = 5 & p1_op = 0) | (p2_pc = 5 & p2_op = 0) : 0;
+    (p1_pc = 5 & p1_op = 1) | (p2_pc = 5 & p2_op = 1) : 1;
+    TRUE                                              : marked;
+  esac;
+
+  -- update head pointer only
+  next(ptrh) := case
+    (p1_pc = 6 & p1_op = 0) | (p2_pc = 6 & p2_op = 0) : 1;
+    (p1_pc = 6 & p1_op = 1) | (p2_pc = 6 & p2_op = 1) : 2;
+    TRUE                                              : ptrh;
+  esac;
+
+  next(ptrx) := ptrx;
+  next(ptrt) := ptrt;
+
+  -- record return values for proc1
+  next(p1_enq_ret) := case
+    p1_pc = 6 & p1_op = 0 & (p1_curr != 1) & (stutter = 0) & (ret_delay = 0): 1;
+    TRUE                                   : 0;
+  esac;
+
+  next(p1_deq_ret) := case
+    p1_pc = 6 & p1_op = 1 & (p1_curr = 1) & (stutter = 0)  & (ret_delay = 0): 1;
+    TRUE                                   : 0;
+  esac;
+
+  next(p1_look_ret) := case
+    p1_pc = 6 & p1_op = 2 & (p1_curr = 1) & (marked = 0) & (stutter = 0)  & (ret_delay = 0): 1;
+    p1_pc = 6 & p1_op = 2 & ((p1_curr != 1) | (marked = 1)) : 0;
+    TRUE                                                    : 0;
+  esac;
+
+  next(p2_op) := case
+    p2_pc = 0 & stutter = 0 : {0,1,2}; -- choose operation ADD/REMOVE/LOOKUP
+    TRUE                    : p2_op; -- keep current value
+  esac;
+
+  -- proc2 state-machine
+  next(p2_pc) := case
+    (stutter = 1) & p2_pc = 0                                                                                  : 1;
+    (stutter = 1) & p2_pc = 1 & p2_op = 2                                                                      : 3;
+    (stutter = 1) & p2_pc = 1 & ((p2_pred = 0 & l_1 = 0) | (p2_pred = 1 & l_2 = 0) | (p2_pred = 2 & l_3 = 0))  : 2;
+    (stutter = 1) & p2_pc = 1 & ((p2_pred = 0 & l_1 = 1) | (p2_pred = 1 & l_2 = 1) | (p2_pred = 2 & l_3 = 1))  : 1;
+    (stutter = 1) & p2_pc = 2 & ((p2_curr = 0 & l_1 = 0) | (p2_curr = 1 & l_2 = 0) | (p2_curr = 2 & l_3 = 0))  : 3;
+    (stutter = 1) & p2_pc = 2 & ((p2_curr = 0 & l_1 = 1) | (p2_curr = 1 & l_2 = 1) | (p2_curr = 2 & l_3 = 1))  : 2;
+    (stutter = 1) & p2_pc = 3                                                                                   : {3, 4};
+    (stutter = 1) & p2_pc = 4 & ((p2_pred = 0 & ptrh = p2_curr) | (p2_pred = 1 & ptrx = p2_curr) | (p2_pred = 2 & ptrt = p2_curr)) : 5;
+    (stutter = 1) & p2_pc = 4 & !((p2_pred = 0 & ptrh = p2_curr) | (p2_pred = 1 & ptrx = p2_curr) | (p2_pred = 2 & ptrt = p2_curr)): 6;
+    (stutter = 1) & p2_pc = 5                                                                                   : 6;
+    (stutter = 1) & p2_pc = 6 & (ret_delay = 0)                                                                 : 7;
+    (stutter = 1) & p2_pc = 6                                                                                   : 6;
+    (stutter = 1) & p2_pc = 7                                                                                   : 0;
+    TRUE                                                                                        : p2_pc;
+  esac;
+
+  next(p2_pred) := case
+    (p2_pc = 1) & (stutter = 1)  : p2_curr;
+    TRUE      : p2_pred;
+  esac;
+
+  next(p2_curr) := case
+        (p2_pc = 1) & (stutter = 1) & p2_pred = 0 : ptrh;
+        (p2_pc = 1) & (stutter = 1) & p2_pred = 1 : ptrx;
+        (p2_pc = 1) & (stutter = 1) & p2_pred = 2 : ptrt;
+        TRUE      : p2_curr;
+  esac;
+
+  -- record return values for proc2
+  next(p2_enq_ret) := case
+    p2_pc = 6 & p2_op = 0 & (p2_curr != 1) & (stutter = 1) & (ret_delay = 0): 1;
+    TRUE                                   : 0;
+  esac;
+
+  next(p2_deq_ret) := case
+    p2_pc = 6 & p2_op = 1 & (p2_curr = 1) & (stutter = 1) & (ret_delay = 0): 1;
+    TRUE                                    : 0;
+  esac;
+
+  next(p2_look_ret) := case
+    p2_pc = 6 & p2_op = 2 & (p2_curr = 1) & (marked = 0) & (stutter = 1) & (ret_delay = 0): 1;
+    TRUE                                                    : 0;
+  esac;
+
+
+
+DEFINE
+  p1_enq_envoked := (p1_op = 0) & ((p1_pc = 1) | (p1_pc = 2) | (p1_pc = 3) | (p1_pc = 4) | (p1_pc = 5) | (p1_pc = 6));
+  p2_enq_envoked := (p2_op = 0) & ((p2_pc = 1) | (p2_pc = 2) | (p2_pc = 3) | (p2_pc = 4) | (p2_pc = 5) | (p2_pc = 6));
+  p1_deq_envoked := (p1_op = 1) & ((p1_pc = 1) | (p1_pc = 2) | (p1_pc = 3) | (p1_pc = 4) | (p1_pc = 5) | (p1_pc = 6));
+  p2_deq_envoked := (p2_op = 1) & ((p2_pc = 1) | (p2_pc = 2) | (p2_pc = 3) | (p2_pc = 4) | (p2_pc = 5) | (p2_pc = 6));
+  p1_look_envoked := (p1_op = 2) & ((p1_pc = 1) | (p1_pc = 2) | (p1_pc = 3) | (p1_pc = 4) | (p1_pc = 5) | (p1_pc = 6));
+  p2_look_envoked := (p2_op = 2) & ((p2_pc = 1) | (p2_pc = 2) | (p2_pc = 3) | (p2_pc = 4) | (p2_pc = 5) | (p2_pc = 6));
+
+  envoked_add := (p1_enq_envoked | p2_enq_envoked);
+  envoked_pop := (p1_deq_envoked | p2_deq_envoked);
+  envoked_look := (p1_look_envoked | p2_look_envoked);
+
+  returning_add := (p1_op = 0 & p1_pc = 7) | (p2_op = 0 & p2_pc = 7);
+  returning_pop := (p1_op = 1 & p1_pc = 7) | (p2_op = 1 & p2_pc = 7);
+  returning_look := (p1_op = 2 & p1_pc = 7) | (p2_op = 2 & p2_pc = 7);
+   
+  add_return := ((p1_enq_ret = 1) | (p2_enq_ret = 1));
+  pop_return := ((p1_deq_ret = 1) | (p2_deq_ret = 1));
+  look_return := ((p1_look_ret = 1) | (p2_look_ret = 1));
+
+

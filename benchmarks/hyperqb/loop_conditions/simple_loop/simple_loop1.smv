@@ -1,0 +1,19 @@
+MODULE main 
+VAR
+  x : 1..4;
+
+ASSIGN
+  init(x) := 1;
+  next(x) :=
+    case
+      x = 1  : 2;     
+      x = 2  : {3, 4};     
+      x = 3  : 1;         
+      x = 4  : 1;
+      TRUE   : x;        
+    esac;
+
+
+
+
+

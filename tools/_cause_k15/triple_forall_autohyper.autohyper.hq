@@ -1,0 +1,2 @@
+forall A. forall B. forall C.
+G (!(({"out"_A} | ({"out"_B} | {"out"_C}))))

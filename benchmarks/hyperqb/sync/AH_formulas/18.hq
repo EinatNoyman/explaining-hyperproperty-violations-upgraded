@@ -1,0 +1,1 @@
+forall A. forall B. G(("bidding"_A & "bidding"_B) -> ({"winner"_A = "winner"_B}))

@@ -1,0 +1,30 @@
+MODULE main
+VAR
+  digit : 0..9;
+  secret : boolean;
+  key : 0..9;
+  obf : 0..9;
+  secret_used : boolean;
+
+ASSIGN
+  init(digit) := {0,1,2,3,4,5,6,7,8,9};
+  init(secret) := {TRUE, FALSE};
+  init(key) :=  {0,1,2,3,4,5,6,7,8,9};
+  init(obf) := digit;
+  init(secret_used) := FALSE;
+
+  next(digit) := digit;  
+  next(key) := key;
+
+  next(obf) := case
+    secret : (digit + key) mod 10;
+    TRUE   : obf;
+  esac;
+
+  next(secret_used) := secret_used | secret;
+
+  next(secret) := case
+    secret_used : FALSE;
+    TRUE : {TRUE, FALSE};
+  esac;
+

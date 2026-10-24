@@ -1,13 +1,13 @@
 {
     "stateVariable": "state",
     "variables": {
-        "a": {
+        "b": {
             "type": "input"
         },
         "sel": {
             "type": "input"
         },
-        "b": {
+        "a": {
             "type": "input"
         },
         "out": {
@@ -22,33 +22,33 @@
         [
             {
                 "state": false,
-                "b": false,
+                "sel": false,
                 "out": true,
-                "a": true,
-                "sel": false
+                "b": false,
+                "a": true
             },
             {
                 "state": false,
-                "b": false,
+                "sel": true,
                 "out": true,
-                "a": true,
-                "sel": false
+                "b": false,
+                "a": true
             }
         ],
         [
             {
                 "state": true,
-                "b": false,
+                "sel": false,
                 "out": true,
-                "a": true,
-                "sel": false
+                "b": false,
+                "a": true
             },
             {
-                "state": true,
-                "b": false,
+                "state": false,
+                "sel": true,
                 "out": true,
-                "a": true,
-                "sel": true
+                "b": false,
+                "a": true
             }
         ]
     ],
@@ -207,7 +207,7 @@
         }
     },
     "prefix": [
-        "Exists",
-        "Exists"
+        "Forall",
+        "Forall"
     ]
 }

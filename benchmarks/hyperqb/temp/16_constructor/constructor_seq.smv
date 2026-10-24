@@ -1,0 +1,104 @@
+MODULE main
+    VAR 
+        --Constructor Thread Vars
+        constructorMem : 0..1; -- (0 = Uninitialized, 1 = Set)
+        x : 0..1; -- (0 = Uninit, 1 = Set)
+        y : 0..1; -- (0 = Uninit, 1 = Set)
+        constructorClock : 0..4; -- (represents stalling the constructor process)
+        constructorPC : 0..3; -- (represented position in program for constructor)
+        constructorThreadStatus : 0..1; -- (0 = Dead, 1 = Alive)
+
+            --ReaderFunctionvariables
+        i : 0..2;
+        j : 0..2;
+
+        --Listener Thread vars
+        --x : 0..1; -- 
+        listenerClock : 0..2;
+        listenerPC : 0..6;
+
+        --Event
+
+    ASSIGN
+        -- Initialize
+        --  Constructor State
+        
+        init(constructorClock) := {0, 1, 2}; -- How long the process will have to wait to perform its action.
+        init(constructorPC) := 0;
+        
+        init(x) := 0;
+        init(y) := 0;
+        init(i) := 0; 
+        init(j) := 0;
+
+        -- Driver / Listener State
+        
+        init(listenerClock) := 0; -- How long the process will have to wait to perform its action.
+        init(listenerPC) := 0;
+        init(constructorThreadStatus) := 1; -- In sequential program, this switching off triggers the listener to start
+
+
+        --Constructor Transitions
+        next(constructorPC) := case --constructor driver
+            constructorPC < 3 & constructorClock = 0: constructorPC + 1;
+            TRUE : constructorPC;
+        esac; 
+
+        next(constructorClock) := case
+            constructorThreadStatus = 0 : constructorClock;
+            constructorClock > 0 : constructorClock - 1;
+            TRUE : {0, 1, 2};
+        esac;
+
+        
+        next(constructorMem) := case
+            constructorClock = 0 & constructorPC = 0 : 1; -- mem init
+            TRUE : constructorMem;
+        esac;
+
+        next(x) := case
+            constructorClock = 0 & constructorPC = 1 : 1; --Set x if the program is at that line
+            TRUE : x; --Set
+        esac;
+
+        next(y) := case
+            constructorClock = 0 & constructorPC = 2 : 1; --Set y if the program is at that line
+            TRUE : y; --stay
+        esac;
+
+        next(i) := case
+            constructorMem != 0 & listenerPC = 5 : x + 1;     -- Read the value of x into the i var if in the correct spot in the listener program and constructor is init
+            TRUE : i;
+        esac;
+        
+        next(j) := case
+            constructorMem != 0 & listenerPC = 6 : y + 1;     -- Read the value of y into the j var if in the correct spot in the listener program and constructor is init
+            TRUE : j;
+        esac;
+
+        -- Listener transitions
+
+        next(listenerClock) := case
+            constructorThreadStatus = 1 : listenerClock;
+            listenerClock > 0 : listenerClock - 1;
+            TRUE : {0, 1};
+        esac;
+
+        next(listenerPC) := case --listener driver
+            constructorThreadStatus = 1 | listenerClock != 0 : listenerPC; -- Listener cant start until constructor is finished.
+            (listenerPC < 3 | listenerPC = 5) : listenerPC + 1; --linear ticking
+            listenerPC = 3 : {3, 5}; --listen for event, move on if it happened
+            listenerPC = 3 : {3, 4}; --listen for event, move on if it happenedto blocked status if it happened
+            listenerPC = 4 & constructorThreadStatus = 0 : 5; -- wait until constructor is done
+            listenerPC = 5 : 3; -- go back to listening
+            TRUE: listenerPC;
+        esac;
+
+        next(constructorThreadStatus) := case
+            constructorPC = 3 : 0; --kill thread when constructor complete
+            TRUE : constructorThreadStatus;
+        esac;
+
+        DEFINE
+            READVALUE := (i != 0 & j != 0);
+            BADREAD := (i = 1 | j = 1);

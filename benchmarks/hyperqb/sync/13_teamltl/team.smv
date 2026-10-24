@@ -1,0 +1,43 @@
+--TEAMLTL
+--(adopted from: Jonni Virtema, Jana Hofmann, Bernd Finkbeiner, Juha Kontinen, and Fan Yang. Linear-time temporal logic with team semantics: Expressivity and complexity. arXiv preprint arXiv:2010.03311, 2020)
+MODULE main
+VAR
+  x_axis: 0..3;
+  y_axis: 0..3;
+  action: 0..4;
+ASSIGN
+  -- Initial Conditions
+  init(x_axis):= 0;
+  init(y_axis):= 0;
+  init(action):= {0,1,2,3,4};
+
+  -- Transition Relations
+  next(x_axis) :=
+    case
+      (action=4): x_axis;
+      ((action=0) | (action=1)): x_axis;
+      ((action=2) & (x_axis=0)): x_axis;
+      ((action=3) & (x_axis=3)): x_axis;
+      ((action=2) & (x_axis!=0)): (x_axis - 1); -- action2: move left
+      ((action=3) & (x_axis!=3)): (x_axis + 1); -- action3: move right
+      TRUE: x_axis;
+    esac;
+
+  next(y_axis) :=
+    case
+      (action=4): y_axis;
+      ((action=2) | (action=3)): y_axis;
+      ((action=0) & (y_axis=0)): y_axis;
+      ((action=1) & (y_axis=3)): y_axis;
+      ((action=0) & (y_axis!=0)): (y_axis - 1); -- action 0: move down
+      ((action=1) & (y_axis!=3)): (y_axis + 1); -- action 1: move up
+      TRUE: y_axis;
+    esac;
+
+  next(action) := {0, 1, 2, 3};
+
+DEFINE
+  STARTED := !((x_axis=0) & (y_axis=0));
+  gOALA := (x_axis=0) & (y_axis=3);
+  gOALB := (x_axis=3) & (y_axis=0);
+  gOALC := (x_axis=3) & (y_axis=3);

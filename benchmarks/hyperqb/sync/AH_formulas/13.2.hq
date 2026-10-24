@@ -1,0 +1,2 @@
+exists A. exists B. forall C.
+G("gOALA"_A <-> "gOALA"_C) | G("gOALB"_B <-> "gOALB"_C) | G("gOALC"_B <-> "gOALC"_C)

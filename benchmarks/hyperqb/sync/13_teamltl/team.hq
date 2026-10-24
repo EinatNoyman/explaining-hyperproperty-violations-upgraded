@@ -1,0 +1,2 @@
+Exists A . Exists B . Forall C .
+(G(gOALA[A] = gOALA[C])) | (G(gOALB[B] = gOALB[C]))

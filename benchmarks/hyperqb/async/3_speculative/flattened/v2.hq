@@ -1,0 +1,46 @@
+Forall A . Forall B . E t .
+G(
+    (obs_eq[A][t]) 
+    &
+    (
+        ((var_Y[A][t] = 0) & (var_Y[B][t] = 0))
+        &
+        ((var_Y[A][t] = 1) & (var_Y[B][t] = 1))
+        &
+        ((var_Y[A][t] = 2) & (var_Y[B][t] = 2))
+        &
+        ((var_Y[A][t] = 3) & (var_Y[B][t] = 3))
+        &
+        ((var_Y[A][t] = 4) & (var_Y[B][t] = 4))
+        &
+        ((var_Y[A][t] = 5) & (var_Y[B][t] = 5))
+        &
+        ((var_Y[A][t] = 6) & (var_Y[B][t] = 6))
+        &
+        ((var_Y[A][t] = 7) & (var_Y[B][t] = 7))
+    )
+    &
+    (
+        ((offset[A][t] = 0) & (offset[B][t] = 0))
+        &
+        ((offset[A][t] = 1) & (offset[B][t] = 1))
+        &
+        ((offset[A][t] = 2) & (offset[B][t] = 2))
+    )
+    &
+    (
+        ((var_size[A][t] = 0) & (var_size[B][t] = 0))
+        &
+        ((var_size[A][t] = 1) & (var_size[B][t] = 1))
+        &
+        ((var_size[A][t] = 2) & (var_size[B][t] = 2))
+        &
+        ((var_size[A][t] = 3) & (var_size[B][t] = 3))
+        &
+        ((var_size[A][t] = 4) & (var_size[B][t] = 4))
+    )
+)    
+->  G(obs_eq[B][t])
+
+
+

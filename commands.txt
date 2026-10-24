@@ -1,0 +1,5 @@
+read_model -i examples/running_example/running_example.smv
+flatten_hierarchy
+build_flat_model
+write_flat_model -o flattened.txt
+quit

@@ -1,0 +1,13 @@
+Size of the counter example (|Gamma|) is: 28
+The size of the formula (|phi|) is 35
+C tilde:
+for trace 0: [('req0', 1, 0, 0), ('req0', 0, 1, 0), ('req1', 0, 1, 0), ('req0', 2, 0, 0), ('req1', 2, 0, 0)]
+for trace 1: [('req0', 1, 0, 1), ('req0', 0, 1, 1), ('req1', 0, 1, 1), ('req0', 2, 0, 1), ('req1', 2, 0, 1)]
+Cause syntax: (AP, Time step, Truth value, Trace belonging)
+Time to compute this set of causes (time(C tilde)):
+0.13078904151916504
+Computing all minimal causes now...
+All minimal causes (forall C): [[('req0', 1, 0, 0)], [('req0', 0, 1, 0)], [('req1', 0, 1, 0)], [('req0', 2, 0, 0)], [('req1', 2, 0, 0)], [('req0', 1, 0, 1)], [('req0', 0, 1, 1)], [('req1', 0, 1, 1)], [('req0', 2, 0, 1)], [('req1', 2, 0, 1)]]
+Number of minimal causes (# C): 10
+The time to compute all causes (time(forall C)) took: 
+1.3392610549926758

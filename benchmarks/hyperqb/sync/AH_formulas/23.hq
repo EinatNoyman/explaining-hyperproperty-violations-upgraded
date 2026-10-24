@@ -1,0 +1,20 @@
+forall A . exists B .
+G(
+  ( { "envoked_pop"_A = "envoked_pop"_B } ) 
+  & 
+  ( { "returning_pop"_A = "returning_pop"_B }  )
+  & 
+  ( { "pop_return"_A = "pop_return"_B } ) 
+  &
+  ( { "envoked_add"_A = "envoked_add"_B } ) 
+  & 
+  ( { "returning_add"_A = "returning_add"_B } )
+  & 
+  ( { "add_return"_A = "add_return"_B }  ) 
+  &
+  ( { "envoked_look"_A = "envoked_look"_B } ) 
+  &
+  ( {"returning_look"_A = "returning_look"_B } ) 
+  & 
+  ( {"look_return"_A = "look_return"_B })
+)

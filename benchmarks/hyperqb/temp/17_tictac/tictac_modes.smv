@@ -1,0 +1,179 @@
+MODULE main
+    VAR
+
+    -- Board Variables (0 = Unset, 1 = X, 2 = O)
+    e : 0..2;
+    r : 0..2;
+    t : 0..2;
+    d : 0..2;
+    f : 0..2;
+    g : 0..2;
+    c : 0..2;
+    v : 0..2;
+    b : 0..2;
+
+    player : 0..2; -- (0 = Computer (X), 1 = Player (O), 2 = Draw Board)
+    turn : 0..20; -- just in case
+    input : 0..9;
+    rotation : 0..3;
+
+    mode: 0..1; -- (0 = PvC, 1=PvP, 2 =I dunno yet)
+
+    ASSIGN
+        init(e) := 0;
+        init(r) := 0;
+        init(t) := 0;
+        init(d) := 0;
+        init(f) := 0;
+        init(g) := 0;
+        init(c) := 0;
+        init(v) := 0;
+        init(b) := 0;
+
+        init(player) := 2;
+        init(turn) := 0;
+        init(input) := 0;
+        init(rotation) := 0;
+        init(mode) := {1, 0};
+
+        next(e) := case
+            (turn != 2 | mode != 0) & lastPlayer = 1 & input = 1 & e = 0 : 2;
+            lastPlayer = 0 & input = 1 & e = 0: 1;
+            turn != 2 & badInput & default = 1: lastPlayer + 1;
+            TRUE : e;
+        esac;
+
+        next(r) := case
+            (turn != 2 | mode != 0) & lastPlayer = 1 & input = 2 & r = 0 : 2;
+            lastPlayer = 0 & input = 2 & r = 0: 1;
+            turn != 2 & badInput & default = 2: lastPlayer + 1;
+            TRUE : r;
+        esac;
+
+        next(t) := case
+            (turn != 2 | mode != 0) & lastPlayer = 1 & input = 3 & t = 0 : 2;
+            lastPlayer = 0 & input = 3 & t = 0: 1;
+            turn != 2 & badInput & default = 3: lastPlayer + 1;
+            TRUE : t;
+        esac;
+
+        next(d) := case
+            (turn != 2 | mode != 0) & lastPlayer = 1 & input = 4 & d = 0 : 2;
+            lastPlayer = 0 & input = 4 & d = 0: 1;
+            turn != 2 & badInput & default = 4: lastPlayer + 1;
+            TRUE : d;
+        esac;
+
+        next(f) := case
+            (input = 5 & f = 0) | (turn != 2 & badInput & default = 5) : lastPlayer + 1;
+            TRUE : f;
+        esac;
+
+        next(g) := case
+            (turn != 2 | mode != 0) & lastPlayer = 1 & input = 6 & g = 0 : 2;
+            lastPlayer = 0 & input = 6 & g = 0: 1;
+            turn != 2 & badInput & default = 6: lastPlayer + 1;
+            TRUE : g;
+        esac;
+
+        next(c) := case
+            (turn != 2 | mode != 0) & lastPlayer = 1 & input = 7 & c = 0 : 2;
+            lastPlayer = 0 & input = 7 & c = 0: 1;
+            turn != 2 & badInput & default = 7: lastPlayer + 1;
+            TRUE : c;
+        esac;
+
+        next(v) := case
+            lastPlayer = 1 & (input = 8 | (mode = 0 & turn = 2 & (input mod 2) = 0)) & v = 0 : 2;
+            lastPlayer = 0 & input = 8 & v = 0: 1;
+            turn != 2 & badInput & default = 8: lastPlayer + 1;
+            TRUE : v;
+        esac;
+
+        next(b) := case
+            lastPlayer = 1 & (input = 9 | (mode = 0 & turn = 2 & (input mod 2) = 1)) & b = 0 : 2;
+            lastPlayer = 0 & (input = 9) & b = 0: 1;
+            turn != 2 & badInput & default = 9: lastPlayer + 1;
+            TRUE : b;
+        esac;
+
+        next(player) := case
+            player = 2 : turn mod 2;
+            TRUE : 2;
+        esac;
+
+        next(rotation) := case -- Optimum Prime
+            turn != 2 | mode != 0 : rotation;
+            (input = 7 | input = 4) : 1;
+            (input = 1 | input = 2) : 2;
+            (input = 3 | input = 6) : 3;
+            TRUE : 0;
+        esac;
+
+        next(turn) := case
+            turn < 19 & (player != 2) : turn + 1;
+            TRUE : turn;
+        esac;
+
+        next(input) := case
+            PlayerWins | ComputerWins | player = 2 : 0;
+            player = 1 :{1, 2, 3, 4, 5, 6, 7, 8, 9};
+            player = 0 & mode = 1 : {1, 2, 3, 4, 5, 6, 7, 8, 9};
+            turn = 0 : 5; --Always take center
+            turn = 2 : 7;  --Next take diagonal same row as player move.
+            turn = 4 & t = 0 : 3; -- Both: Win game if player doesnt block.
+            turn = 4 & b = 2 : 6; --Diagonal: Block Player and attack center row.
+            turn = 4 : 4; --Orthogonal: Fork
+            turn = 6 & d = 0 : 4; --Diagonal: Win if player fails to block.
+            turn = 6 & d = 2 : 8; -- Diagonal: Attack center column if player blocks.
+            turn = 6 & d = 1 : 6; --Orthogonal: try 6, badinput will default to 1 and win if Player blocks.
+            turn = 8 : 1; -- Doesnt matter anymore, badinput will default to the last open space and win or tie.
+            TRUE : input;
+        esac;
+
+        next(mode) := mode;
+
+DEFINE
+
+    --:D
+    ComputerWins :=(e = 1 & ((r = 1 & t = 1) | (d = 1 & c = 1) | (f = 1 & b = 1))) |
+                   (d = 1 & f = 1 & g = 1) |
+                   (c = 1 & ((f = 1 & t = 1) | (v = 1 & b = 1))) |
+                   (r = 1 & f = 1 & v = 1) | (t = 1 & g = 1 & b = 1);
+    --Never gonna happen but we include this so we can prove it with a CTL spec
+    PlayerWins :=  (e = 2 & ((r = 2 & t = 2) | (d = 2 & c = 2) | (f = 2 & b = 2))) |
+                   (d = 2 & f = 2 & g = 2) |
+                   (c = 2 & ((f = 2 & t = 2) | (v = 2 & b = 2))) |
+                   (r = 2 & f = 2 & v = 2) | (t = 2 & g = 2 & b = 2);
+
+    --Player picked a bad input
+    badInput := player = 2 & ((input = 1 & e != 0) | (input = 2 & r != 0) | (input = 3 & t != 0) | 
+                              (input = 4 & d != 0) | (input = 5 & f != 0) | (input = 6 & g != 0) | 
+                              (input = 7 & c != 0) | (input = 8 & v != 0) | (input = 9 & b != 0));
+    --If a bad input this is what should be marked instead so there is no possibility of an infinite game
+    default := case
+        e = 0 : 1;
+        r = 0 : 2;
+        t = 0 : 3;
+        d = 0 : 4;
+        f = 0 : 5; --not possible in ai mode but doing it for pvp - thanks past cade
+        g = 0 : 6;
+        c = 0 : 7;
+        v = 0 : 8;
+        b = 0 : 9;
+        TRUE : 0;
+    esac;
+    --This looks dumb but trying to get HyperQB to not hate this
+    --lastPlayer := (turn+1) mod 2;
+
+    lastPlayer := case 
+        turn = 0 | turn = 2 | turn = 4 | turn = 6 | turn = 8 : 1;
+        turn = 1 | turn = 3 | turn = 5 | turn = 7 | turn = 9 : 0;
+        TRUE : 1;
+    esac;
+
+    CTLSPEC NAME ComputerNeverLoses := AG (mode = 0 -> !PlayerWins);
+
+    CTLSPEC NAME GameEndsByTurnNineish := AG (turn = 11 -> ((e != 0 & r != 0 & t != 0 & d != 0 & f != 0 & g != 0 & c != 0 & v != 0 & b != 0) | PlayerWins | ComputerWins))
+    --Ended up finding a bug that allowed 
+    CTLSPEC NAME MutualExclusion := AG !(PlayerWins & ComputerWins)

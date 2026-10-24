@@ -1,0 +1,134 @@
+   MODULE main
+VAR
+  -- shared list: HEAD->(maybe X)->TAIL
+  marked     : 0..1;    -- logical deletion flag for X (1=absent,0=present)
+  busy       : 0..1;    -- busy flag (0=free, 1=busy)
+  stutter    : 0..1;    -- stutter flag (0=p1 turn, 1=p2 turn)
+  
+  -- Process 1
+  p1_pc       : 0..2;   -- {0=select,1=spin,2=do+return}
+  p1_op       : 0..3;   -- {ADD=0, REMOVE=1, LOOKUP=2, NONE=3}
+  p1_enq_ret  : 0..1;
+  p1_deq_ret  : 0..1;
+  p1_look_ret : 0..1;
+
+  -- Process 2
+  p2_pc       : 0..2;   -- {0=select,1=spin,2=do+return}
+  p2_op       : 0..3;   -- {ADD=0, REMOVE=1, LOOKUP=2, NONE=3}
+  p2_enq_ret  : 0..1;
+  p2_deq_ret  : 0..1;
+  p2_look_ret : 0..1;
+
+ASSIGN
+  -- initial states
+  init(marked)     := 0;
+  init(busy)       := 0;
+  init(stutter)    := 0;
+  init(p1_pc)      := 0;
+  init(p1_op)      := 3; -- NONE
+  init(p1_enq_ret) := 0;
+  init(p1_deq_ret) := 0;
+  init(p1_look_ret):= 0;
+  init(p2_pc)      := 0;
+  init(p2_op)      := 3; --NONE
+  init(p2_enq_ret) := 0;
+  init(p2_deq_ret) := 0;
+  init(p2_look_ret):= 0;
+
+  -- Stutter control: alternates between processes
+  next(stutter) := case
+    stutter = 0 : 1; -- switch to p2 turn
+    stutter = 1 : 0; -- switch to p1 turn
+    TRUE : stutter;
+  esac;
+
+
+  -- Busy flag management
+  next(busy) := case
+    -- Set busy when either process starts modifying operation (ADD/REMOVE)
+    (p1_pc = 2 & (p1_op = 0 | p1_op = 1)) | (p2_pc = 2 & (p2_op = 0 | p2_op = 1)) : 1;
+    -- Release busy when both processes are not modifying
+    !((p1_pc = 2 & (p1_op = 0 | p1_op = 1)) | (p2_pc = 2 & (p2_op = 0 | p2_op = 1))) : 0;
+    TRUE : busy;
+  esac;
+
+  -- Process 1 operations (only when stutter = 0)
+  next(p1_op) := case
+    p1_pc = 0 & stutter = 0 : {0, 1, 2};
+    TRUE      : p1_op;
+  esac;
+
+  -- Process 2 operations (only when stutter = 1)
+  next(p2_op) := case
+    p2_pc = 0 & stutter = 1 : {0, 1, 2};
+    TRUE      : p2_op;
+  esac;
+
+
+  next(marked) := case
+    -- Only allow modification if it's the process's turn and not busy
+    p1_pc = 2 & p1_op = 0 & stutter = 0 & (busy = 0 | !(p2_pc = 2 & (p2_op = 0 | p2_op = 1))) : 0; -- P1 ADD: mark present
+    p1_pc = 2 & p1_op = 1 & stutter = 0 & (busy = 0 | !(p2_pc = 2 & (p2_op = 0 | p2_op = 1))) : 1; -- P1 REMOVE: mark absent
+    p2_pc = 2 & p2_op = 0 & stutter = 1 & (busy = 0 | !(p1_pc = 2 & (p1_op = 0 | p1_op = 1))) : 0; -- P2 ADD: mark present
+    p2_pc = 2 & p2_op = 1 & stutter = 1 & (busy = 0 | !(p1_pc = 2 & (p1_op = 0 | p1_op = 1))) : 1; -- P2 REMOVE: mark absent
+    TRUE : marked;
+  esac;
+
+
+  -- Process 1 return values (only when stutter = 0)
+  next(p1_enq_ret) := case
+    p1_pc = 2 & p1_op = 0 & stutter = 0 & marked != 1 & (busy = 0 | !(p2_pc = 2 & (p2_op = 0 | p2_op = 1))) : 1; -- ADD succeeded
+    TRUE : 0;
+  esac;
+  next(p1_deq_ret) := case
+    p1_pc = 2 & p1_op = 1 & stutter = 0 & marked != 0 & (busy = 0 | !(p2_pc = 2 & (p2_op = 0 | p2_op = 1))) : 1; -- REMOVE found
+    TRUE : 0;
+  esac;
+  next(p1_look_ret) := case
+    p1_pc = 2 & p1_op = 2 & stutter = 0 & marked = 0 : 1; -- LOOKUP sees X
+    TRUE : 0;
+  esac;
+
+  -- Process 2 return values (only when stutter = 1)
+  next(p2_enq_ret) := case
+    p2_pc = 2 & p2_op = 0 & stutter = 1 & marked != 1 & (busy = 0 | !(p1_pc = 2 & (p1_op = 0 | p1_op = 1))) : 1; -- ADD succeeded
+    TRUE : 0;
+  esac;
+  next(p2_deq_ret) := case
+    p2_pc = 2 & p2_op = 1 & stutter = 1 & marked != 0 & (busy = 0 | !(p1_pc = 2 & (p1_op = 0 | p1_op = 1))) : 1; -- REMOVE found
+    TRUE : 0;
+  esac;
+  next(p2_look_ret) := case
+    p2_pc = 2 & p2_op = 2 & stutter = 1 & marked = 0 : 1; -- LOOKUP sees X
+    TRUE : 0;
+  esac;
+
+  -- PC transition: 0 -> {1,2} -> 2 -> 0 (Process 1 only moves when stutter = 0)
+  next(p1_pc) := case
+    p1_pc = 0 & stutter = 0 : 1;
+    p1_pc = 1 & stutter = 0 : {1, 2};
+    p1_pc = 2 & stutter = 0 : 0;
+    TRUE      : p1_pc;
+  esac;
+
+  -- PC transition: 0 -> {1,2} -> 2 -> 0 (Process 2 only moves when stutter = 1)
+  next(p2_pc) := case
+    p2_pc = 0 & stutter = 1 : 1;
+    p2_pc = 1 & stutter = 1 : {1, 2};
+    p2_pc = 2 & stutter = 1 : 0;
+    TRUE      : p2_pc;
+  esac;
+
+DEFINE
+  envoked_add := ((p1_op = 0) & ((p1_pc = 1) | (p1_pc = 2))) | ((p2_op = 0) & ((p2_pc = 1) | (p2_pc = 2)));
+  envoked_pop := ((p1_op = 1) & ((p1_pc = 1) | (p1_pc = 2))) | ((p2_op = 1) & ((p2_pc = 1) | (p2_pc = 2)));
+  envoked_look := ((p1_op = 2) & ((p1_pc = 1) | (p1_pc = 2))) | ((p2_op = 2) & ((p2_pc = 1) | (p2_pc = 2)));
+
+  returning_add := ((p1_op = 0) & (p1_pc = 0)) | ((p2_op = 0) & (p2_pc = 0));
+  returning_pop := ((p1_op = 1) & (p1_pc = 0)) | ((p2_op = 1) & (p2_pc = 0));
+  returning_look := ((p1_op = 2) & (p1_pc = 0)) | ((p2_op = 2) & (p2_pc = 0));
+
+  add_return := (p1_enq_ret = 1) | (p2_enq_ret = 1);
+  pop_return := (p1_deq_ret = 1) | (p2_deq_ret = 1);
+  look_return := (p1_look_ret = 1) | (p2_look_ret = 1);
+

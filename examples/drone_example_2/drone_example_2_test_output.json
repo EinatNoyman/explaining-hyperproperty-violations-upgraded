@@ -1,10 +1,10 @@
 {
     "stateVariable": "state",
     "variables": {
-        "up": {
+        "bound": {
             "type": "input"
         },
-        "bound": {
+        "up": {
             "type": "input"
         },
         "increase": {
@@ -13,10 +13,10 @@
         "emergency": {
             "type": "output"
         },
-        "state0": {
+        "state1": {
             "type": "latch"
         },
-        "state1": {
+        "state0": {
             "type": "latch"
         }
     },
@@ -24,62 +24,62 @@
     "timesteps": [
         [
             {
-                "state": -1,
+                "state": 0,
                 "emergency": false,
-                "state0": false,
-                "increase": false,
-                "up": false,
                 "bound": false,
-                "state1": false
+                "up": false,
+                "increase": false,
+                "state1": false,
+                "state0": false
             },
             {
-                "state": -1,
+                "state": 0,
                 "emergency": false,
-                "state0": false,
-                "increase": false,
-                "up": false,
                 "bound": false,
-                "state1": false
+                "up": false,
+                "increase": false,
+                "state1": false,
+                "state0": false
             }
         ],
         [
             {
-                "state": -1,
+                "state": 1,
                 "emergency": false,
-                "state0": true,
-                "increase": false,
-                "up": true,
                 "bound": true,
-                "state1": false
+                "up": true,
+                "increase": false,
+                "state1": false,
+                "state0": true
             },
             {
-                "state": -1,
+                "state": 1,
                 "emergency": false,
-                "state0": true,
-                "increase": false,
+                "bound": false,
                 "up": true,
-                "bound": true,
-                "state1": false
+                "increase": false,
+                "state1": false,
+                "state0": true
             }
         ],
         [
             {
-                "state": -1,
+                "state": 3,
                 "emergency": true,
-                "state0": false,
-                "increase": false,
-                "up": false,
                 "bound": false,
-                "state1": true
+                "up": false,
+                "increase": false,
+                "state1": true,
+                "state0": false
             },
             {
-                "state": -1,
-                "emergency": true,
-                "state0": false,
-                "increase": false,
-                "up": false,
+                "state": 2,
+                "emergency": false,
                 "bound": false,
-                "state1": true
+                "up": false,
+                "increase": true,
+                "state1": true,
+                "state0": true
             }
         ]
     ],
@@ -301,7 +301,7 @@
         }
     },
     "prefix": [
-        "Exists",
-        "Exists"
+        "Forall",
+        "Forall"
     ]
 }

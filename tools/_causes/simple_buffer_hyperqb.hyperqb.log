@@ -1,0 +1,44 @@
+Model Creation Time: 0.030059
+Encoding Time: 0.0002473
+result: unsat.
+
+State 0:
+  secret_0_A = true
+  secret_0_B = false
+  state_0_A = false
+  state_0_B = false
+
+State 1:
+  secret_1_A = true
+  secret_1_B = false
+  state_1_A = true
+  state_1_B = false
+
+State 2:
+  secret_2_A = true
+  secret_2_B = false
+  state_2_A = true
+  state_2_B = false
+
+State 3:
+  secret_3_A = true
+  secret_3_B = false
+  state_3_A = true
+  state_3_B = false
+
+State 4:
+  secret_4_A = true
+  secret_4_B = false
+  state_4_A = true
+  state_4_B = false
+
+State 5:
+  secret_5_A = true
+  secret_5_B = false
+  state_5_A = true
+  state_5_B = false
+
+State 6:
+  state_6_A = true
+  state_6_B = false
+Solve Time: 0.011

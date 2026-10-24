@@ -1,0 +1,38 @@
+MODULE main
+VAR 
+    password : 0..1; -- (password, correct/incorrect depends on the matchedUser/Admin password)
+    username : 0..2; -- (none = 0, user = 0, devadmin = 1)
+    matchedUserPassword : 0..1;
+    matchedAdminPassword : 0..1;
+    loginfo : 0..2; -- (none = 0, success = 1, failure = 2, ... test failures)
+    result : 0..2; -- (none = 0, 1 = login, badLogin = 2, 3 = No connection)
+    httpclient : 0..2; -- (unset = 0, userlogin = 1, devlogin = 2)
+
+ASSIGN
+    -- Starting values
+    init(password) := {0, 1}; -- user enters password
+    init(username) := {1, 2}; -- user enters username
+    init(matchedUserPassword) := 0;
+    init(matchedAdminPassword) := 1;
+    init(loginfo) := 0; -- empty
+    init(result) := 0; -- unknown
+    init(httpclient) := 0; --nada
+
+    next(password) := password;
+    next(username) := username;
+    next(matchedUserPassword) := matchedUserPassword;
+    next(matchedAdminPassword) := matchedAdminPassword;
+
+    --Transition Rules
+    next(httpclient) := username;
+
+    next(result) := case
+        httpclient = 0 : result;
+        (password = matchedUserPassword & httpclient = 1) | (password = matchedAdminPassword & httpclient = 2) : 1;
+        TRUE : 2;
+    esac;
+
+    next(loginfo) := case
+        result != 0 : 1;
+        TRUE : loginfo;
+    esac;

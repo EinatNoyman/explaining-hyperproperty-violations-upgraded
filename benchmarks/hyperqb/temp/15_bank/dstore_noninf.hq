@@ -1,0 +1,1 @@
+forall A. forall B. G(*loginfo[A] != 0* /\ *loginfo[A] = loginfo[B]*)

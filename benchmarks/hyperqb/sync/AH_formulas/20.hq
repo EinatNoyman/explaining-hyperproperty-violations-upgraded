@@ -1,0 +1,6 @@
+exists A. exists B.
+  G(
+    (({"obf"_A = "obf"_B}) & ({"key"_A = "key"_B}) & ("secret"_A) & ("secret"_B))
+    -> 
+    ({"digit"_A = "digit"_B})
+    )

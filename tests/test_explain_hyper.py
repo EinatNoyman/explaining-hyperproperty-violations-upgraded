@@ -685,7 +685,8 @@ class TestCauseVerificationError:
 
     def test_verify_cause_raises_on_invalid(self, running_example_dir):
         """
-        Mock check_formula to return True (violation persists) to trigger
+        Mock check_formula to return False (phi does not hold on the
+        counterfactual, so the violation persists) to trigger
         CauseVerificationError from verify_cause.
         """
         import explain_hyper
@@ -698,11 +699,8 @@ class TestCauseVerificationError:
 
         # First run the normal pipeline to get circuit and trace info
         circuit = aiger.load(args.aag)
-        negate, f_str, num_traces = Translator.mchyper_to_spot(args.f, circuit)
-        f = spot.formula_from_spot(f_str)
-        fold = Translator.equivalence_normal_form(f)
-        f = Translator.formula_without_syntactic_sugar(fold)
-        f = Translator.negative_normal_form(f)
+        # same chain production uses -- see Translator.mchyper_pipeline
+        negate, f, fold, num_traces = Translator.mchyper_pipeline(args.f, circuit)
 
         from trace import Trace as tr_module
         traces_data, lasso_start, all_aps, circuit = explain_hyper.simulate_circuit(
@@ -717,11 +715,11 @@ class TestCauseVerificationError:
         fake_cause = [("hi", 0, 0, 0)]
 
         # Patch both negate_cause (to return dummy counterfactuals) and
-        # check_formula (to return True = violation persists)
+        # check_formula (False = phi still fails, violation persists)
         dummy_counterfactuals = [[{"hi": 1}], [{"hi": 1}]]
         with patch.object(highlighter.Highlighter, 'negate_cause',
                           return_value=dummy_counterfactuals):
-            with patch.object(explain_hyper, 'check_formula', return_value=True):
+            with patch.object(explain_hyper, 'check_formula', return_value=False):
                 with pytest.raises(CauseVerificationError):
                     explain_hyper.verify_cause(
                         fake_cause, original_trace, f, fold, args,
@@ -730,7 +728,7 @@ class TestCauseVerificationError:
 
     def test_verify_cause_passes_on_valid(self, running_example_dir):
         """
-        Mock check_formula to return False (violation resolved) — no exception.
+        Mock check_formula to return True (phi holds: violation resolved) — no exception.
         """
         import explain_hyper
         import highlighter
@@ -740,11 +738,8 @@ class TestCauseVerificationError:
         os.chdir(running_example_dir)
 
         circuit = aiger.load(args.aag)
-        negate, f_str, num_traces = Translator.mchyper_to_spot(args.f, circuit)
-        f = spot.formula_from_spot(f_str)
-        fold = Translator.equivalence_normal_form(f)
-        f = Translator.formula_without_syntactic_sugar(fold)
-        f = Translator.negative_normal_form(f)
+        # same chain production uses -- see Translator.mchyper_pipeline
+        negate, f, fold, num_traces = Translator.mchyper_pipeline(args.f, circuit)
 
         from trace import Trace as tr_module
         traces_data, lasso_start, all_aps, circuit = explain_hyper.simulate_circuit(
@@ -757,11 +752,11 @@ class TestCauseVerificationError:
 
         fake_cause = [("hi", 0, 0, 0)]
 
-        # Patch both negate_cause and check_formula (False = violation resolved)
+        # Patch both negate_cause and check_formula (True = phi holds, violation resolved)
         dummy_counterfactuals = [[{"hi": 1}], [{"hi": 1}]]
         with patch.object(highlighter.Highlighter, 'negate_cause',
                           return_value=dummy_counterfactuals):
-            with patch.object(explain_hyper, 'check_formula', return_value=False):
+            with patch.object(explain_hyper, 'check_formula', return_value=True):
                 # Should NOT raise
                 explain_hyper.verify_cause(
                     fake_cause, original_trace, f, fold, args,

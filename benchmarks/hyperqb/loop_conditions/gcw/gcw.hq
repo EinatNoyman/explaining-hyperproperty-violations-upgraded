@@ -1,0 +1,1 @@
+Exists A . Forall B . G((gc[B] | fw_gc[B] | gw[B] | fc[B]) -> (~bad_gc[A] & ~bad_fw_gc[A] & ~bad_gw[A] & ~bad_fc[A]))

@@ -1,0 +1,1 @@
+Forall A . Forall B . ((tx_buffer[A] = tx_buffer[B])->(G((miso[A]) & ~(sclk[A]) & (en[A]))=((miso[B]) & ~(sclk[B]) & (en[B]))))

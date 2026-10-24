@@ -1,0 +1,1 @@
+Forall A . Forall B . Exists C . G((result[A] = result[C]) & (loginfo[B] = loginfo[C]))

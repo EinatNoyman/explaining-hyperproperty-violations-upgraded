@@ -1,0 +1,4 @@
+Exists A . Forall B .
+F((act[A]=1) = (act[B]=1))
+
+

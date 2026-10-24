@@ -16,10 +16,10 @@
         "state2": {
             "type": "latch"
         },
-        "state0": {
+        "state1": {
             "type": "latch"
         },
-        "state1": {
+        "state0": {
             "type": "latch"
         }
     },
@@ -27,112 +27,112 @@
     "timesteps": [
         [
             {
-                "state": -1,
-                "lo": false,
-                "li": false,
-                "state0": false,
-                "hi": false,
+                "state": 0,
                 "ho": false,
                 "state2": false,
-                "state1": false
+                "lo": false,
+                "state0": false,
+                "li": false,
+                "state1": false,
+                "hi": false
             },
             {
-                "state": -1,
-                "lo": false,
-                "li": false,
-                "state0": false,
-                "hi": true,
+                "state": 0,
                 "ho": false,
                 "state2": false,
-                "state1": false
+                "lo": false,
+                "state0": false,
+                "li": false,
+                "state1": false,
+                "hi": true
             }
         ],
         [
             {
-                "state": -1,
-                "lo": false,
-                "li": false,
-                "state0": true,
-                "hi": false,
+                "state": 1,
                 "ho": true,
                 "state2": true,
-                "state1": false
+                "lo": false,
+                "state0": true,
+                "li": false,
+                "state1": false,
+                "hi": false
             },
             {
-                "state": -1,
-                "lo": false,
-                "li": false,
-                "state0": true,
-                "hi": true,
+                "state": 2,
                 "ho": false,
                 "state2": false,
-                "state1": false
+                "lo": false,
+                "state0": true,
+                "li": false,
+                "state1": false,
+                "hi": true
             }
         ],
         [
             {
-                "state": -1,
-                "lo": false,
-                "li": false,
-                "state0": true,
-                "hi": false,
+                "state": 1,
                 "ho": true,
                 "state2": true,
-                "state1": false
+                "lo": false,
+                "state0": true,
+                "li": false,
+                "state1": false,
+                "hi": true
             },
             {
-                "state": -1,
+                "state": 3,
+                "ho": true,
+                "state2": false,
                 "lo": true,
-                "li": false,
                 "state0": false,
-                "hi": true,
-                "ho": true,
-                "state2": false,
-                "state1": true
+                "li": false,
+                "state1": true,
+                "hi": true
             }
         ],
         [
             {
-                "state": -1,
+                "state": 2,
+                "ho": false,
+                "state2": false,
                 "lo": false,
-                "li": false,
                 "state0": true,
-                "hi": false,
-                "ho": true,
-                "state2": true,
-                "state1": false
+                "li": false,
+                "state1": false,
+                "hi": false
             },
             {
-                "state": -1,
-                "lo": true,
-                "li": false,
-                "state0": true,
-                "hi": false,
+                "state": 5,
                 "ho": true,
                 "state2": false,
-                "state1": true
+                "lo": true,
+                "state0": true,
+                "li": false,
+                "state1": true,
+                "hi": true
             }
         ],
         [
             {
-                "state": -1,
-                "lo": false,
-                "li": false,
-                "state0": true,
-                "hi": true,
+                "state": 1,
                 "ho": true,
                 "state2": true,
-                "state1": false
+                "lo": false,
+                "state0": true,
+                "li": false,
+                "state1": false,
+                "hi": true
             },
             {
-                "state": -1,
-                "lo": true,
-                "li": false,
-                "state0": true,
-                "hi": true,
+                "state": 5,
                 "ho": true,
-                "state2": true,
-                "state1": true
+                "state2": false,
+                "lo": true,
+                "state0": true,
+                "li": false,
+                "state1": true,
+                "hi": true
             }
         ]
     ],
@@ -272,7 +272,7 @@
         }
     },
     "prefix": [
-        "Exists",
-        "Exists"
+        "Forall",
+        "Forall"
     ]
 }

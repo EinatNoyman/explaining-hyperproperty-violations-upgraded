@@ -1,0 +1,2 @@
+forall A. forall B. exists C. 
+G(({"result"_A = "result"_C}) & ({"loginfo"_B = "loginfo"_C}))

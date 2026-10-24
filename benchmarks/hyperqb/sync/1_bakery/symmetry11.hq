@@ -1,0 +1,387 @@
+Forall A . Exists B .
+G(
+    (
+        (p1_TOKEN[A] = p2_TOKEN[B])
+        &(p2_TOKEN[A] = p1_TOKEN[B])
+        &(p1_line[A] = p2_line[B])
+        &(p2_line[A] = p1_line[B])
+    )
+    &
+    (
+        (p1_TOKEN[A] = p3_TOKEN[B])
+        &(p3_TOKEN[A] = p1_TOKEN[B])
+        &(p1_line[A] = p3_line[B])
+        &(p3_line[A] = p1_line[B])
+    )
+    &
+    (
+        (p1_TOKEN[A] = p4_TOKEN[B])
+        &(p4_TOKEN[A] = p1_TOKEN[B])
+        &(p1_line[A] = p4_line[B])
+        &(p4_line[A] = p1_line[B])
+    )
+    &
+    (
+        (p1_TOKEN[A] = p5_TOKEN[B])
+        &(p5_TOKEN[A] = p1_TOKEN[B])
+        &(p1_line[A] = p5_line[B])
+        &(p5_line[A] = p1_line[B])
+    )
+    &
+    (
+        (p1_TOKEN[A] = p6_TOKEN[B])
+        &(p6_TOKEN[A] = p1_TOKEN[B])
+        &(p1_line[A] = p6_line[B])
+        &(p6_line[A] = p1_line[B])
+    )
+    &
+    (
+        (p1_TOKEN[A] = p7_TOKEN[B])
+        &(p7_TOKEN[A] = p1_TOKEN[B])
+        &(p1_line[A] = p7_line[B])
+        &(p7_line[A] = p1_line[B])
+    )
+    &
+    (
+        (p1_TOKEN[A] = p8_TOKEN[B])
+        &(p8_TOKEN[A] = p1_TOKEN[B])
+        &(p1_line[A] = p8_line[B])
+        &(p8_line[A] = p1_line[B])
+    )
+    &
+    (
+        (p1_TOKEN[A] = p9_TOKEN[B])
+        &(p9_TOKEN[A] = p1_TOKEN[B])
+        &(p1_line[A] = p9_line[B])
+        &(p9_line[A] = p1_line[B])
+    )
+    &
+    (
+        (p1_TOKEN[A] = p10_TOKEN[B])
+        &(p10_TOKEN[A] = p1_TOKEN[B])
+        &(p1_line[A] = p10_line[B])
+        &(p10_line[A] = p1_line[B])
+    )
+    &
+    (
+        (p1_TOKEN[A] = p11_TOKEN[B])
+        &(p11_TOKEN[A] = p1_TOKEN[B])
+        &(p1_line[A] = p11_line[B])
+        &(p11_line[A] = p1_line[B])
+    )
+    &
+    (
+        (p2_TOKEN[A] = p3_TOKEN[B])
+        &(p3_TOKEN[A] = p2_TOKEN[B])
+        &(p2_line[A] = p3_line[B])
+        &(p3_line[A] = p2_line[B])
+    )
+    &
+    (
+        (p2_TOKEN[A] = p4_TOKEN[B])
+        &(p4_TOKEN[A] = p2_TOKEN[B])
+        &(p2_line[A] = p4_line[B])
+        &(p4_line[A] = p2_line[B])
+    )
+    &
+    (
+        (p2_TOKEN[A] = p5_TOKEN[B])
+        &(p5_TOKEN[A] = p2_TOKEN[B])
+        &(p2_line[A] = p5_line[B])
+        &(p5_line[A] = p2_line[B])
+    )
+    &
+    (
+        (p2_TOKEN[A] = p6_TOKEN[B])
+        &(p6_TOKEN[A] = p2_TOKEN[B])
+        &(p2_line[A] = p6_line[B])
+        &(p6_line[A] = p2_line[B])
+    )
+    &
+    (
+        (p2_TOKEN[A] = p7_TOKEN[B])
+        &(p7_TOKEN[A] = p2_TOKEN[B])
+        &(p2_line[A] = p7_line[B])
+        &(p7_line[A] = p2_line[B])
+    )
+    &
+    (
+        (p2_TOKEN[A] = p8_TOKEN[B])
+        &(p8_TOKEN[A] = p2_TOKEN[B])
+        &(p2_line[A] = p8_line[B])
+        &(p8_line[A] = p2_line[B])
+    )
+    &
+    (
+        (p2_TOKEN[A] = p9_TOKEN[B])
+        &(p9_TOKEN[A] = p2_TOKEN[B])
+        &(p2_line[A] = p9_line[B])
+        &(p9_line[A] = p2_line[B])
+    )
+    &
+    (
+        (p2_TOKEN[A] = p10_TOKEN[B])
+        &(p10_TOKEN[A] = p2_TOKEN[B])
+        &(p2_line[A] = p10_line[B])
+        &(p10_line[A] = p2_line[B])
+    )
+    &
+    (
+        (p2_TOKEN[A] = p11_TOKEN[B])
+        &(p11_TOKEN[A] = p2_TOKEN[B])
+        &(p2_line[A] = p11_line[B])
+        &(p11_line[A] = p2_line[B])
+    )
+    &
+    (
+        (p3_TOKEN[A] = p4_TOKEN[B])
+        &(p4_TOKEN[A] = p3_TOKEN[B])
+        &(p3_line[A] = p4_line[B])
+        &(p4_line[A] = p3_line[B])
+    )
+    &
+    (
+        (p3_TOKEN[A] = p5_TOKEN[B])
+        &(p5_TOKEN[A] = p3_TOKEN[B])
+        &(p3_line[A] = p5_line[B])
+        &(p5_line[A] = p3_line[B])
+    )
+    &
+    (
+        (p3_TOKEN[A] = p6_TOKEN[B])
+        &(p6_TOKEN[A] = p3_TOKEN[B])
+        &(p3_line[A] = p6_line[B])
+        &(p6_line[A] = p3_line[B])
+    )
+    &
+    (
+        (p3_TOKEN[A] = p7_TOKEN[B])
+        &(p7_TOKEN[A] = p3_TOKEN[B])
+        &(p3_line[A] = p7_line[B])
+        &(p7_line[A] = p3_line[B])
+    )
+    &
+    (
+        (p3_TOKEN[A] = p8_TOKEN[B])
+        &(p8_TOKEN[A] = p3_TOKEN[B])
+        &(p3_line[A] = p8_line[B])
+        &(p8_line[A] = p3_line[B])
+    )
+    &
+    (
+        (p3_TOKEN[A] = p9_TOKEN[B])
+        &(p9_TOKEN[A] = p3_TOKEN[B])
+        &(p3_line[A] = p9_line[B])
+        &(p9_line[A] = p3_line[B])
+    )
+    &
+    (
+        (p3_TOKEN[A] = p10_TOKEN[B])
+        &(p10_TOKEN[A] = p3_TOKEN[B])
+        &(p3_line[A] = p10_line[B])
+        &(p10_line[A] = p3_line[B])
+    )
+    &
+    (
+        (p3_TOKEN[A] = p11_TOKEN[B])
+        &(p11_TOKEN[A] = p3_TOKEN[B])
+        &(p3_line[A] = p11_line[B])
+        &(p11_line[A] = p3_line[B])
+    )
+    &
+    (
+        (p4_TOKEN[A] = p5_TOKEN[B])
+        &(p5_TOKEN[A] = p4_TOKEN[B])
+        &(p4_line[A] = p5_line[B])
+        &(p5_line[A] = p4_line[B])
+    )
+    &
+    (
+        (p4_TOKEN[A] = p6_TOKEN[B])
+        &(p6_TOKEN[A] = p4_TOKEN[B])
+        &(p4_line[A] = p6_line[B])
+        &(p6_line[A] = p4_line[B])
+    )
+    &
+    (
+        (p4_TOKEN[A] = p7_TOKEN[B])
+        &(p7_TOKEN[A] = p4_TOKEN[B])
+        &(p4_line[A] = p7_line[B])
+        &(p7_line[A] = p4_line[B])
+    )
+    &
+    (
+        (p4_TOKEN[A] = p8_TOKEN[B])
+        &(p8_TOKEN[A] = p4_TOKEN[B])
+        &(p4_line[A] = p8_line[B])
+        &(p8_line[A] = p4_line[B])
+    )
+    &
+    (
+        (p4_TOKEN[A] = p9_TOKEN[B])
+        &(p9_TOKEN[A] = p4_TOKEN[B])
+        &(p4_line[A] = p9_line[B])
+        &(p9_line[A] = p4_line[B])
+    )
+    &
+    (
+        (p4_TOKEN[A] = p10_TOKEN[B])
+        &(p10_TOKEN[A] = p4_TOKEN[B])
+        &(p4_line[A] = p10_line[B])
+        &(p10_line[A] = p4_line[B])
+    )
+    &
+    (
+        (p4_TOKEN[A] = p11_TOKEN[B])
+        &(p11_TOKEN[A] = p4_TOKEN[B])
+        &(p4_line[A] = p11_line[B])
+        &(p11_line[A] = p4_line[B])
+    )
+    &
+    (
+        (p5_TOKEN[A] = p6_TOKEN[B])
+        &(p6_TOKEN[A] = p5_TOKEN[B])
+        &(p5_line[A] = p6_line[B])
+        &(p6_line[A] = p5_line[B])
+    )
+    &
+    (
+        (p5_TOKEN[A] = p7_TOKEN[B])
+        &(p7_TOKEN[A] = p5_TOKEN[B])
+        &(p5_line[A] = p7_line[B])
+        &(p7_line[A] = p5_line[B])
+    )
+    &
+    (
+        (p5_TOKEN[A] = p8_TOKEN[B])
+        &(p8_TOKEN[A] = p5_TOKEN[B])
+        &(p5_line[A] = p8_line[B])
+        &(p8_line[A] = p5_line[B])
+    )
+    &
+    (
+        (p5_TOKEN[A] = p9_TOKEN[B])
+        &(p9_TOKEN[A] = p5_TOKEN[B])
+        &(p5_line[A] = p9_line[B])
+        &(p9_line[A] = p5_line[B])
+    )
+    &
+    (
+        (p5_TOKEN[A] = p10_TOKEN[B])
+        &(p10_TOKEN[A] = p5_TOKEN[B])
+        &(p5_line[A] = p10_line[B])
+        &(p10_line[A] = p5_line[B])
+    )
+    &
+    (
+        (p5_TOKEN[A] = p11_TOKEN[B])
+        &(p11_TOKEN[A] = p5_TOKEN[B])
+        &(p5_line[A] = p11_line[B])
+        &(p11_line[A] = p5_line[B])
+    )
+    &
+    (
+        (p6_TOKEN[A] = p7_TOKEN[B])
+        &(p7_TOKEN[A] = p6_TOKEN[B])
+        &(p6_line[A] = p7_line[B])
+        &(p7_line[A] = p6_line[B])
+    )
+    &
+    (
+        (p6_TOKEN[A] = p8_TOKEN[B])
+        &(p8_TOKEN[A] = p6_TOKEN[B])
+        &(p6_line[A] = p8_line[B])
+        &(p8_line[A] = p6_line[B])
+    )
+    &
+    (
+        (p6_TOKEN[A] = p9_TOKEN[B])
+        &(p9_TOKEN[A] = p6_TOKEN[B])
+        &(p6_line[A] = p9_line[B])
+        &(p9_line[A] = p6_line[B])
+    )
+    &
+    (
+        (p6_TOKEN[A] = p10_TOKEN[B])
+        &(p10_TOKEN[A] = p6_TOKEN[B])
+        &(p6_line[A] = p10_line[B])
+        &(p10_line[A] = p6_line[B])
+    )
+    &
+    (
+        (p6_TOKEN[A] = p11_TOKEN[B])
+        &(p11_TOKEN[A] = p6_TOKEN[B])
+        &(p6_line[A] = p11_line[B])
+        &(p11_line[A] = p6_line[B])
+    )
+    &
+    (
+        (p7_TOKEN[A] = p8_TOKEN[B])
+        &(p8_TOKEN[A] = p7_TOKEN[B])
+        &(p7_line[A] = p8_line[B])
+        &(p8_line[A] = p7_line[B])
+    )
+    &
+    (
+        (p7_TOKEN[A] = p9_TOKEN[B])
+        &(p9_TOKEN[A] = p7_TOKEN[B])
+        &(p7_line[A] = p9_line[B])
+        &(p9_line[A] = p7_line[B])
+    )
+    &
+    (
+        (p7_TOKEN[A] = p10_TOKEN[B])
+        &(p10_TOKEN[A] = p7_TOKEN[B])
+        &(p7_line[A] = p10_line[B])
+        &(p10_line[A] = p7_line[B])
+    )
+    &
+    (
+        (p7_TOKEN[A] = p11_TOKEN[B])
+        &(p11_TOKEN[A] = p7_TOKEN[B])
+        &(p7_line[A] = p11_line[B])
+        &(p11_line[A] = p7_line[B])
+    )
+    &
+    (
+        (p8_TOKEN[A] = p9_TOKEN[B])
+        &(p9_TOKEN[A] = p8_TOKEN[B])
+        &(p8_line[A] = p9_line[B])
+        &(p9_line[A] = p8_line[B])
+    )
+    &
+    (
+        (p8_TOKEN[A] = p10_TOKEN[B])
+        &(p10_TOKEN[A] = p8_TOKEN[B])
+        &(p8_line[A] = p10_line[B])
+        &(p10_line[A] = p8_line[B])
+    )
+    &
+    (
+        (p8_TOKEN[A] = p11_TOKEN[B])
+        &(p11_TOKEN[A] = p8_TOKEN[B])
+        &(p8_line[A] = p11_line[B])
+        &(p11_line[A] = p8_line[B])
+    )
+    &
+    (
+        (p9_TOKEN[A] = p10_TOKEN[B])
+        &(p10_TOKEN[A] = p9_TOKEN[B])
+        &(p9_line[A] = p10_line[B])
+        &(p10_line[A] = p9_line[B])
+    )
+    &
+    (
+        (p9_TOKEN[A] = p11_TOKEN[B])
+        &(p11_TOKEN[A] = p9_TOKEN[B])
+        &(p9_line[A] = p11_line[B])
+        &(p11_line[A] = p9_line[B])
+    )
+    &
+    (
+        (p10_TOKEN[A] = p11_TOKEN[B])
+        &(p11_TOKEN[A] = p10_TOKEN[B])
+        &(p10_line[A] = p11_line[B])
+        &(p11_line[A] = p10_line[B])
+    )
+)

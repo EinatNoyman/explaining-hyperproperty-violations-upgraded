@@ -1,0 +1,13 @@
+Size of the counter example (|Gamma|) is: 63
+The size of the formula (|phi|) is 35
+C tilde:
+for trace 0: [('req_0', 2, 0, 0), ('req_0', 5, 1, 0), ('req_1', 5, 1, 0), ('tb_secret', 5, 1, 0), ('req_0', 1, 1, 0), ('req_1', 1, 1, 0), ('req_0', 3, 0, 0), ('req_1', 3, 1, 0), ('req_0', 4, 1, 0), ('req_1', 4, 0, 0), ('req_0', 0, 1, 0), ('req_1', 0, 0, 0)]
+for trace 1: [('req_0', 2, 0, 1), ('req_0', 1, 1, 1), ('req_1', 1, 1, 1), ('req_0', 5, 1, 1), ('req_1', 5, 1, 1), ('tb_secret', 5, 0, 1), ('req_0', 3, 0, 1), ('req_1', 3, 1, 1), ('req_0', 4, 1, 1), ('req_1', 4, 0, 1), ('req_0', 0, 1, 1), ('req_1', 0, 0, 1)]
+Cause syntax: (AP, Time step, Truth value, Trace belonging)
+Time to compute this set of causes (time(C tilde)):
+0.4166855812072754
+Computing all minimal causes now...
+All minimal causes (forall C): [[('req_0', 2, 0, 0)], [('req_0', 5, 1, 0)], [('req_1', 5, 1, 0)], [('tb_secret', 5, 1, 0)], [('req_0', 1, 1, 0)], [('req_1', 1, 1, 0)], [('req_0', 3, 0, 0)], [('req_1', 3, 1, 0)], [('req_0', 4, 1, 0)], [('req_1', 4, 0, 0)], [('req_0', 0, 1, 0)], [('req_1', 0, 0, 0)], [('req_0', 2, 0, 1)], [('req_0', 1, 1, 1)], [('req_1', 1, 1, 1)], [('req_0', 5, 1, 1)], [('req_1', 5, 1, 1)], [('tb_secret', 5, 0, 1)], [('req_0', 3, 0, 1)], [('req_1', 3, 1, 1)], [('req_0', 4, 1, 1)], [('req_1', 4, 0, 1)], [('req_0', 0, 1, 1)], [('req_1', 0, 0, 1)]]
+Number of minimal causes (# C): 24
+The time to compute all causes (time(forall C)) took: 
+5.0474443435668945

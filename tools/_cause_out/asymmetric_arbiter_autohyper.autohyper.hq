@@ -1,0 +1,2 @@
+forall A. forall B.
+(G ((({"req_0"_A} <-> {"req_0"_B}) & ({"req_1"_A} <-> {"req_1"_B}))) -> G ((({"grant_0"_A} <-> {"grant_0"_B}) & ({"grant_1"_A} <-> {"grant_1"_B}))))

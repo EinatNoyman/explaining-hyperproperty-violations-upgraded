@@ -1,0 +1,21 @@
+MODULE main
+VAR
+  b_state : 0..4;
+
+ASSIGN
+  init(b_state) := 0;
+  next(b_state) :=
+    case
+      b_state = 0 : {1, 2, 3, 4}; -- branch to any violation
+      b_state = 1 : 1;            -- self-loops
+      b_state = 2 : 2;
+      b_state = 3 : 3;
+      b_state = 4 : 4;
+      TRUE        : b_state;      -- totalize (remove if not desired)
+    esac;
+
+DEFINE
+  gc    := (b_state = 1);
+  fw_gc := (b_state = 2);
+  gw    := (b_state = 3);
+  fc    := (b_state = 4);

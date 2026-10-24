@@ -1,0 +1,58 @@
+Model Creation Time: 0.0382374
+Encoding Time: 0.0019047
+result: unsat.
+
+State 0:
+  hi_0_A = false
+  hi_0_B = true
+  state0_0_A = false
+  state0_0_B = false
+  state1_0_A = false
+  state1_0_B = false
+
+State 1:
+  hi_1_A = true
+  hi_1_B = false
+  state0_1_A = false
+  state0_1_B = true
+  state1_1_A = true
+  state1_1_B = false
+
+State 2:
+  hi_2_A = false
+  hi_2_B = true
+  state0_2_A = true
+  state0_2_B = true
+  state1_2_A = false
+  state1_2_B = true
+
+State 3:
+  hi_3_A = false
+  hi_3_B = false
+  state0_3_A = true
+  state0_3_B = true
+  state1_3_A = true
+  state1_3_B = true
+
+State 4:
+  hi_4_A = false
+  hi_4_B = true
+  state0_4_A = true
+  state0_4_B = true
+  state1_4_A = true
+  state1_4_B = true
+
+State 5:
+  hi_5_A = false
+  hi_5_B = false
+  state0_5_A = true
+  state0_5_B = true
+  state1_5_A = true
+  state1_5_B = true
+
+State 6:
+  state0_6_A = true
+  state0_6_B = true
+  state1_6_A = true
+  state1_6_B = true
+Solve Time: 0.007

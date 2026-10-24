@@ -1,0 +1,257 @@
+-- BAKERY ALGORITHM: a 9-process bakery algorithm
+-- NuSMV model adapted from:
+--      Lamport, Leslie. "A new solution of Dijkstra's concurrent programming problem."
+--      Communications of the ACM 17, no. 8 (1974): 453-455.
+MODULE main
+	VAR
+
+		p1_ticket: 0..9; -- the ticket number of p1
+		p2_ticket: 0..9; -- the ticket number of p2
+		p3_ticket: 0..9; -- the ticket number of p3
+        p4_ticket: 0..9; -- the ticket number of p4
+        p5_ticket: 0..9; -- the ticket number of p5
+        p6_ticket: 0..9; -- the ticket number of p6
+        p7_ticket: 0..9; -- the ticket number of p7
+        p8_ticket: 0..9; -- the ticket number of p8
+        p9_ticket: 0..9; -- the ticket number of p9
+
+		MAX_ticket: 0..9;
+
+		p1_line: 0..4;
+		p2_line: 0..4;
+		p3_line: 0..4;
+        p4_line: 0..4;
+        p5_line: 0..4;
+        p6_line: 0..4;
+        p7_line: 0..4;
+        p8_line: 0..4;
+        p9_line: 0..4;
+
+
+	ASSIGN
+
+		init(p1_ticket) := 9; -- set to MAX
+		init(p2_ticket) := 9; -- set to MAX
+		init(p3_ticket) := 9; -- set to MAX
+        init(p4_ticket) := 9; -- set to MAX
+        init(p5_ticket) := 9; -- set to MAX
+        init(p6_ticket) := 9; -- set to MAX
+        init(p7_ticket) := 9; -- set to MAX
+        init(p8_ticket) := 9; -- set to MAX
+        init(p9_ticket) := 9; -- set to MAX
+
+		init(p1_line) := 0;
+		init(p2_line) := 0;
+		init(p3_line) := 0;
+        init(p4_line) := 0;
+        init(p5_line) := 0;
+        init(p6_line) := 0;
+        init(p7_line) := 0;
+        init(p8_line) := 0;
+        init(p9_line) := 0;
+
+		init(MAX_ticket):= 0;
+
+
+		next(MAX_ticket):=
+			case
+				(MAX_ticket=9): 0; --reset
+				((p1_line=1) | (p2_line=1) | (p3_line=1) | (p4_line=1) | (p5_line=1) | (p6_line=1) | (p7_line=1) | (p8_line=1) | (p9_line=1)): (MAX_ticket+1);
+				TRUE: MAX_ticket;
+			esac;
+
+
+		next(p1_line) :=
+			case
+				(p1_line=0) : {0,1};  -- stay, or proceed
+				(p1_line=1) : {2}; -- draw ticket
+				(p1_line=2 & !p1_TOKEN) : {2}; -- check TOKEN
+				(p1_line=2 & p1_TOKEN) : {3}; -- check TOKEN
+				(p1_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p1_line=4) : {0}; -- back to starting point
+				TRUE: p1_line;
+			esac;
+
+		next(p1_ticket):=
+			case
+				(MAX_ticket=9): 0; --reset
+				(p1_line=1): MAX_ticket+1;
+				TRUE: p1_ticket;
+			esac;
+
+
+		next(p2_line) :=
+			case
+				(p2_line=0) : {0,1};  -- stay, or proceed
+				(p2_line=1) : {2};
+				(p2_line=2 & !p2_TOKEN): {2}; -- check TOKEN
+				(p2_line=2 & p2_TOKEN): {3}; -- check TOKEN
+				(p2_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p2_line=4) : {0}; -- back to starting point
+				TRUE: p2_line;
+			esac;
+
+		next(p2_ticket):=
+			case
+				(MAX_ticket=9): 0; --reset
+				(p2_line=1): MAX_ticket+1;
+				TRUE: p2_ticket;
+			esac;
+
+
+		next(p3_line) :=
+			case
+				(p3_line=0) : {0};  -- stay, or proceed
+				(p3_line=1) : {2};
+				(p3_line=2 & !p3_TOKEN) : 2 ; -- check TOKEN
+				(p3_line=2 & p3_TOKEN) : 3 ; -- check TOKEN
+				(p3_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p3_line=4) : {0}; -- back to starting point
+				TRUE: p3_line;
+			esac;
+
+
+		next(p3_ticket):=
+			case
+				(MAX_ticket=9): 0; --reset
+				(p3_line=1): MAX_ticket+1;
+				TRUE: p3_ticket;
+			esac;
+        
+        next(p4_line) :=
+			case
+				(p4_line=0) : {0};  -- stay, or proceed
+				(p4_line=1) : {2};
+				(p4_line=2 & !p4_TOKEN) : 2 ; -- check TOKEN
+				(p4_line=2 & p4_TOKEN) : 3 ; -- check TOKEN
+				(p4_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p4_line=4) : {0}; -- back to starting point
+				TRUE: p4_line;
+			esac;
+
+
+		next(p4_ticket):=
+			case
+				(MAX_ticket=9): 0; --reset
+				(p4_line=1): MAX_ticket+1;
+				TRUE: p4_ticket;
+			esac;
+
+        next(p5_line) :=
+			case
+				(p5_line=0) : {0};  -- stay, or proceed
+				(p5_line=1) : {2};
+				(p5_line=2 & !p5_TOKEN) : 2 ; -- check TOKEN
+				(p5_line=2 & p5_TOKEN) : 3 ; -- check TOKEN
+				(p5_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p5_line=4) : {0}; -- back to starting point
+				TRUE: p5_line;
+			esac;
+
+
+		next(p5_ticket):=
+			case
+				(MAX_ticket=9): 0; --reset
+				(p5_line=1): MAX_ticket+1;
+				TRUE: p5_ticket;
+			esac;
+
+        next(p6_line) :=
+			case
+				(p6_line=0) : {0};  -- stay, or proceed
+				(p6_line=1) : {2};
+				(p6_line=2 & !p6_TOKEN) : 2 ; -- check TOKEN
+				(p6_line=2 & p6_TOKEN) : 3 ; -- check TOKEN
+				(p6_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p6_line=4) : {0}; -- back to starting point
+				TRUE: p6_line;
+			esac;
+
+
+		next(p6_ticket):=
+			case
+				(MAX_ticket=9): 0; --reset
+				(p6_line=1): MAX_ticket+1;
+				TRUE: p6_ticket;
+			esac;
+
+        next(p7_line) :=
+			case
+				(p7_line=0) : {0};  -- stay, or proceed
+				(p7_line=1) : {2};
+				(p7_line=2 & !p7_TOKEN) : 2 ; -- check TOKEN
+				(p7_line=2 & p7_TOKEN) : 3 ; -- check TOKEN
+				(p7_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p7_line=4) : {0}; -- back to starting point
+				TRUE: p7_line;
+			esac;
+
+
+		next(p7_ticket):=
+			case
+				(MAX_ticket=9): 0; --reset
+				(p7_line=1): MAX_ticket+1;
+				TRUE: p7_ticket;
+			esac;
+
+        next(p8_line) :=
+			case
+				(p8_line=0) : {0};  -- stay, or proceed
+				(p8_line=1) : {2};
+				(p8_line=2 & !p8_TOKEN) : 2 ; -- check TOKEN
+				(p8_line=2 & p8_TOKEN) : 3 ; -- check TOKEN
+				(p8_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p8_line=4) : {0}; -- back to starting point
+				TRUE: p8_line;
+			esac;
+
+
+		next(p8_ticket):=
+			case
+				(MAX_ticket=9): 0; --reset
+				(p8_line=1): MAX_ticket+1;
+				TRUE: p8_ticket;
+			esac;
+
+        next(p9_line) :=
+			case
+				(p9_line=0) : {0};  -- stay, or proceed
+				(p9_line=1) : {2};
+				(p9_line=2 & !p9_TOKEN) : 2 ; -- check TOKEN
+				(p9_line=2 & p9_TOKEN) : 3 ; -- check TOKEN
+				(p9_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p9_line=4) : {0}; -- back to starting point
+				TRUE: p9_line;
+			esac;
+
+
+		next(p9_ticket):=
+			case
+				(MAX_ticket=9): 0; --reset
+				(p9_line=1): MAX_ticket+1;
+				TRUE: p9_ticket;
+			esac;
+
+
+
+	DEFINE
+		STARTED  := (p1_line!=0 | p2_line!=0 | p3_line!=0 | p4_line!=0 | p5_line!=0 | p6_line!=0 | p7_line!=0 | p8_line!=0 | p9_line!=0);
+		p1_TOKEN := STARTED & (p1_line=2) & ((p1_ticket <= p2_ticket) & (p1_ticket <= p3_ticket) & (p1_ticket <= p4_ticket) & (p1_ticket <= p5_ticket) & (p1_ticket <= p6_ticket) & (p1_ticket <= p7_ticket) & (p1_ticket <= p8_ticket) & (p1_ticket <= p9_ticket));
+
+		p2_TOKEN := STARTED & (p2_line=2) & (((p2_ticket <= p1_ticket) & (p2_ticket <= p3_ticket) & (p2_ticket <= p4_ticket) & (p2_ticket <= p5_ticket) & (p2_ticket <= p6_ticket) & (p2_ticket <= p7_ticket) & (p2_ticket <= p8_ticket) & (p2_ticket <= p9_ticket)) | !p1_TOKEN);
+
+		p3_TOKEN := STARTED & (p3_line=2) & (((p3_ticket <= p1_ticket) & (p3_ticket <= p2_ticket) & (p3_ticket <= p4_ticket) & (p3_ticket <= p5_ticket) & (p3_ticket <= p6_ticket) & (p3_ticket <= p7_ticket) & (p3_ticket <= p8_ticket) & (p3_ticket <= p9_ticket)) | !p1_TOKEN & !p2_TOKEN);
+
+        p4_TOKEN :=  STARTED & (p4_line=2) & (((p4_ticket <= p1_ticket) & (p4_ticket <= p2_ticket) & (p4_ticket <= p3_ticket)  & (p4_ticket <= p5_ticket) & (p4_ticket <= p6_ticket) & (p4_ticket <= p7_ticket) & (p4_ticket <= p8_ticket) & (p4_ticket <= p9_ticket)) | !p1_TOKEN & !p2_TOKEN & !p3_TOKEN);
+
+        p5_TOKEN :=  STARTED & (p5_line=2) & (((p5_ticket <= p1_ticket) & (p5_ticket <= p2_ticket) & (p5_ticket <= p3_ticket) & (p5_ticket <= p4_ticket) &  (p5_ticket <= p6_ticket) & (p5_ticket <= p7_ticket) & (p5_ticket <= p8_ticket) & (p5_ticket <= p9_ticket)) | !p1_TOKEN & !p2_TOKEN & !p3_TOKEN & !p4_TOKEN);
+
+        p6_TOKEN :=  STARTED & (p6_line=2) & (((p6_ticket <= p1_ticket) & (p6_ticket <= p2_ticket) & (p6_ticket <= p3_ticket) & (p6_ticket <= p4_ticket) & (p6_ticket <= p5_ticket) & (p6_ticket <= p7_ticket) & (p6_ticket <= p8_ticket) & (p6_ticket <= p9_ticket)) | !p1_TOKEN & !p2_TOKEN & !p3_TOKEN & !p4_TOKEN & !p5_TOKEN);
+
+        p7_TOKEN :=  STARTED & (p7_line=2) & (((p7_ticket <= p1_ticket) & (p7_ticket <= p2_ticket) & (p7_ticket <= p3_ticket) & (p7_ticket <= p4_ticket) & (p7_ticket <= p5_ticket) & (p7_ticket <= p6_ticket) & (p7_ticket <= p8_ticket) & (p7_ticket <= p9_ticket)) | !p1_TOKEN & !p2_TOKEN & !p3_TOKEN & !p4_TOKEN & !p5_TOKEN & !p6_TOKEN);
+
+        p8_TOKEN :=  STARTED & (p8_line=2) & (((p8_ticket <= p1_ticket) & (p8_ticket <= p2_ticket) & (p8_ticket <= p3_ticket) & (p8_ticket <= p4_ticket) & (p8_ticket <= p5_ticket) & (p8_ticket <= p6_ticket) & (p8_ticket <= p7_ticket) & (p8_ticket <= p9_ticket)) | !p1_TOKEN & !p2_TOKEN & !p3_TOKEN & !p4_TOKEN & !p5_TOKEN & !p6_TOKEN & !p7_TOKEN);
+
+        p9_TOKEN :=  STARTED & (p9_line=2) & (((p9_ticket <= p1_ticket) & (p9_ticket <= p2_ticket) & (p9_ticket <= p3_ticket) & (p9_ticket <= p4_ticket) & (p9_ticket <= p5_ticket) & (p9_ticket <= p6_ticket) & (p9_ticket <= p7_ticket) & (p9_ticket <= p8_ticket)) | !p1_TOKEN & !p2_TOKEN & !p3_TOKEN & !p4_TOKEN & !p5_TOKEN & !p6_TOKEN & !p7_TOKEN & !p8_TOKEN);
+
+        

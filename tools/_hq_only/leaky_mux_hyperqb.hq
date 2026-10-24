@@ -1,0 +1,2 @@
+Forall A . Forall B .
+(G (((a[A] = a[B]) & (b[A] = b[B]))) -> G ((out[A] = out[B])))

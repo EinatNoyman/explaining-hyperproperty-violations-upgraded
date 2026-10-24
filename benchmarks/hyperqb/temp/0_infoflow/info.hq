@@ -1,0 +1,6 @@
+Forall A . Forall B .
+F(
+    (halt[A] = halt[A])
+    &
+    (PC_line[A] = PC_line[B] )   
+)

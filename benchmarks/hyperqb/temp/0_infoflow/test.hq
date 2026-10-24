@@ -1,0 +1,2 @@
+Exists A . Exists B .
+G((PC_line[A] = PC_line[B]) | ~(halt[A] = halt[B]))

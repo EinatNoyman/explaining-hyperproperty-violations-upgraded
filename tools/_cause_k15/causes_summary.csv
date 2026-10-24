@@ -1,0 +1,28 @@
+example,checker,num_causes,cause_sizes,causes,wall_s,time_ctilde_s,time_causes_s,success,status,gamma_size,candidate_set_size,formula_size,max_cause_size,timeout_s,cap_binding,formula,reason
+asymmetric_arbiter,mchyper,24,1,req_0@5=1(t0) | req_1@6=0(t0) | req_1@4=1(t0) | req_0@1=0(t0) | req_0@0=1(t0) | req_1@0=1(t0) | req_0@3=1(t0) | req_1@3=1(t0) | tb_secret@3=0(t0) | req_0@2=0(t0) | req_1@2=0(t0) | req_0@4=0(t1) | req_0@1=0(t1) | req_0@0=1(t1) | req_1@0=1(t1) | req_0@3=1(t1) | req_1@3=1(t1) | tb_secret@3=1(t1) | req_0@5=1(t1) | req_1@5=0(t1) | req_0@6=0(t1) | req_1@6=0(t1) | req_0@2=0(t1) | req_1@2=0(t1),4.072,0.184,2.999,yes,ok,72,24,35,3,600,no,shipped,
+asymmetric_arbiter,autohyper,,,,600.137,,,no,TO,,,,3,600,no,shipped,timeout after 600s
+asymmetric_arbiter,hyperqb,,,,1.941,,,no,ERR,,,,3,600,no,shipped,"HyperQB reports sat: the property holds within the bound, so there is no counterexample to explain."
+asymmetric_arbiter_19,mchyper,10,1,req0@1=0(t0) | req0@0=1(t0) | req1@0=1(t0) | req0@2=0(t0) | req1@2=0(t0) | req0@1=0(t1) | req0@0=1(t1) | req1@0=1(t1) | req0@2=0(t1) | req1@2=0(t1),2.146,0.185,1.312,yes,ok,28,10,35,3,600,no,shipped,
+asymmetric_arbiter_19,autohyper,,,,1.684,,,no,ERR,,,,3,600,no,shipped,AutoHyper failed: =========== ERROR =========== The identifier 'grant_0' is used in the HyperQPTL formula but no type for 'grant_0' could be inferred in the system: Variable grant_0 is neither declare
+asymmetric_arbiter_19,hyperqb,,,,1.031,,,no,ERR,,,,3,600,no,shipped,no `result:` line in HyperQB output: Model Creation Time: 0.054660406 thread 'main' (5181) panicked at hltlunroller/src/lib.rs:242:33: Udnefined variable or predicate `req_0` note: run with `RUST_BACK
+drone_example_1,mchyper,7,1,bound@2=1(t0) | up@2=0(t0) | up@1=1(t0) | bound@1=0(t0) | bound@2=1(t1) | up@1=0(t1) | bound@1=0(t1),1.503,0.078,0.526,yes,ok,24,7,19,3,600,no,shipped,
+drone_example_1,autohyper,,,,600.111,,,no,TO,,,,3,600,no,shipped,timeout after 600s
+drone_example_1,hyperqb,,,,1.095,,,no,ERR,,,,3,600,no,shipped,"HyperQB reports sat: the property holds within the bound, so there is no counterexample to explain."
+drone_example_2,mchyper,3,1,bound@1=1(t0) | up@1=1(t1) | bound@1=0(t1),1.184,0.062,0.320,yes,ok,18,3,35,3,600,no,shipped,
+drone_example_2,autohyper,,,,1.681,,,no,ERR,,,,3,600,no,shipped,"AutoHyper reports SAT: the property holds, so there is no counterexample to explain."
+drone_example_2,hyperqb,,,,1.080,,,no,ERR,,,,3,600,no,shipped,"HyperQB reports sat: the property holds within the bound, so there is no counterexample to explain."
+leaky_mux,mchyper,2,1,b@0=0(t1) | sel@0=1(t1),1.044,0.062,0.208,yes,ok,10,2,27,3,600,no,shipped,
+leaky_mux,autohyper,16,1,a@19=1(t0) | a@24=1(t0) | a@23=1(t0) | a@45=1(t0) | a@41=1(t0) | a@42=1(t0) | a@20=1(t0) | a@46=1(t0) | a@21=1(t1) | a@19=1(t1) | a@43=1(t1) | a@23=1(t1) | a@45=1(t1) | a@26=1(t1) | a@41=1(t1) | a@48=1(t1),519.069,1.187,518.011,yes,ok,255,32,27,3,600,no,shipped,
+leaky_mux,hyperqb,0,,,1.159,0.318,0.426,no,ok,80,0,27,3,600,no,shipped,no cause of size <= 3
+running_example,mchyper,2,1,hi@0=0(t0) | hi@0=1(t1),0.703,0.035,0.137,yes,ok,10,2,17,3,600,no,corrected (shipped formula references a nonexistent AP),
+running_example,autohyper,3,1;2,hi@1=0(t0) | hi@1=1(t1) | hi@0=0(t0) & hi@0=0(t1),1.601,0.694,1.103,yes,ok,50,4,17,3,600,no,corrected (shipped formula references a nonexistent AP),
+running_example,hyperqb,,,,0.573,,,no,ERR,,,,3,600,no,corrected (shipped formula references a nonexistent AP),"HyperQB reports sat: the property holds within the bound, so there is no counterexample to explain."
+security_in_and_out,mchyper,3,2,hi@0=0(t0) & hi@1=0(t0) | hi@3=0(t0) & hi@1=1(t1) | hi@0=1(t1) & hi@2=1(t1),1.172,0.070,0.627,yes,ok,35,8,19,3,600,no,shipped,
+security_in_and_out,autohyper,,,,600.142,,,no,TO,,,,3,600,no,shipped,timeout after 600s
+security_in_and_out,hyperqb,,,,0.816,,,no,ERR,,,,3,600,no,shipped,"HyperQB reports sat: the property holds within the bound, so there is no counterexample to explain."
+simple_buffer,mchyper,2,1,secret@0=1(t0) | secret@0=0(t1),0.771,0.074,0.167,yes,ok,6,2,9,3,600,no,shipped,
+simple_buffer,autohyper,0,,,79.815,0.722,79.307,no,ok,45,28,9,3,600,yes,shipped,no cause of size <= 3
+simple_buffer,hyperqb,0,,,111.821,0.204,111.099,no,ok,48,30,9,3,600,yes,shipped,no cause of size <= 3
+triple_forall,mchyper,0,,,3.905,0.093,2.700,no,ok,12,9,6,3,600,yes,shipped,no cause of size <= 3
+triple_forall,autohyper,,,,600.177,,,no,TO,,,,3,600,no,shipped,timeout after 600s
+triple_forall,hyperqb,1,1,x@0=1(t0),414.874,0.431,411.656,yes,ok,48,45,6,3,600,no,shipped,

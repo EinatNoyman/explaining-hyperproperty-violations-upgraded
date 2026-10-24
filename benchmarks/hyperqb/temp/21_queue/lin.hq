@@ -1,0 +1,4 @@
+Forall A . Forall B .
+    G(
+        (removed[A] = removed[B])
+    )

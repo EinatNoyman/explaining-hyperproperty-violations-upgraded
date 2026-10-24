@@ -1,0 +1,195 @@
+-- Sequential Treiber stack with 2 elements matching concurrent version
+-- Processes execute sequentially using busy flag and stutter mechanism
+MODULE main
+VAR
+  -- Simple stack state (matching concurrent version)
+  val1        : 1..2;    -- node 1 value
+  val2        : 1..2;    -- node 2 value
+  top_pointer : 0..2;    -- stack top: 0=empty, 1=val1, 2=val2
+  busy     : boolean; -- busy flag (TRUE=busy, FALSE=free)
+
+  -- Process 1 control & locals
+  p1.pc      : 0..2;    -- 0=idle, 1=execute, 2=done
+  p1.op      : 0..2;    -- operation type {PUSH=0, POP=1, NONE=2}
+  p1.value   : 1..2;    -- value to push
+  p1.ret     : 0..2;    -- return value (0=empty, 1,2=popped value)
+  p1.modified: boolean; -- indicates if process 1 modified the stack
+  p1.ret_push: boolean; -- return value for push operation
+
+  -- Process 2 control & locals  
+  p2.pc      : 0..2;    -- 0=idle, 1=execute, 2=done
+  p2.op      : 0..2;    -- operation type {PUSH=0, POP=1, NONE=2}
+  p2.value   : 1..2;    -- value to push
+  p2.ret     : 0..2;    -- return value (0=empty, 1,2=popped value)
+  p2.modified: boolean; -- indicates if process 2 modified the stack
+  p2.ret_push: boolean; -- return value for push operation
+
+ASSIGN
+  -- initial state: stack = [val1->val2->NULL] (matching concurrent model)
+  init(val1)        := 1;
+  init(val2)        := 2;
+  init(top_pointer) := 1;  -- stack starts with val1 on top
+  init(busy)        := TRUE; -- stack is initially free
+  next(busy) := case
+    p2.pc = 2 : TRUE; -- busy when process 2 is done
+    p1.pc = 2 : TRUE;
+    TRUE : FALSE; -- free otherwise
+  esac;
+
+  -- Process 1 initial state
+  init(p1.pc)      := 0;
+  init(p1.op)      := 2; -- NONE
+  init(p1.value)   := 1;
+  init(p1.ret)     := 0;
+  init(p1.ret_push):= FALSE;
+  init(p1.modified):= FALSE; -- initially not modified
+
+  -- Process 2 initial state
+  init(p2.pc)      := 1;
+  init(p2.op)      := 1; -- remove
+  init(p2.value)   := 2;
+  init(p2.ret)     := 0;
+  init(p2.ret_push) := FALSE;
+  init(p2.modified) := FALSE; -- initially not modified
+
+
+  next(p2.modified) := (p2.pc = 2);
+  -- case
+  --   (p2.pc = 2) : TRUE; -- modified when process 2 is done
+  --   (p1.pc = 2) : FALSE; -- not modified otherwise
+  --   TRUE : (p2.modified); -- keep current state
+  -- esac;
+
+  next(p1.modified) := (p1.pc = 2);
+  -- case
+    -- (p1.pc = 2) : TRUE; -- modified when process 1 is done
+    -- (p2.pc = 2) : FALSE; -- not modified otherwise
+    -- TRUE : (p1.modified); -- keep current state
+  -- esac;
+
+  -- Process 1 operation selection
+  next(p1.op) := case
+    p1.pc = 0 : {0, 1}; -- choose PUSH or POP
+    TRUE : p1.op;
+  esac;
+
+  -- Process 2 operation selection  
+  next(p2.op) := case
+    p2.pc = 0 : {0, 1}; -- choose PUSH or POP
+    TRUE : p2.op;
+  esac;
+
+  -- Process 1 value selection for push
+  next(p1.value) := case
+    p1.pc = 0 : {1, 2}; -- choose value to push
+    TRUE : p1.value;
+  esac;
+
+  -- Process 2 value selection for push
+  next(p2.value) := case
+    p2.pc = 0 : {1, 2}; -- choose value to push
+    TRUE : p2.value;
+  esac;
+
+  -- Process 1 control flow
+  next(p1.pc) := case
+    p1.pc = 0 : 1; -- idle -> execute
+    p1.pc = 1 & busy : 1;
+    p1.pc = 1 : {1, 2}; -- execute -> done
+    p1.pc = 2 : 0; -- done -> idle
+    TRUE : p1.pc;
+  esac;
+
+  -- Process 2 control flow
+  next(p2.pc) := case
+    p2.pc = 0 : 1; -- idle -> execute
+    p2.pc = 1 : {1, 2}; -- execute -> done
+    p2.pc = 2 : 0; -- done -> idle
+    TRUE : p2.pc;
+  esac;
+
+  -- Update val1 and val2 when pushed
+  next(val1) := case
+    p1.pc = 2 & p1.op = 0 & p1.value = 1 & top_pointer = 0 : p1.value; -- P1 pushes to val1
+    p2.pc = 2 & p2.op = 0 & p2.value = 1 & top_pointer = 0 : p2.value; -- P2 pushes to val1
+    TRUE : val1;
+  esac;
+  
+  next(val2) := case
+    p1.pc = 2 & p1.op = 0 & p1.value = 2 & top_pointer = 0 : p1.value; -- P1 pushes to val2
+    p2.pc = 2 & p2.op = 0 & p2.value = 2 & top_pointer = 0 : p2.value; -- P2 pushes to val2
+    TRUE : val2;
+  esac;
+
+  -- update stack on push or pop
+  next(top_pointer) := case
+    -- Push operations: set top_pointer to the node being pushed
+    p1.pc = 2 & p1.op = 0 & p1.value = 1 & top_pointer = 0 : 1;  -- P1 push val1 to empty
+    p1.pc = 2 & p1.op = 0 & p1.value = 2 & top_pointer = 0 : 2;  -- P1 push val2 to empty
+    p2.pc = 2 & p2.op = 0 & p2.value = 1 & top_pointer = 0 : 1;  -- P2 push val1 to empty
+    p2.pc = 2 & p2.op = 0 & p2.value = 2 & top_pointer = 0 : 2;  -- P2 push val2 to empty
+    -- Pop operations: set top_pointer to 0 (empty)
+    p1.pc = 2 & p1.op = 1 & top_pointer > 0 : 0;  -- P1 pop: empty stack
+    p2.pc = 2 & p2.op = 1 & top_pointer > 0 : 0;  -- P2 pop: empty stack
+    TRUE : top_pointer;
+  esac;
+
+  -- Process 1 return value on pop
+  next(p1.ret) := 
+  case
+    (p2.pc = 2) : 0; -- if process 2 modified, return empty
+    p1.pc = 1 & p1.op = 1 & top_pointer = 1 : val1; -- return val1
+    p1.pc = 1 & p1.op = 1 & top_pointer = 2 : val2; -- return val2
+    p1.pc = 1 & p1.op = 1 & top_pointer = 0 : 0;    -- return empty
+    TRUE : p1.ret;
+  esac;
+
+  -- Process 2 return value on pop
+  next(p2.ret) := 
+  case
+    (p1.pc = 2) : 0; -- if process 1 modified, return empty
+    p2.pc = 2 & p2.op = 1 & top_pointer = 1 : val1; -- return val1
+    p2.pc = 2 & p2.op = 1 & top_pointer = 2 : val2; -- return val2
+    p2.pc = 2 & p2.op = 1 & top_pointer = 0 : 0;    -- return empty
+    TRUE : p2.ret;
+  esac;
+
+  -- -- Process 1 push return value
+  next(p1.ret_push) := 
+  case
+    (p2.pc = 2) : FALSE; -- if process 2 modified, push failed
+    p1.pc = 1 & p1.op = 0 & top_pointer = 0 : TRUE;  -- push succeeded (to empty stack)
+    p1.pc = 1 & p1.op = 0 & (top_pointer > 0) : FALSE; -- push failed (stack not empty)
+    TRUE : p1.ret_push;
+  esac;
+
+  -- Process 2 push return value
+  next(p2.ret_push) := 
+  case
+    (p1.pc = 2) : FALSE; -- if process 1 modified, push failed
+    p2.pc = 2 & p2.op = 0 & top_pointer = 0 : TRUE;  -- push succeeded (to empty stack)
+    p2.pc = 2 & p2.op = 0 & (top_pointer > 0) : FALSE; -- push failed (stack not empty)
+    TRUE : p2.ret_push;
+  esac;
+
+
+DEFINE
+  -- Thread 1 operation predicates
+  p1.push_invoked := (p1.op = 0) & (p1.pc = 1);  -- executing push
+  p1.pop_invoked  := (p1.op = 1) & (p1.pc = 1);  -- executing pop
+
+  -- Thread 2 operation predicates  
+  p2.push_invoked := (p2.op = 0) & (p2.pc = 1 | p2.pc = 2);  -- executing push
+  p2.pop_invoked  := (p2.op = 1) & (p2.pc = 1 | p2.pc = 2);  -- executing pop
+
+  -- Combined operation predicates
+  invoked_push := (p1.push_invoked | p2.push_invoked);
+  invoked_pop  := (p1.pop_invoked | p2.pop_invoked);
+
+  -- Return predicates
+  returning_push := (p1.op = 0 & p1.pc = 0) | (p2.op = 0 & p2.pc = 0);
+  returning_pop  := (p1.op = 1 & p1.pc = 0) | (p2.op = 1 & p2.pc = 0);
+
+  -- Success return predicates
+  push_return := (p1.ret_push) | (p2.ret_push);
+  pop_return  := (p1.ret != 0) | (p2.ret != 0);

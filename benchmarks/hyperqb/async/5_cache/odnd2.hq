@@ -1,0 +1,5 @@
+Forall A . Exists B . A t1 .
+G(
+    (in_HIGH[A][t1] = in_HIGH[B][t1]) &
+    (in_LOW[A][t1] = in_LOW[B][t1])
+)

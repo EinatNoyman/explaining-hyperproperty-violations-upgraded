@@ -1,0 +1,21 @@
+digraph "" {
+	node [label="\N"];
+	0	[label="initial\n"];
+	1	[label=ho];
+	0 -> 1	[label=¬hi];
+	2	[label=""];
+	0 -> 2	[label=hi];
+	1 -> 1	[label=¬hi];
+	1 -> 2	[label=hi];
+	2 -> 1	[label=¬hi];
+	3	[label="lo\nho"];
+	2 -> 3	[label=hi];
+	4	[label="lo\nho"];
+	3 -> 4	[label=¬hi];
+	5	[label="lo\nho"];
+	3 -> 5	[label=hi];
+	4 -> 4	[label=¬hi];
+	4 -> 5	[label=hi];
+	5 -> 4	[label=¬hi];
+	5 -> 5	[label=hi];
+}

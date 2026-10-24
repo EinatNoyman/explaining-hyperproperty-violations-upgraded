@@ -1,0 +1,164 @@
+Model Creation Time: 0.047382004
+Encoding Time: 0.0008237
+result: unsat.
+
+State 0:
+  a_0_A = false
+  a_0_B = false
+  b_0_A = true
+  b_0_B = true
+  sel_0_A = true
+  sel_0_B = false
+  state_0_A = false
+  state_0_B = false
+
+State 1:
+  a_1_A = false
+  a_1_B = false
+  b_1_A = true
+  b_1_B = true
+  sel_1_A = false
+  sel_1_B = true
+  state_1_A = false
+  state_1_B = true
+
+State 2:
+  a_2_A = false
+  a_2_B = false
+  b_2_A = true
+  b_2_B = true
+  sel_2_A = false
+  sel_2_B = true
+  state_2_A = true
+  state_2_B = false
+
+State 3:
+  a_3_A = false
+  a_3_B = false
+  b_3_A = true
+  b_3_B = true
+  sel_3_A = false
+  sel_3_B = true
+  state_3_A = true
+  state_3_B = false
+
+State 4:
+  a_4_A = false
+  a_4_B = false
+  b_4_A = true
+  b_4_B = true
+  sel_4_A = false
+  sel_4_B = true
+  state_4_A = true
+  state_4_B = false
+
+State 5:
+  a_5_A = false
+  a_5_B = false
+  b_5_A = true
+  b_5_B = true
+  sel_5_A = false
+  sel_5_B = true
+  state_5_A = true
+  state_5_B = false
+
+State 6:
+  a_6_A = false
+  a_6_B = false
+  b_6_A = true
+  b_6_B = true
+  sel_6_A = false
+  sel_6_B = true
+  state_6_A = true
+  state_6_B = false
+
+State 7:
+  a_7_A = false
+  a_7_B = false
+  b_7_A = true
+  b_7_B = true
+  sel_7_A = false
+  sel_7_B = true
+  state_7_A = true
+  state_7_B = false
+
+State 8:
+  a_8_A = false
+  a_8_B = false
+  b_8_A = true
+  b_8_B = true
+  sel_8_A = false
+  sel_8_B = true
+  state_8_A = true
+  state_8_B = false
+
+State 9:
+  a_9_A = false
+  a_9_B = false
+  b_9_A = true
+  b_9_B = true
+  sel_9_A = false
+  sel_9_B = true
+  state_9_A = true
+  state_9_B = false
+
+State 10:
+  a_10_A = false
+  a_10_B = false
+  b_10_A = true
+  b_10_B = true
+  sel_10_A = false
+  sel_10_B = true
+  state_10_A = true
+  state_10_B = false
+
+State 11:
+  a_11_A = false
+  a_11_B = false
+  b_11_A = true
+  b_11_B = true
+  sel_11_A = true
+  sel_11_B = false
+  state_11_A = true
+  state_11_B = false
+
+State 12:
+  a_12_A = false
+  a_12_B = false
+  b_12_A = true
+  b_12_B = true
+  sel_12_A = false
+  sel_12_B = true
+  state_12_A = false
+  state_12_B = true
+
+State 13:
+  a_13_A = false
+  a_13_B = false
+  b_13_A = true
+  b_13_B = true
+  sel_13_A = false
+  sel_13_B = true
+  state_13_A = true
+  state_13_B = false
+
+State 14:
+  a_14_A = false
+  a_14_B = false
+  b_14_A = true
+  b_14_B = true
+  sel_14_A = false
+  sel_14_B = true
+  state_14_A = true
+  state_14_B = false
+
+State 15:
+  a_15_A = false
+  a_15_B = false
+  b_15_A = true
+  b_15_B = true
+  sel_15_A = false
+  sel_15_B = true
+  state_15_A = true
+  state_15_B = false
+Solve Time: 0.009

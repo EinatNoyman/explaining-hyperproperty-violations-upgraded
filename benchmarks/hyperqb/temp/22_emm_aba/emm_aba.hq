@@ -1,0 +1,3 @@
+Forall A . Exists B .
+G((invoked_pop[A]=invoked_pop[B])&(returning_pop[A]=returning_pop[B])&(pop_return[A]=pop_return[B])&
+(invoked_push[A]=invoked_push[B])&(returning_push[A]=returning_push[B])&(push_return[A]=push_return[B]))

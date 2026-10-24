@@ -1,0 +1,24 @@
+% Requires: \usepackage{booktabs}
+\newcommand{\to}{\textsc{to}}
+\newcommand{\err}{\textsc{err}}
+\newcommand{\sat}{\textsc{sat}}
+\newcommand{\unsat}{\textsc{unsat}}
+
+\begin{table}[t]
+  \centering
+  \caption{Model checking the HyperQB 2.0 benchmark suite. Verdict  \unsat{} means the property is violated. Times are wall-clock  seconds; \to{} is a timeout at 120\,s. Invocations are taken  verbatim from the HyperQB authors' \texttt{run\_hltl\_1.sh}.  MCHyper is omitted: it is unmaintained and we could not build it,  so only its pre-recorded counterexamples were available.}
+  \label{tab:checkers}
+  \begin{tabular}{lcccc}
+    \toprule
+    & \multicolumn{2}{c}{HyperQB 2.0 (SMT)} & \multicolumn{2}{c}{AutoHyper} \\
+    \cmidrule(lr){2-3}\cmidrule(lr){4-5}
+    Benchmark & Verdict & Time (s) & Verdict & Time (s) \\
+    \midrule
+    Mutation & \sat & 0.09 & \sat & 0.89 \\
+    NI\_correct & \sat & 2.20 & \sat & 1.00 \\
+    NI\_incorrect & \unsat & 1.15 & \unsat & 0.90 \\
+    \bottomrule
+  \end{tabular}
+  \\[2pt]
+  \footnotesize Where both checkers decided, the verdicts agree in 3 of 3 cases.
+\end{table}

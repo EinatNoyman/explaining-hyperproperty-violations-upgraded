@@ -1,0 +1,35 @@
+MODULE main
+VAR
+  a_state : 0..16;
+
+ASSIGN
+  init(a_state) := 0;
+  next(a_state) :=
+    case
+      a_state = 0  : {1, 8, 9};
+      a_state = 1  : 2;
+      a_state = 2  : 3;
+      a_state = 3  : 4;
+      a_state = 4  : {5, 14};
+      a_state = 5  : 6;
+      a_state = 6  : 7;
+      a_state = 7  : 0;
+      a_state = 8  : 10;
+      a_state = 9  : 4;
+      a_state = 10 : 11;
+      a_state = 11 : 12;
+      a_state = 12 : 13;
+      a_state = 13 : 0;
+      a_state = 14 : 15;
+      a_state = 15 : {16, 3};
+      a_state = 16 : 0;
+      TRUE         : a_state; -- totalize (remove if you want a strict graph)
+    esac;
+
+-- Violation atoms (match y_labels 1..4)
+DEFINE
+  bad_gc    := (a_state = 8);   -- L=GC,R=FW
+  bad_fw_gc := (a_state = 15);  -- L=FW,R=GC
+  bad_gw    := (a_state = 9);   -- L=GW,R=FC
+  bad_fc    := (a_state = 12);  -- L=FC,R=GW
+  safeA     := !(bad_gc | bad_fw_gc | bad_gw | bad_fc);

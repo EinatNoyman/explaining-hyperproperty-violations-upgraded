@@ -1,0 +1,10 @@
+example,n_mchyper,sizes_mchyper,gamma_mchyper,wall_s_mchyper,causes_mchyper,n_autohyper,sizes_autohyper,gamma_autohyper,wall_s_autohyper,causes_autohyper,n_hyperqb,sizes_hyperqb,gamma_hyperqb,wall_s_hyperqb,causes_hyperqb,checkers_compared,same_causes
+asymmetric_arbiter,24,1,72,6.298,req_0@5=1(t0) | req_1@6=0(t0) | req_1@4=1(t0) | req_0@1=0(t0) | req_0@0=1(t0) | req_1@0=1(t0) | req_0@3=1(t0) | req_1@3=1(t0) | tb_secret@3=0(t0) | req_0@2=0(t0) | req_1@2=0(t0) | req_0@4=0(t1) | req_0@1=0(t1) | req_0@0=1(t1) | req_1@0=1(t1) | req_0@3=1(t1) | req_1@3=1(t1) | tb_secret@3=1(t1) | req_0@5=1(t1) | req_1@5=0(t1) | req_0@6=0(t1) | req_1@6=0(t1) | req_0@2=0(t1) | req_1@2=0(t1),,,,600.440,,24,1,63,34.414,req_0@2=0(t0) | req_0@5=1(t0) | req_1@5=1(t0) | tb_secret@5=1(t0) | req_0@1=1(t0) | req_1@1=1(t0) | req_0@3=0(t0) | req_1@3=1(t0) | req_0@4=1(t0) | req_1@4=0(t0) | req_0@0=1(t0) | req_1@0=0(t0) | req_0@2=0(t1) | req_0@1=1(t1) | req_1@1=1(t1) | req_0@5=1(t1) | req_1@5=1(t1) | tb_secret@5=0(t1) | req_0@3=0(t1) | req_1@3=1(t1) | req_0@4=1(t1) | req_1@4=0(t1) | req_0@0=1(t1) | req_1@0=0(t1),2,NO
+asymmetric_arbiter_19,10,1,28,2.170,req0@1=0(t0) | req0@0=1(t0) | req1@0=1(t0) | req0@2=0(t0) | req1@2=0(t0) | req0@1=0(t1) | req0@0=1(t1) | req1@0=1(t1) | req0@2=0(t1) | req1@2=0(t1),,,,32.434,,,,,13.519,,1,
+drone_example_1,7,1,24,7.857,bound@2=1(t0) | up@2=0(t0) | up@1=1(t0) | bound@1=0(t0) | bound@2=1(t1) | up@1=0(t1) | bound@1=0(t1),,,456,598.224,,,,,606.113,,1,
+drone_example_2,3,1,18,472.048,bound@1=1(t0) | up@1=1(t1) | bound@1=0(t1),,,,13.510,,,,,19.000,,1,
+leaky_mux,2,1,10,11.335,b@0=0(t1) | sel@0=1(t1),,,,600.165,,0,,35,8.105,,1,
+running_example,2,1,10,1.440,hi@0=0(t0) | hi@0=1(t1),3,1;2,50,5.355,hi@1=0(t0) | hi@1=1(t1) | hi@0=0(t0) & hi@0=0(t1),2,1;2,35,1.768,hi@0=0(t0) | hi@1=1(t0) & hi@0=1(t1),3,NO
+security_in_and_out,3,2,35,2.119,hi@0=0(t0) & hi@1=0(t0) | hi@3=0(t0) & hi@1=1(t1) | hi@0=1(t1) & hi@2=1(t1),,,,601.079,,3,1,49,11.119,hi@0=1(t0) | hi@1=1(t0) | hi@0=0(t1),2,NO
+simple_buffer,2,1,6,1.087,secret@0=1(t0) | secret@0=0(t1),0,,45,100.979,,0,,21,6.681,,1,
+triple_forall,0,,12,2.767,,,,,600.125,,1,1,21,17.562,x@0=1(t0),1,

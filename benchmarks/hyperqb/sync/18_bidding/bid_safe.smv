@@ -1,0 +1,81 @@
+MODULE main
+
+VAR
+    -- Determines if bidding is still occurring
+    bidding : boolean;
+
+    -- Current proccessed bid
+    curr_bid : 1..4;
+
+    -- Potential winner while still bidding
+    potential : 0..3;
+
+    -- Final winner  
+    winner : 0..3;
+    
+    max_bid : 2..6;
+    
+    -- Bids
+    bid_one : 3..4;
+
+    bid_two : 2..3;
+
+    bid_three : 5..6;
+
+        
+
+ASSIGN
+    -- Initial values
+    init(bidding) := TRUE;
+    init(curr_bid) := 1;
+    init(potential) := 0;  
+    init(winner) := 0;
+    init(max_bid) := 3;
+    init(bid_one) := 4;
+    init(bid_two) := 3;
+    init(bid_three) := 6;
+    
+    next(bid_one) := bid_one;
+    next(bid_two) := bid_two;
+    next(bid_three) := bid_three;
+
+    -- Updates bidding variable when bidding is done
+    next(bidding) :=
+        case
+            (bidding) & (curr_bid = 4): FALSE;
+            (!bidding): FALSE;
+            TRUE: TRUE;
+        esac;
+    
+    -- Winner revealed if bidding is over
+    next(winner) :=
+        case
+            (!bidding) : potential;
+            TRUE: 0;  
+        esac;
+    
+
+    -- Updates max bid, if the current bid is greater than max bid then it's the new max
+    next(max_bid) :=
+        case
+            (curr_bid = 1) & (max_bid < bid_one): bid_one;
+            (curr_bid = 2) & (max_bid < bid_two): bid_two;
+            (curr_bid = 3) & (max_bid < bid_three): bid_three;
+            TRUE: max_bid;
+        esac;
+
+    -- Updates potential winner
+    next(potential) :=
+        case
+            (max_bid = bid_one): 1;
+            (max_bid = bid_two): 2;
+            (max_bid = bid_three): 3;
+            TRUE: potential;
+        esac;
+
+    -- Increment current bid
+    next(curr_bid) :=
+        case
+            (curr_bid < 4): curr_bid + 1;
+            TRUE: curr_bid;
+        esac;

@@ -1,0 +1,1580 @@
+{
+    "stateVariable": "state",
+    "variables": {
+        "li": {
+            "type": "input"
+        },
+        "hi": {
+            "type": "input"
+        },
+        "lo": {
+            "type": "output"
+        },
+        "ho": {
+            "type": "output"
+        },
+        "state0": {
+            "type": "latch"
+        },
+        "state2": {
+            "type": "latch"
+        },
+        "state1": {
+            "type": "latch"
+        }
+    },
+    "lassoStart": 27,
+    "timesteps": [
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": false,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": false,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": false,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": false,
+                "lo": false,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": false,
+                "state1": false,
+                "lo": false,
+                "state2": false,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": false,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": true,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": false
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": true,
+                "state0": true,
+                "hi": true
+            },
+            {
+                "state": -1,
+                "li": false,
+                "ho": true,
+                "state1": true,
+                "lo": true,
+                "state2": false,
+                "state0": true,
+                "hi": true
+            }
+        ]
+    ],
+    "plain": "(G((li_0)<->(li_1)))->(G((lo_0)<->(lo_1)))",
+    "tree": {
+        "name": "root",
+        "id": -1,
+        "children": {
+            "high": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "isAtomic": false,
+            "id": 0,
+            "name": "->",
+            "children": [
+                {
+                    "high": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "isAtomic": false,
+                    "id": 1,
+                    "name": "G",
+                    "children": [
+                        {
+                            "high": [
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1
+                            ],
+                            "isAtomic": false,
+                            "id": 2,
+                            "name": "<->",
+                            "children": [
+                                {
+                                    "high": [
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1
+                                    ],
+                                    "isAtomic": true,
+                                    "id": 5,
+                                    "name": "li",
+                                    "value": 200,
+                                    "variable": "li",
+                                    "trace": 0
+                                },
+                                {
+                                    "high": [
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1
+                                    ],
+                                    "isAtomic": true,
+                                    "id": 6,
+                                    "name": "li",
+                                    "value": 200,
+                                    "variable": "li",
+                                    "trace": 1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "high": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "isAtomic": false,
+                    "id": 10,
+                    "name": "G",
+                    "children": [
+                        {
+                            "high": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                1,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "isAtomic": false,
+                            "id": 11,
+                            "name": "<->",
+                            "children": [
+                                {
+                                    "high": [
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": true,
+                                    "id": 14,
+                                    "name": "lo",
+                                    "value": 200,
+                                    "variable": "lo",
+                                    "trace": 0
+                                },
+                                {
+                                    "high": [
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": true,
+                                    "id": 15,
+                                    "name": "lo",
+                                    "value": 200,
+                                    "variable": "lo",
+                                    "trace": 1
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "prefix": [
+        "Exists",
+        "Exists"
+    ]
+}

@@ -1,0 +1,2 @@
+forall A. forall B.
+(G ((({"a"_A} <-> {"a"_B}) & ({"b"_A} <-> {"b"_B}))) -> G (({"out"_A} <-> {"out"_B})))

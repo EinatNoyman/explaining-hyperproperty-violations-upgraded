@@ -10,10 +10,10 @@
         "lo": {
             "type": "output"
         },
-        "state0": {
+        "state1": {
             "type": "latch"
         },
-        "state1": {
+        "state0": {
             "type": "latch"
         }
     },
@@ -21,38 +21,38 @@
     "timesteps": [
         [
             {
-                "state": -1,
-                "lo": false,
-                "state0": false,
+                "state": 0,
                 "hi": false,
                 "ho": false,
+                "lo": false,
+                "state0": false,
                 "state1": false
             },
             {
-                "state": -1,
+                "state": 0,
+                "hi": true,
+                "ho": false,
                 "lo": false,
                 "state0": false,
-                "hi": false,
-                "ho": false,
                 "state1": false
             }
         ],
         [
             {
-                "state": -1,
-                "lo": true,
-                "state0": false,
+                "state": 2,
                 "hi": false,
                 "ho": false,
+                "lo": true,
+                "state0": false,
                 "state1": true
             },
             {
-                "state": -1,
-                "lo": true,
-                "state0": false,
+                "state": 1,
                 "hi": false,
-                "ho": false,
-                "state1": true
+                "ho": true,
+                "lo": false,
+                "state0": true,
+                "state1": false
             }
         ]
     ],
@@ -211,7 +211,7 @@
         }
     },
     "prefix": [
-        "Exists",
-        "Exists"
+        "Forall",
+        "Forall"
     ]
 }

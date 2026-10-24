@@ -1,0 +1,48 @@
+HyperRUSTY -v yosys_build_file1.ys yosys_build_file2.ys -f formula1.hq -k 8 -s pes -c -t main -o model.smt2
+
+[IR] Built SMVEnv with 618 total transitions
+[IR] Built SMVEnv with 582 total transitions
+Model Creation Time: 0.722196342
+Encoding Time: 1.238204018
+result: unsat.
+
+State 0:
+  a_0_A = #x3e900000
+  a_0_B = #x1946e327
+  a_e_0_A = #b1010100101
+  a_s_0_A = #b0
+  count_0_A = #b000111
+  input_a_0_A = #xbe900000
+  input_a_stb_0_A = true
+  input_b_0_A = #x8f838800
+  input_b_stb_0_A = true
+  rst_0_A = true
+  rst_0_B = true
+  s_input_b_ack_0_A = #b1
+  s_input_b_ack_0_B = #b1
+  state_var_0_A = #x9
+
+State 1:
+  a_1_A = #x3e900000
+  a_e_1_A = #b1010100101
+  a_s_1_A = #b0
+  count_1_A = #b000111
+  rst_1_A = false
+  rst_1_B = false
+  s_input_b_ack_1_A = #b0
+  s_output_z_stb_1_A = #b0
+  s_output_z_stb_1_B = #b0
+  state_var_1_A = #x0
+
+State 2:
+  a_2_A = #x00000000
+  input_b_stb_2_A = true
+  input_b_stb_2_B = true
+  rst_2_A = false
+  rst_2_B = false
+  s_output_z_stb_2_A = #b1
+  s_output_z_stb_2_B = #b0
+  state_var_2_A = #xe
+  state_var_2_B = #x5
+
+Solve Time: 0.638

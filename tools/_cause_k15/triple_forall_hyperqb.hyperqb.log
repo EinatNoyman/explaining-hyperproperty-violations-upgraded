@@ -1,0 +1,129 @@
+Model Creation Time: 0.0559324
+Encoding Time: 0.0008491
+result: unsat.
+
+State 0:
+  state_0_A = false
+  state_0_B = false
+  state_0_C = false
+  x_0_A = true
+  x_0_B = false
+  x_0_C = false
+
+State 1:
+  state_1_A = true
+  state_1_B = false
+  state_1_C = false
+  x_1_A = false
+  x_1_B = false
+  x_1_C = false
+
+State 2:
+  state_2_A = false
+  state_2_B = false
+  state_2_C = false
+  x_2_A = false
+  x_2_B = false
+  x_2_C = false
+
+State 3:
+  state_3_A = false
+  state_3_B = false
+  state_3_C = false
+  x_3_A = false
+  x_3_B = false
+  x_3_C = false
+
+State 4:
+  state_4_A = false
+  state_4_B = false
+  state_4_C = false
+  x_4_A = false
+  x_4_B = false
+  x_4_C = false
+
+State 5:
+  state_5_A = false
+  state_5_B = false
+  state_5_C = false
+  x_5_A = false
+  x_5_B = false
+  x_5_C = false
+
+State 6:
+  state_6_A = false
+  state_6_B = false
+  state_6_C = false
+  x_6_A = false
+  x_6_B = false
+  x_6_C = false
+
+State 7:
+  state_7_A = false
+  state_7_B = false
+  state_7_C = false
+  x_7_A = false
+  x_7_B = false
+  x_7_C = false
+
+State 8:
+  state_8_A = false
+  state_8_B = false
+  state_8_C = false
+  x_8_A = false
+  x_8_B = false
+  x_8_C = false
+
+State 9:
+  state_9_A = false
+  state_9_B = false
+  state_9_C = false
+  x_9_A = false
+  x_9_B = false
+  x_9_C = false
+
+State 10:
+  state_10_A = false
+  state_10_B = false
+  state_10_C = false
+  x_10_A = false
+  x_10_B = false
+  x_10_C = false
+
+State 11:
+  state_11_A = false
+  state_11_B = false
+  state_11_C = false
+  x_11_A = false
+  x_11_B = false
+  x_11_C = false
+
+State 12:
+  state_12_A = false
+  state_12_B = false
+  state_12_C = false
+  x_12_A = false
+  x_12_B = false
+  x_12_C = false
+
+State 13:
+  state_13_A = false
+  state_13_B = false
+  state_13_C = false
+  x_13_A = false
+  x_13_B = false
+  x_13_C = false
+
+State 14:
+  state_14_A = false
+  state_14_B = false
+  state_14_C = false
+  x_14_A = false
+  x_14_B = false
+  x_14_C = false
+
+State 15:
+  state_15_A = false
+  state_15_B = false
+  state_15_C = false
+Solve Time: 0.012

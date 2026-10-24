@@ -1,0 +1,70 @@
+Model Creation Time: 0.100890795
+Encoding Time: 0.0034626
+result: unsat.
+
+State 0:
+  bound_0_A = false
+  bound_0_B = false
+  state0_0_A = false
+  state0_0_B = false
+  state1_0_A = false
+  state1_0_B = false
+
+State 1:
+  bound_1_A = false
+  bound_1_B = false
+  state0_1_A = true
+  state0_1_B = true
+  state1_1_A = false
+  state1_1_B = false
+  up_1_A = false
+  up_1_B = false
+
+State 2:
+  bound_2_A = false
+  bound_2_B = false
+  state0_2_A = true
+  state0_2_B = true
+  state1_2_A = false
+  state1_2_B = false
+  up_2_A = false
+  up_2_B = true
+
+State 3:
+  bound_3_A = true
+  bound_3_B = true
+  state0_3_A = true
+  state0_3_B = true
+  state1_3_A = false
+  state1_3_B = true
+  up_3_A = false
+  up_3_B = true
+
+State 4:
+  bound_4_A = false
+  bound_4_B = false
+  state0_4_A = false
+  state0_4_B = true
+  state1_4_A = true
+  state1_4_B = false
+  up_4_A = false
+  up_4_B = true
+
+State 5:
+  bound_5_A = false
+  bound_5_B = false
+  state0_5_A = true
+  state0_5_B = true
+  state1_5_A = false
+  state1_5_B = true
+  up_5_A = false
+  up_5_B = true
+
+State 6:
+  bound_6_A = false
+  bound_6_B = false
+  state0_6_A = true
+  state0_6_B = true
+  state1_6_A = false
+  state1_6_B = true
+Solve Time: 0.02

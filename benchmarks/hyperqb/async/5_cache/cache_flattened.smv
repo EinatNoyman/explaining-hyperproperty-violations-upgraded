@@ -1,0 +1,166 @@
+MODULE main
+	VAR
+		-- LOCKED: boolean; -- semaphore
+		in_HIGH: boolean; -- in_HIGH-value
+		in_LOW: boolean; -- in_LOW-value
+
+		-- SCHEDULE: 1..3; -- 0:p1 moves, 1:p2 moves, 2:p3 moves
+		ID_one: 1..4;
+		ID_two: 1..4;
+		ID_three: 1..4;
+		-- ID_four: 1..4;
+
+		counter: 0..4;
+		wait_p: 0..3;
+		wait_n: 0..3;
+		wait_mn: 0..7;
+
+		-- flattened instances of programs(...)
+    	proc1_PC : 0..16;   -- programs(ID_one,  in_LOW, in_HIGH,  1, counter, wait_n, wait_mn)
+    	proc2_PC : 0..16;   -- programs(ID_two,  in_LOW, in_HIGH,  6, counter, wait_n, wait_mn)
+    	proc3_PC : 0..16;   -- programs(ID_three,in_LOW, in_HIGH, 13, counter, wait_n, wait_mn)
+
+	ASSIGN
+		init(ID_one)   := 1;
+		next(ID_one)   := 1;
+
+		init(ID_two)   := 2;
+		next(ID_two)   := 2;
+
+		init(ID_three) := 3;
+		next(ID_three) := 3;
+
+		init(counter):= 0;
+		next(counter):=
+			case
+				(proc2_PC=9 & (counter!=0)): (counter - 1);
+				(proc1_PC=3): 4;
+				TRUE: counter;
+			esac;
+
+		init(wait_p):= 3;
+		next(wait_p):= wait_p;
+
+		init(wait_n):= 3;
+		next(wait_n):=
+			case
+				((proc2_PC=7) & !(wait_n=0)): (wait_n - 1);
+				TRUE: wait_n;
+			esac;
+
+		init(wait_mn):= 7;
+		next(wait_mn):=
+			case
+				((proc3_PC=14) & !(wait_mn=0)): (wait_mn - 1);
+				TRUE: wait_mn;
+			esac;
+
+		----------------------------------------------------------------
+		-- inputs
+		----------------------------------------------------------------
+		init(in_HIGH) := {TRUE, FALSE};
+		next(in_HIGH) := in_HIGH;
+
+		init(in_LOW)  := {TRUE, FALSE};
+		next(in_LOW)  := in_LOW;
+
+
+		----------------------------------------------------------------
+		-- proc1: programs(ID_one, in_LOW, in_HIGH, 1, counter, wait_n, wait_mn)
+		----------------------------------------------------------------
+		init(proc1_PC) := 1;
+		next(proc1_PC) :=
+			case
+				-- program1
+				(proc1_PC = 1)                          : 2;
+				(proc1_PC = 2 &  (in_LOW = in_HIGH))    : 3;
+				(proc1_PC = 2 & !(in_LOW = in_HIGH))    : 4;
+				(proc1_PC = 3)                          : 3;
+				(proc1_PC = 4)                          : 4;
+				-- program2
+				(proc1_PC = 6)                          : 7;
+				(proc1_PC = 7 & (wait_n != 0))          : 7;
+				(proc1_PC = 7 & wait_n  = 0)            : 8;
+				(proc1_PC = 8 & counter != 0)           : 9;
+				(proc1_PC = 8 & counter  = 0)           : 10;
+				(proc1_PC = 9 & counter  != 0)          : 9;
+				(proc1_PC = 9 & counter   = 0)          : 10;
+				(proc1_PC = 10)                         : 11;
+				(proc1_PC = 11)                         : 11;
+				-- program3
+				(proc1_PC = 13)                         : 14;
+				(proc1_PC = 14 & wait_mn != 0)          : 14;
+				(proc1_PC = 14 & wait_mn  = 0)          : 15;
+				(proc1_PC = 15)                         : 16;
+				(proc1_PC = 16)                         : 16;
+				TRUE : proc1_PC;
+			esac;
+
+		----------------------------------------------------------------
+		-- proc2: programs(ID_two, in_LOW, in_HIGH, 6, counter, wait_n, wait_mn)
+		----------------------------------------------------------------
+		init(proc2_PC) := 6;
+		next(proc2_PC) :=
+			case
+				-- program1
+				(proc2_PC = 1)                          : 2;
+				(proc2_PC = 2 &  (in_LOW = in_HIGH))    : 3;
+				(proc2_PC = 2 & (!(in_LOW = in_HIGH)))    : 4;
+				(proc2_PC = 3)                          : 3;
+				(proc2_PC = 4)                          : 4;
+				-- program2
+				(proc2_PC = 6)                          : 7;
+				(proc2_PC = 7 & wait_n != 0)            : 7;
+				(proc2_PC = 7 & wait_n  = 0)            : 8;
+				(proc2_PC = 8 & counter != 0)           : 9;
+				(proc2_PC = 8 & counter  = 0)           : 10;
+				(proc2_PC = 9 & counter  != 0)          : 9;
+				(proc2_PC = 9 & counter   = 0)          : 10;
+				(proc2_PC = 10)                         : 11;
+				(proc2_PC = 11)                         : 11;
+				-- program3
+				(proc2_PC = 13)                         : 14;
+				(proc2_PC = 14 & wait_mn != 0)          : 14;
+				(proc2_PC = 14 & wait_mn  = 0)          : 15;
+				(proc2_PC = 15)                         : 16;
+				(proc2_PC = 16)                         : 16;
+				TRUE : proc2_PC;
+			esac;
+
+		----------------------------------------------------------------
+		-- proc3: programs(ID_three, in_LOW, in_HIGH, 13, counter, wait_n, wait_mn)
+		----------------------------------------------------------------
+		init(proc3_PC) := 13;
+		next(proc3_PC) :=
+			case
+				-- program1
+				(proc3_PC = 1)                          : 2;
+				(proc3_PC = 2 &  (in_LOW = in_HIGH))    : 3;
+				(proc3_PC = 2 & !(in_LOW = in_HIGH))    : 4;
+				(proc3_PC = 3)                          : 3;
+				(proc3_PC = 4)                          : 4;
+				-- program2
+				(proc3_PC = 6)                          : 7;
+				(proc3_PC = 7 & wait_n != 0)            : 7;
+				(proc3_PC = 7 & wait_n  = 0)            : 8;
+				(proc3_PC = 8 & counter != 0)           : 9;
+				(proc3_PC = 8 & counter  = 0)           : 10;
+				(proc3_PC = 9 & counter  != 0)          : 9;
+				(proc3_PC = 9 & counter   = 0)          : 10;
+				(proc3_PC = 10)                         : 11;
+				(proc3_PC = 11)                         : 11;
+				-- program3
+				(proc3_PC = 13)                         : 14;
+				(proc3_PC = 14 & wait_mn != 0)          : 14;
+				(proc3_PC = 14 & wait_mn  = 0)          : 15;
+				(proc3_PC = 15)                         : 16;
+				(proc3_PC = 16)                         : 16;
+				TRUE : proc3_PC;
+			esac;
+
+
+	DEFINE
+		-- halt := (proc1.loop_count=1 & proc2.loop_count=1 & proc3.loop_count=1);
+		halt           := ((proc2_PC = 11) & (proc3_PC = 16));
+		obs_PRINT_ONE  := (proc2_PC = 11);
+		obs_PRINT_ZERO := (proc3_PC = 16);

@@ -1,0 +1,40 @@
+--MAPSYNTH
+--(adopted from: Tzu-Han Hsu, Borzoo Bonakdarpour, Eunsuk Kang, and Stavros Tripakis. Mapping synthesis for hyperproperties. In 2022 IEEE 35th Computer Security Foundations Symposium (CSF))
+MODULE main
+
+VAR
+  atom_r: boolean;
+  atom_s: boolean;
+  PC: 0..3;
+
+ASSIGN
+  -- Initial Conditions
+  init(atom_r):= FALSE;
+  init(atom_s):= FALSE;
+  init(PC) := 0;
+
+  -- Transition Relations
+  next(atom_r) :=
+    case
+      (PC=0): {TRUE,  FALSE};
+      (PC=1): FALSE;
+      (PC=2): FALSE;
+      TRUE: atom_r;
+    esac;
+
+  next(atom_s) :=
+    case
+      (PC=0): {TRUE,  FALSE};
+      (PC=1): TRUE;
+      (PC=2): FALSE;
+      TRUE: atom_s;
+    esac;
+
+  next(PC) :=
+    case
+      (PC=3): 3;
+      TRUE: PC+1;
+    esac;
+    
+DEFINE
+  fAIL := (atom_r & atom_s);

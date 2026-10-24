@@ -1,0 +1,6 @@
+======= Witnesses =======
+A: ({"hi":false, "state0":false, "state1":false} {"hi":false, "state0":false, "state1":true} {"hi":false, "state0":true, "state1":true} {"hi":false, "state0":true, "state1":true} {"hi":false, "state0":true, "state1":true} {"hi":true, "state0":true, "state1":true}) ({"hi":true, "state0":true, "state1":true} {"hi":false, "state0":true, "state1":true} {"hi":false, "state0":true, "state1":true} {"hi":true, "state0":true, "state1":true})
+B: ({"hi":false, "state0":false, "state1":false} {"hi":true, "state0":false, "state1":true} {"hi":false, "state0":true, "state1":false} {"hi":false, "state0":true, "state1":true} {"hi":true, "state0":true, "state1":true} {"hi":false, "state0":true, "state1":true}) ({"hi":true, "state0":true, "state1":true} {"hi":false, "state0":true, "state1":true} {"hi":true, "state0":true, "state1":true} {"hi":false, "state0":true, "state1":true})
+=========================
+
+UNSAT

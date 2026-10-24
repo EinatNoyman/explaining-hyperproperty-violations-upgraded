@@ -1,0 +1,86 @@
+Model Creation Time: 0.428979198
+Encoding Time: 0.0408273
+result: unsat.
+
+State 0:
+  hi_0_A = true
+  hi_0_B = false
+  li_0_A = false
+  li_0_B = false
+  state0_0_A = false
+  state0_0_B = false
+  state1_0_A = false
+  state1_0_B = false
+  state2_0_A = false
+  state2_0_B = false
+
+State 1:
+  hi_1_A = true
+  hi_1_B = true
+  li_1_A = false
+  li_1_B = false
+  state0_1_A = true
+  state0_1_B = true
+  state1_1_A = false
+  state1_1_B = false
+  state2_1_A = false
+  state2_1_B = true
+
+State 2:
+  hi_2_A = false
+  hi_2_B = false
+  li_2_A = false
+  li_2_B = false
+  state0_2_A = false
+  state0_2_B = true
+  state1_2_A = true
+  state1_2_B = false
+  state2_2_A = false
+  state2_2_B = false
+
+State 3:
+  hi_3_A = false
+  hi_3_B = true
+  li_3_A = false
+  li_3_B = false
+  state0_3_A = true
+  state0_3_B = true
+  state1_3_A = true
+  state1_3_B = false
+  state2_3_A = true
+  state2_3_B = true
+
+State 4:
+  hi_4_A = false
+  hi_4_B = false
+  li_4_A = false
+  li_4_B = false
+  state0_4_A = true
+  state0_4_B = true
+  state1_4_A = true
+  state1_4_B = false
+  state2_4_A = true
+  state2_4_B = false
+
+State 5:
+  hi_5_A = false
+  hi_5_B = true
+  li_5_A = false
+  li_5_B = false
+  state0_5_A = true
+  state0_5_B = true
+  state1_5_A = true
+  state1_5_B = false
+  state2_5_A = true
+  state2_5_B = true
+
+State 6:
+  li_6_A = false
+  li_6_B = false
+  state0_6_A = true
+  state0_6_B = true
+  state1_6_A = true
+  state1_6_B = false
+  state2_6_A = true
+  state2_6_B = false
+Solve Time: 0.233

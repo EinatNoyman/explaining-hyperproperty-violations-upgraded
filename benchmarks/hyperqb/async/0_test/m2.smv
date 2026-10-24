@@ -1,0 +1,17 @@
+MODULE main
+	VAR
+		line: 1..3;
+	ASSIGN
+
+	-- init(line) := 1;
+	init(line) := 1;
+	next(line) :=
+		case
+			(line=1) : {2}; 
+			(line=2) : {3}; 
+			TRUE: line;
+		esac;
+
+	DEFINE
+		obs_print := (line=3);
+		halt := (line=3);

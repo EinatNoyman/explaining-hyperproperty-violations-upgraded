@@ -1,0 +1,98 @@
+Model Creation Time: 0.039458702
+Encoding Time: 0.0003641
+result: unsat.
+
+State 0:
+  secret_0_A = true
+  secret_0_B = false
+  state_0_A = false
+  state_0_B = false
+
+State 1:
+  secret_1_A = true
+  secret_1_B = false
+  state_1_A = true
+  state_1_B = false
+
+State 2:
+  secret_2_A = true
+  secret_2_B = false
+  state_2_A = true
+  state_2_B = false
+
+State 3:
+  secret_3_A = true
+  secret_3_B = false
+  state_3_A = true
+  state_3_B = false
+
+State 4:
+  secret_4_A = true
+  secret_4_B = false
+  state_4_A = true
+  state_4_B = false
+
+State 5:
+  secret_5_A = true
+  secret_5_B = false
+  state_5_A = true
+  state_5_B = false
+
+State 6:
+  secret_6_A = true
+  secret_6_B = false
+  state_6_A = true
+  state_6_B = false
+
+State 7:
+  secret_7_A = true
+  secret_7_B = false
+  state_7_A = true
+  state_7_B = false
+
+State 8:
+  secret_8_A = true
+  secret_8_B = false
+  state_8_A = true
+  state_8_B = false
+
+State 9:
+  secret_9_A = true
+  secret_9_B = false
+  state_9_A = true
+  state_9_B = false
+
+State 10:
+  secret_10_A = true
+  secret_10_B = false
+  state_10_A = true
+  state_10_B = false
+
+State 11:
+  secret_11_A = true
+  secret_11_B = false
+  state_11_A = true
+  state_11_B = false
+
+State 12:
+  secret_12_A = true
+  secret_12_B = false
+  state_12_A = true
+  state_12_B = false
+
+State 13:
+  secret_13_A = true
+  secret_13_B = false
+  state_13_A = true
+  state_13_B = false
+
+State 14:
+  secret_14_A = true
+  secret_14_B = false
+  state_14_A = true
+  state_14_B = false
+
+State 15:
+  state_15_A = true
+  state_15_B = false
+Solve Time: 0.007

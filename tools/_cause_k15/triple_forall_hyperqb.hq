@@ -1,0 +1,2 @@
+Forall A . Forall B . Forall C .
+G (~((out[A] | (out[B] | out[C]))))

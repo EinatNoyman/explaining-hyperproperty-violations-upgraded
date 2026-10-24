@@ -1,0 +1,6 @@
+======= Witnesses =======
+A: ({"secret":false, "state":false} {"secret":false, "state":false} {"secret":false, "state":false} {"secret":false, "state":false} {"secret":false, "state":false} {"secret":true, "state":false} {"secret":false, "state":true} {"secret":true, "state":false}) ({"secret":false, "state":true} {"secret":false, "state":false} {"secret":false, "state":false} {"secret":false, "state":false} {"secret":true, "state":false} {"secret":false, "state":true} {"secret":true, "state":false})
+B: ({"secret":true, "state":false} {"secret":false, "state":true} {"secret":false, "state":false} {"secret":true, "state":false} {"secret":false, "state":true} {"secret":false, "state":false} {"secret":false, "state":false} {"secret":true, "state":false}) ({"secret":false, "state":true} {"secret":false, "state":false} {"secret":true, "state":false} {"secret":false, "state":true} {"secret":false, "state":false} {"secret":false, "state":false} {"secret":true, "state":false})
+=========================
+
+UNSAT

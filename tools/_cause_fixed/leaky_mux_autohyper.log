@@ -1,0 +1,23 @@
+Size of the counter example (|Gamma|) is: 255
+The size of the formula (|phi|) is 27
+C tilde:
+for trace 0: [('a', 19, 1, 0), ('sel', 19, 0, 0), ('a', 24, 1, 0), ('sel', 24, 0, 0), ('a', 23, 1, 0), ('sel', 23, 0, 0), ('a', 45, 1, 0), ('sel', 45, 0, 0), ('a', 41, 1, 0), ('sel', 41, 0, 0), ('a', 42, 1, 0), ('sel', 42, 0, 0), ('a', 20, 1, 0), ('sel', 20, 0, 0), ('a', 46, 1, 0), ('sel', 46, 0, 0)]
+for trace 1: [('a', 21, 1, 1), ('sel', 21, 0, 1), ('a', 19, 1, 1), ('sel', 19, 0, 1), ('a', 43, 1, 1), ('sel', 43, 0, 1), ('a', 23, 1, 1), ('sel', 23, 0, 1), ('a', 45, 1, 1), ('sel', 45, 0, 1), ('a', 26, 1, 1), ('sel', 26, 0, 1), ('a', 41, 1, 1), ('sel', 41, 0, 1), ('a', 48, 1, 1), ('sel', 48, 0, 1)]
+Cause syntax: (AP, Time step, Truth value, Trace belonging)
+Time to compute this set of causes (time(C tilde)):
+6.127330780029297
+Computing all minimal causes now...
+Traceback (most recent call last):
+  File "/mnt/c/Users/einat/Desktop/תואר/תואר שני/תזה/Projects/explaining-hyperproperty-violations-upgraded/explainhyper/explain_hyper.py", line 322, in <module>
+    main()
+  File "/mnt/c/Users/einat/Desktop/תואר/תואר שני/תזה/Projects/explaining-hyperproperty-violations-upgraded/explainhyper/explain_hyper.py", line 311, in main
+    high = actual_causality(args)
+  File "/mnt/c/Users/einat/Desktop/תואר/תואר שני/תזה/Projects/explaining-hyperproperty-violations-upgraded/explainhyper/explain_hyper.py", line 291, in actual_causality
+    while minimality(counter, total_cause, original_trace, f, fold, args, circuit, all_aps, lasso_start, num_traces):
+  File "/mnt/c/Users/einat/Desktop/תואר/תואר שני/תזה/Projects/explaining-hyperproperty-violations-upgraded/explainhyper/explain_hyper.py", line 141, in minimality
+    if not (check_formula(f, counterfactual, args, fold, all_aps, lasso_start, num_traces)):
+  File "/mnt/c/Users/einat/Desktop/תואר/תואר שני/תזה/Projects/explaining-hyperproperty-violations-upgraded/explainhyper/explain_hyper.py", line 111, in check_formula
+    out.to_json(high, args.outName, False, dict, num_traces)
+  File "/mnt/c/Users/einat/Desktop/תואר/תואר שני/תזה/Projects/explaining-hyperproperty-violations-upgraded/explainhyper/output.py", line 413, in to_json
+    outfile.write(json.dumps(dict_new, indent=4))
+OSError: [Errno 12] Cannot allocate memory

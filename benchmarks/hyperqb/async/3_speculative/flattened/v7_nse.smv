@@ -1,0 +1,270 @@
+MODULE main
+  VAR
+    offset     : 0..2;
+    var_Y      : 0..7;
+    var_size   : 0..4;
+    pointer_Y  : 0..7;
+    obs_eq     : boolean;
+
+    -- Inlined program(0, var_Y, var_size, offset, pointer_Y) as proc1
+    proc1_line           : 0..8;
+    proc1_arrA_pos0      : 0..4;
+    proc1_arrA_pos1      : 0..4;
+    proc1_arrA_pos2      : 0..4;
+    proc1_arrA_pos3      : 0..4;
+    proc1_arrA_pos4      : 0..4;
+    proc1_arrB_pos0      : 0..4;
+    proc1_arrB_pos1      : 0..4;
+    proc1_arrB_pos2      : 0..4;
+    proc1_arrB_pos3      : 0..4;
+    proc1_arrB_pos4      : 0..4;
+    proc1_var_temp_proc1 : 0..4;
+    proc1_k              : 0..4;
+    proc1_var_X          : boolean;
+    proc1_var_Z          : 0..4;
+    proc1_var_W          : 0..4;
+    proc1_var_temp_proc2 : 0..4;
+    proc1_mask           : 0..1;
+    proc1_halt           : boolean;
+
+    -- Inlined program(3, var_Y, var_size, offset, pointer_Y) as proc2
+    proc2_line           : 0..8;
+    proc2_arrA_pos0      : 0..4;
+    proc2_arrA_pos1      : 0..4;
+    proc2_arrA_pos2      : 0..4;
+    proc2_arrA_pos3      : 0..4;
+    proc2_arrA_pos4      : 0..4;
+    proc2_arrB_pos0      : 0..4;
+    proc2_arrB_pos1      : 0..4;
+    proc2_arrB_pos2      : 0..4;
+    proc2_arrB_pos3      : 0..4;
+    proc2_arrB_pos4      : 0..4;
+    proc2_var_temp_proc1 : 0..4;
+    proc2_k              : 0..4;
+    proc2_var_X          : boolean;
+    proc2_var_Z          : 0..4;
+    proc2_var_W          : 0..4;
+    proc2_var_temp_proc2 : 0..4;
+    proc2_mask           : 0..1;
+    proc2_halt           : boolean;
+
+  ASSIGN
+    init(obs_eq) := TRUE;
+    next(obs_eq) := 
+        case
+            (!(proc1_var_temp_proc1 = proc2_var_temp_proc1)) : FALSE;
+            TRUE : obs_eq;
+        esac;
+    -- main-level state
+    next(offset) := offset;
+    init(pointer_Y) := var_Y;
+    next(var_Y) := var_Y;
+    init(var_size) := 4;
+    next(var_size) := var_size;
+    next(pointer_Y) := pointer_Y;
+
+    --------------------------------------------------------------------------------
+    -- proc1 instance (initline = 0)
+    --------------------------------------------------------------------------------
+    init(proc1_halt) := FALSE;
+    next(proc1_halt) :=
+      case
+        (proc1_line = 2 | proc1_line = 8) : TRUE;
+        TRUE : FALSE;
+      esac;
+
+    init(proc1_k) := 4;
+    next(proc1_k) := proc1_k;
+
+    init(proc1_mask) := 0;
+    next(proc1_mask) :=
+      case
+        ((proc1_line = 2) & !(proc1_var_X)) : 0;
+        ((proc1_line = 2) &  (proc1_var_X)) : 1;
+        TRUE : proc1_mask;
+      esac;
+
+    init(proc1_var_temp_proc1) := 0;
+    next(proc1_var_temp_proc1) :=
+      case
+        (proc1_line = 2 & ((pointer_Y + offset) = 0)) : {proc1_arrB_pos0};
+        TRUE : proc1_var_temp_proc1;
+      esac;
+
+    init(proc1_line) := 0;
+    next(proc1_line) :=
+      case
+        -- program1
+        (proc1_line = 0 & (pointer_Y >= var_size)) : {3}; -- terminate branch
+        (proc1_line = 0 & (pointer_Y <  var_size)) : {1}; -- proceed
+        (proc1_line = 1) : {2};
+        (proc1_line = 2) : {2};
+        -- program 2
+        (proc1_line = 3) : {4};
+        (proc1_line = 4 & (!proc1_var_X)) : {8};
+        (proc1_line = 4 & ( proc1_var_X)) : {5};
+        (proc1_line = 5) : {6};
+        (proc1_line = 6) : {7};
+        (proc1_line = 7) : {8};
+        (proc1_line = 8) : {8};
+        -- default
+        TRUE : proc1_line;
+      esac;
+
+    init(proc1_var_X) := FALSE;
+    next(proc1_var_X) :=
+      case
+        (proc1_line = 3) : (pointer_Y < var_size);
+        TRUE : proc1_var_X;
+      esac;
+
+    init(proc1_var_Z) := 0;
+    next(proc1_var_Z) :=
+      case
+        -- load z (NOTE: uses var_Y, as in the module)
+        ((proc1_line = 5) & (var_Y = 0)) : {proc1_arrA_pos0};
+        ((proc1_line = 5) & (var_Y = 1)) : {proc1_arrA_pos1};
+        ((proc1_line = 5) & (var_Y = 2)) : {proc1_arrA_pos2};
+        ((proc1_line = 5) & (var_Y = 3)) : {proc1_arrA_pos3};
+        ((proc1_line = 5) & (var_Y = 4)) : {proc1_arrA_pos4};
+        -- masked pointer handling
+        ((proc1_line = 6) & (proc1_mask = 0)) : {0};
+        TRUE : proc1_var_Z;
+      esac;
+
+    init(proc1_var_W) := 0;
+    next(proc1_var_W) :=
+      case
+        ((proc1_line = 7) & (proc1_var_Z = 0)) : {proc1_arrB_pos0};
+        ((proc1_line = 7) & (proc1_var_Z = 1)) : {proc1_arrB_pos1};
+        ((proc1_line = 7) & (proc1_var_Z = 2)) : {proc1_arrB_pos2};
+        ((proc1_line = 7) & (proc1_var_Z = 3)) : {proc1_arrB_pos3};
+        ((proc1_line = 7) & (proc1_var_Z = 4)) : {proc1_arrB_pos4};
+        TRUE : proc1_var_W;
+      esac;
+
+    init(proc1_var_temp_proc2) := 0;
+    next(proc1_var_temp_proc2) :=
+      case
+        (proc1_line = 8) : {proc1_var_W};
+        TRUE : proc1_var_temp_proc2;
+      esac;
+
+    -- static arrays (proc1)
+    init(proc1_arrA_pos0) := 0;  next(proc1_arrA_pos0) := proc1_arrA_pos0;
+    init(proc1_arrA_pos1) := 1;  next(proc1_arrA_pos1) := proc1_arrA_pos1;
+    init(proc1_arrA_pos2) := 2;  next(proc1_arrA_pos2) := proc1_arrA_pos2;
+    init(proc1_arrA_pos3) := 3;  next(proc1_arrA_pos3) := proc1_arrA_pos3;
+    init(proc1_arrA_pos4) := 4;  next(proc1_arrA_pos4) := proc1_arrA_pos4;
+
+    init(proc1_arrB_pos0) := 0;  next(proc1_arrB_pos0) := proc1_arrB_pos0;
+    init(proc1_arrB_pos1) := 1;  next(proc1_arrB_pos1) := proc1_arrB_pos1;
+    init(proc1_arrB_pos2) := 2;  next(proc1_arrB_pos2) := proc1_arrB_pos2;
+    init(proc1_arrB_pos3) := 3;  next(proc1_arrB_pos3) := proc1_arrB_pos3;
+    init(proc1_arrB_pos4) := 4;  next(proc1_arrB_pos4) := proc1_arrB_pos4;
+
+    --------------------------------------------------------------------------------
+    -- proc2 instance (initline = 3)
+    --------------------------------------------------------------------------------
+    init(proc2_halt) := FALSE;
+    next(proc2_halt) :=
+      case
+        (proc2_line = 2 | proc2_line = 8) : TRUE;
+        TRUE : FALSE;
+      esac;
+
+    init(proc2_k) := 4;
+    next(proc2_k) := proc2_k;
+
+    init(proc2_mask) := 0;
+    next(proc2_mask) :=
+      case
+        ((proc2_line = 2) & !(proc2_var_X)) : 0;
+        ((proc2_line = 2) &  (proc2_var_X)) : 1;
+        TRUE : proc2_mask;
+      esac;
+
+    init(proc2_var_temp_proc1) := 0;
+    next(proc2_var_temp_proc1) :=
+      case
+        (proc2_line = 2 & ((pointer_Y + offset) = 0)) : {proc2_arrB_pos0};
+        TRUE : proc2_var_temp_proc1;
+      esac;
+
+    init(proc2_line) := 3;
+    next(proc2_line) :=
+      case
+        -- program1
+        (proc2_line = 0 & (pointer_Y >= var_size)) : {3};
+        (proc2_line = 0 & (pointer_Y <  var_size)) : {1};
+        (proc2_line = 1) : {2};
+        (proc2_line = 2) : {2};
+        -- program 2
+        (proc2_line = 3) : {4};
+        (proc2_line = 4 & (!proc2_var_X)) : {8};
+        (proc2_line = 4 & ( proc2_var_X)) : {5};
+        (proc2_line = 5) : {6};
+        (proc2_line = 6) : {7};
+        (proc2_line = 7) : {8};
+        (proc2_line = 8) : {8};
+        -- default
+        TRUE : proc2_line;
+      esac;
+
+    init(proc2_var_X) := FALSE;
+    next(proc2_var_X) :=
+      case
+        (proc2_line = 3) : (pointer_Y < var_size);
+        TRUE : proc2_var_X;
+      esac;
+
+    init(proc2_var_Z) := 0;
+    next(proc2_var_Z) :=
+      case
+        -- load z (NOTE: uses var_Y, as in the module)
+        ((proc2_line = 5) & (var_Y = 0)) : {proc2_arrA_pos0};
+        ((proc2_line = 5) & (var_Y = 1)) : {proc2_arrA_pos1};
+        ((proc2_line = 5) & (var_Y = 2)) : {proc2_arrA_pos2};
+        ((proc2_line = 5) & (var_Y = 3)) : {proc2_arrA_pos3};
+        ((proc2_line = 5) & (var_Y = 4)) : {proc2_arrA_pos4};
+        -- masked pointer handling
+        ((proc2_line = 6) & (proc2_mask = 0)) : {0};
+        TRUE : proc2_var_Z;
+      esac;
+
+    init(proc2_var_W) := 0;
+    next(proc2_var_W) :=
+      case
+        ((proc2_line = 7) & (proc2_var_Z = 0)) : {proc2_arrB_pos0};
+        ((proc2_line = 7) & (proc2_var_Z = 1)) : {proc2_arrB_pos1};
+        ((proc2_line = 7) & (proc2_var_Z = 2)) : {proc2_arrB_pos2};
+        ((proc2_line = 7) & (proc2_var_Z = 3)) : {proc2_arrB_pos3};
+        ((proc2_line = 7) & (proc2_var_Z = 4)) : {proc2_arrB_pos4};
+        TRUE : proc2_var_W;
+      esac;
+
+    init(proc2_var_temp_proc2) := 0;
+    next(proc2_var_temp_proc2) :=
+      case
+        (proc2_line = 8) : {proc2_var_W};
+        TRUE : proc2_var_temp_proc2;
+      esac;
+
+    -- static arrays (proc2)
+    init(proc2_arrA_pos0) := 0;  next(proc2_arrA_pos0) := proc2_arrA_pos0;
+    init(proc2_arrA_pos1) := 1;  next(proc2_arrA_pos1) := proc2_arrA_pos1;
+    init(proc2_arrA_pos2) := 2;  next(proc2_arrA_pos2) := proc2_arrA_pos2;
+    init(proc2_arrA_pos3) := 3;  next(proc2_arrA_pos3) := proc2_arrA_pos3;
+    init(proc2_arrA_pos4) := 4;  next(proc2_arrA_pos4) := proc2_arrA_pos4;
+
+    init(proc2_arrB_pos0) := 0;  next(proc2_arrB_pos0) := proc2_arrB_pos0;
+    init(proc2_arrB_pos1) := 1;  next(proc2_arrB_pos1) := proc2_arrB_pos1;
+    init(proc2_arrB_pos2) := 2;  next(proc2_arrB_pos2) := proc2_arrB_pos2;
+    init(proc2_arrB_pos3) := 3;  next(proc2_arrB_pos3) := proc2_arrB_pos3;
+    init(proc2_arrB_pos4) := 4;  next(proc2_arrB_pos4) := proc2_arrB_pos4;
+
+-- DEFINE block empty (all logic inlined)
+
+DEFINE
+    -- halting condition
+    halt := ((proc1_line=8) & (proc2_line=8));

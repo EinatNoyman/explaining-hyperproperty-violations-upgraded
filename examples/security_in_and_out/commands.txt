@@ -1,0 +1,5 @@
+read_model -i /mnt/c/Users/einat/Desktop/תואר/תואר שני/תזה/Projects/explaining-hyperproperty-violations-upgraded/examples/security_in_and_out/security_in_and_out.smv
+flatten_hierarchy
+build_flat_model
+write_flat_model -o flattened.txt
+quit

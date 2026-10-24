@@ -1,0 +1,15 @@
+Forall A . Forall B . A t .  
+G((in_HIGH[A][t] = in_HIGH[B][t]) & ~(halt[A][t]) 
+)
+&
+G( 
+    ~(obs_X_is_zero[A][t] = obs_X_is_zero[B][t]) 
+    &       
+    ~(obs_X_is_one[A][t] = obs_X_is_one[B][t]) 
+    &
+    ~(obs_Y_is_zero[A][t] = obs_Y_is_zero[B][t]) 
+    &
+    ~(obs_Y_is_one[A][t] = obs_Y_is_one[B][t]) 
+    &
+    ~(LOW[A][t] = LOW[A][t]) 
+) 

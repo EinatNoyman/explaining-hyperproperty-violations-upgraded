@@ -1,0 +1,20 @@
+FORM: G(((out_0)&(out_1))|((!(out_0))&(!(out_1))))
+VAR: 
+secret_0@0=1
+out_0@1=1
+secret_0@1=1
+state_0@1=1
+out_0@2=1
+secret_0@2=1
+state_0@2=1
+out_0@3=1
+secret_0@3=1
+state_0@3=1
+out_0@4=1
+secret_0@4=1
+state_0@4=1
+out_0@5=1
+secret_0@5=1
+state_0@5=1
+out_0@6=1
+state_0@6=1

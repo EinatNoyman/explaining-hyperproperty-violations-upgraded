@@ -1,0 +1,19 @@
+example,checker,num_causes,cause_sizes,causes,wall_s,time_ctilde_s,time_causes_s,success,status,gamma_size,candidate_set_size,formula_size,max_cause_size,timeout_s,cap_binding,formula,reason
+asymmetric_arbiter,mchyper,24,1,req_0@5=1(t0) | req_1@6=0(t0) | req_1@4=1(t0) | req_0@1=0(t0) | req_0@0=1(t0) | req_1@0=1(t0) | req_0@3=1(t0) | req_1@3=1(t0) | tb_secret@3=0(t0) | req_0@2=0(t0) | req_1@2=0(t0) | req_0@4=0(t1) | req_0@1=0(t1) | req_0@0=1(t1) | req_1@0=1(t1) | req_0@3=1(t1) | req_1@3=1(t1) | tb_secret@3=1(t1) | req_0@5=1(t1) | req_1@5=0(t1) | req_0@6=0(t1) | req_1@6=0(t1) | req_0@2=0(t1) | req_1@2=0(t1),20.301,0.785,6.812,yes,ok,72,24,35,3,300,no,shipped,
+asymmetric_arbiter,hyperqb,24,1,req_0@2=0(t0) | req_0@5=1(t0) | req_1@5=1(t0) | tb_secret@5=1(t0) | req_0@1=1(t0) | req_1@1=1(t0) | req_0@3=0(t0) | req_1@3=1(t0) | req_0@4=1(t0) | req_1@4=0(t0) | req_0@0=1(t0) | req_1@0=0(t0) | req_0@2=0(t1) | req_0@1=1(t1) | req_1@1=1(t1) | req_0@5=1(t1) | req_1@5=1(t1) | tb_secret@5=0(t1) | req_0@3=0(t1) | req_1@3=1(t1) | req_0@4=1(t1) | req_1@4=0(t1) | req_0@0=1(t1) | req_1@0=0(t1),7.131,1.372,5.724,yes,ok,63,24,35,3,300,no,shipped,
+asymmetric_arbiter_19,mchyper,10,1,req0@1=0(t0) | req0@0=1(t0) | req1@0=1(t0) | req0@2=0(t0) | req1@2=0(t0) | req0@1=0(t1) | req0@0=1(t1) | req1@0=1(t1) | req0@2=0(t1) | req1@2=0(t1),2.440,0.131,1.339,yes,ok,28,10,35,3,300,no,shipped,
+asymmetric_arbiter_19,hyperqb,,,,1.371,,,no,ERR,,,,3,300,no,shipped,no `result:` line in HyperQB output: Model Creation Time: 0.310008188 thread 'main' (13939) panicked at hltlunroller/src/lib.rs:242:33: Udnefined variable or predicate `req_0` note: run with `RUST_BAC
+drone_example_1,mchyper,7,1,bound@2=1(t0) | up@2=0(t0) | up@1=1(t0) | bound@1=0(t0) | bound@2=1(t1) | up@1=0(t1) | bound@1=0(t1),1.943,0.141,1.015,yes,ok,24,7,19,3,300,no,shipped,
+drone_example_1,hyperqb,12,1,bound@3=1(t0) | bound@4=0(t0) | up@2=0(t0) | bound@2=0(t0) | bound@1=0(t0) | bound@5=0(t0) | bound@3=1(t1) | bound@4=0(t1) | up@2=1(t1) | bound@2=0(t1) | bound@5=0(t1) | bound@1=0(t1),5.583,0.592,4.725,yes,ok,42,18,19,3,300,no,shipped,
+drone_example_2,mchyper,3,1,bound@1=1(t0) | up@1=1(t1) | bound@1=0(t1),1.232,0.081,0.319,yes,ok,18,3,35,3,300,no,shipped,
+drone_example_2,hyperqb,,,,1.210,,,no,ERR,,,,3,300,no,shipped,"HyperQB reports sat: the property holds within the bound, so there is no counterexample to explain."
+leaky_mux,mchyper,2,1,a@0=1(t0) | sel@0=0(t0),1.203,0.058,0.195,yes,ok,10,2,27,3,300,no,shipped,
+leaky_mux,hyperqb,0,,,1.066,0.203,0.260,no,ok,35,0,27,3,300,no,shipped,no cause of size <= 3
+running_example,mchyper,2,1,hi@0=0(t0) | hi@0=1(t1),1.133,0.065,0.178,yes,ok,10,2,17,3,300,no,corrected (shipped formula references a nonexistent AP),
+running_example,hyperqb,2,1;2,hi@0=0(t0) | hi@1=1(t0) & hi@0=1(t1),1.405,0.219,0.437,yes,ok,35,3,17,3,300,no,corrected (shipped formula references a nonexistent AP),
+security_in_and_out,mchyper,3,2,hi@0=0(t0) & hi@1=0(t0) | hi@3=0(t0) & hi@1=1(t1) | hi@0=1(t1) & hi@2=1(t1),1.749,0.102,0.887,yes,ok,35,8,19,3,300,no,shipped,
+security_in_and_out,hyperqb,3,1,hi@0=1(t0) | hi@1=1(t0) | hi@0=0(t1),6.574,0.454,5.624,yes,ok,49,12,19,3,300,no,shipped,
+simple_buffer,mchyper,2,1,secret@0=1(t0) | secret@0=0(t1),1.086,0.055,0.162,yes,ok,6,2,9,3,300,no,shipped,
+simple_buffer,hyperqb,0,,,7.444,0.200,6.532,no,ok,21,12,9,3,300,yes,shipped,no cause of size <= 3
+triple_forall,mchyper,0,,,2.671,0.081,1.919,no,ok,12,9,6,3,300,yes,shipped,no cause of size <= 3
+triple_forall,hyperqb,1,1,x@0=1(t0),18.769,0.260,17.740,yes,ok,21,18,6,3,300,no,shipped,

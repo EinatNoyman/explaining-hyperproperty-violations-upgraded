@@ -1,0 +1,12 @@
+exists A. forall B.
+    (F
+        {"gOAL"_A} 
+    )
+&
+    (G
+        (
+            (! {"gOAL"_A})
+            ->
+            (! {"gOAL"_B})
+        )
+    )

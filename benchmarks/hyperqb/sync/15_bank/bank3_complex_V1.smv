@@ -1,0 +1,77 @@
+MODULE main
+VAR 
+    password : 0..2; -- (none = 0, userPassword = 1, adminPassword = 2, badPassword = 3)
+    username : 0..2; -- (none = 0, user = 0, devadmin = 1)
+    matchedUserPassword : 0..1; -- 
+    matchedAdminPassword : 0..1; -- 
+    loginfo : 0..2; -- (none = 0, success = 1, failure = 2)
+    result : 0..2; -- (none = 0, 1 = login, badLogin = 2, 3 = No connection)
+    httpclient : 0..2; -- (unset = 0, userlogin = 1, devlogin = 2)
+    serverport : 0..1; -- (unset = 0, set = 1)
+    serverip : 0..1; -- (unset = 0, set = 1)
+    creds : 0..2; -- (nothing = 0, user = 1, dev = 2)
+    startactivity : 0..2; -- (none = 0, userLoginSequence = 1; AdminLoginSequence = 1)
+    date : 0..11; -- Due to the over-simplified hq property, loginfo has to have everything the same so extra features like date violate it
+
+ASSIGN
+    -- Starting values
+    init(password) := {0, 2}; -- none
+    init(username) := {0, 1, 2}; --
+    init(matchedUserPassword) := {0, 1};
+    init(matchedAdminPassword) := {0, 1};
+    init(serverip) := 1; -- set 
+    init(serverport) := 1; -- set 
+    init(loginfo) := 0; -- empty
+    init(result) := 0; -- unknown
+    init(startactivity) := 0; -- none
+    init(httpclient) := 0; --nada
+    init(creds) := 0; --
+    init(date) := {0,1,2,3,4,5,6,7,8,9,10,11};
+ 
+    --Define Statics
+    next(date) := date;
+    next(password) := password;
+    next(username) := username;
+    next(matchedUserPassword) := matchedUserPassword;
+    next(matchedAdminPassword) := matchedAdminPassword;
+    next(serverip) := serverip;
+    next(serverport) := serverport;
+
+    --Transition Rules
+    next(httpclient) := 
+    case
+        ((serverip = 1) & (serverport = 1)) : username;
+        TRUE : 0;
+    esac;
+
+    next(result) := 
+    case
+        (httpclient = 0) : result;
+        (((password = matchedUserPassword) & (httpclient = 1)) | ((password = matchedAdminPassword) & (httpclient = 2))) : 1;
+        TRUE : 2;
+    esac;
+
+    next(loginfo) := 
+    case
+        (result = 0) : loginfo;
+        TRUE : result;
+    esac;
+
+    next(creds) := 
+    case
+        ((password = matchedAdminPassword) & (httpclient = 2)) : 2; --Give Admin Creds
+        ((password = matchedUserPassword) & (httpclient = 1)) : 1; --Give User Creds
+        TRUE : 0;
+    esac;
+
+    next(startactivity) := 
+    case
+        (creds = 0): 0;
+        (creds = 1): 1;
+        (creds = 2): 2;
+        TRUE: startactivity;
+    esac;
+
+
+DEFINE
+    halt := ((result = 1) | (result = 2));

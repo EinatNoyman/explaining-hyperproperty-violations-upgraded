@@ -1,0 +1,3 @@
+forall A . exists B .
+G(({ "invoked_pop"_A = "invoked_pop"_B} ) & ( {"returning_pop"_A = "returning_pop"_B} ) & ( { "pop_return"_A = "pop_return"_B } )&
+( { "invoked_push"_A = "invoked_push"_B }) & ( { "returning_push"_A = "returning_push"_B }) & ( {"push_return"_A = "push_return"_B }))

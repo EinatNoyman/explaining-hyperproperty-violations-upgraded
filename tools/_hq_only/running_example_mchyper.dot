@@ -1,0 +1,13 @@
+digraph "" {
+	node [label="\N"];
+	0	[label="initial\n"];
+	1	[label=ho];
+	0 -> 1	[label=hi];
+	2	[label=lo];
+	0 -> 2	[label=¬hi];
+	3	[label="lo\nho"];
+	1 -> 3	[label="*"];
+	2 -> 1	[label=hi];
+	2 -> 3	[label=¬hi];
+	3 -> 3	[label="*"];
+}

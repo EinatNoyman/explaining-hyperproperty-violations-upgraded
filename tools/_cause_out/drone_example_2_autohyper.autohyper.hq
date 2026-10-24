@@ -1,0 +1,2 @@
+forall A. forall B.
+(G ((({"up"_A} <-> {"up"_B}) & ({"bound"_A} <-> {"bound"_B}))) -> G ((({"increase"_A} <-> {"increase"_B}) & ({"emergency"_A} <-> {"emergency"_B}))))

@@ -1,0 +1,2 @@
+forall A. forall B.
+(G (({"li"_A} <-> {"li"_B})) -> G (({"lo"_A} <-> {"lo"_B})))

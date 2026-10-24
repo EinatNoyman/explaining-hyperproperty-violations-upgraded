@@ -1,0 +1,93 @@
+{
+ "timeout": 120,
+ "checkers": [
+  {
+   "case": "Mutation",
+   "key": "mutation",
+   "suite": "hltl_1",
+   "AH": {
+    "verdict": "sat",
+    "seconds": 0.8904866989996663,
+    "status": "ok",
+    "reason": "",
+    "runs": 3,
+    "t_min": 0.8728445050001028,
+    "t_max": 0.9030780969997068
+   },
+   "QBF": {
+    "verdict": null,
+    "seconds": 0.0,
+    "status": "skipped",
+    "reason": "QBF backend not run; pass --with-qbf"
+   },
+   "SMT": {
+    "verdict": "sat",
+    "seconds": 0.08649030000015046,
+    "status": "ok",
+    "reason": "",
+    "runs": 3,
+    "t_min": 0.07814289999987523,
+    "t_max": 0.18654090099971654
+   }
+  },
+  {
+   "case": "NI_correct",
+   "key": "ni_correct",
+   "suite": "hltl_1",
+   "AH": {
+    "verdict": "sat",
+    "seconds": 0.9960856049992799,
+    "status": "ok",
+    "reason": "",
+    "runs": 3,
+    "t_min": 0.9571659049997834,
+    "t_max": 1.057671905999996
+   },
+   "QBF": {
+    "verdict": null,
+    "seconds": 0.0,
+    "status": "skipped",
+    "reason": "QBF backend not run; pass --with-qbf"
+   },
+   "SMT": {
+    "verdict": "sat",
+    "seconds": 2.1973609110000325,
+    "status": "ok",
+    "reason": "",
+    "runs": 3,
+    "t_min": 2.1421670850004375,
+    "t_max": 2.35964783899999
+   }
+  },
+  {
+   "case": "NI_incorrect",
+   "key": "ni_incorrect",
+   "suite": "hltl_1",
+   "AH": {
+    "verdict": "unsat",
+    "seconds": 0.9013787769999908,
+    "status": "ok",
+    "reason": "",
+    "runs": 3,
+    "t_min": 0.8506056789992726,
+    "t_max": 0.9466733750005005
+   },
+   "QBF": {
+    "verdict": null,
+    "seconds": 0.0,
+    "status": "skipped",
+    "reason": "QBF backend not run; pass --with-qbf"
+   },
+   "SMT": {
+    "verdict": "unsat",
+    "seconds": 1.1513487710008121,
+    "status": "ok",
+    "reason": "",
+    "runs": 3,
+    "t_min": 1.1503724750000401,
+    "t_max": 1.2180715690001307
+   }
+  }
+ ],
+ "causality": []
+}

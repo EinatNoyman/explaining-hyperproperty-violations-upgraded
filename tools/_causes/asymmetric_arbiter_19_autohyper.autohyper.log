@@ -1,0 +1,3 @@
+=========== ERROR ===========
+The identifier 'grant_0' is used in the HyperQPTL formula but no type for 'grant_0' could be inferred in the system: Variable grant_0 is neither declared nor is it defined 
+=============================

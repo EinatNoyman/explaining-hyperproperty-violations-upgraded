@@ -1,0 +1,2 @@
+Forall A . Forall B . A t .  
+G(line[A][t] = line[B][t])

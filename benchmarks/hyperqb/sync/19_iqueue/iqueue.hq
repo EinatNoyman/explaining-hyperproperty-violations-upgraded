@@ -1,0 +1,7 @@
+Forall A . Exists B .
+(F(fAIL[A]) |
+G(((proc1.enq[A] = proc1.enq[B]) & (proc1.enqEND[A] = proc1.enqEND[B])
+& (proc1.deq[A] = proc1.deq[B]) & (proc1.deqEND[A] = proc1.deqEND[B])
+& (proc2.enq[A] = proc2.enq[B]) & (proc2.enqEND[A] = proc2.enqEND[B])
+& (proc2.deq[A] = proc2.deq[B]) & (proc2.deqEND[A] = proc2.deqEND[B]))
+& ((enqueFAIL[A] = enqueFAIL[B]) & (dequeFAIL[A] = dequeFAIL[B]))))

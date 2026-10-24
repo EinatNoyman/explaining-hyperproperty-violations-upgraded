@@ -1,0 +1,80 @@
+MODULE main
+
+VAR
+    -- Determines if bidding is still occurring
+    bidding : boolean;
+
+    -- Current proccessed bid
+    curr_bid : 1..3;
+
+    -- Potential winner while still bidding
+    potential : 0..2;
+
+    -- Final winner  
+    winner : 0..2;
+    
+    -- Have to use small range or program will timeout from taking too long
+    max_bid : 2..6;
+    
+    -- This fixes issues with code timing out due to range of bid vars
+    -- Note: Cannot do bid_one : 3..3; as that threats bid_one as a constant which tool does not support
+    bid_one : 3..4;
+
+    bid_two : 2..3;
+
+   
+
+    
+
+    
+
+ASSIGN
+    -- Initial values
+    init(bidding) := TRUE;
+    init(curr_bid) := 1;
+    init(potential) := 0;  
+    init(winner) := 0;
+    init(max_bid) := 3;
+    init(bid_one) := 4;
+    init(bid_two) := 3;
+    
+    
+    
+    -- Updates bidding variable when bidding is done
+    next(bidding) :=
+        case
+            (bidding) & (curr_bid = 3): FALSE;
+            (!bidding): FALSE;
+            TRUE: TRUE;
+        esac;
+    
+    -- Winner revealed if bidding is over
+    next(winner) :=
+        case
+            (!bidding) : potential;
+            TRUE: 0;  
+        esac;
+    
+
+    -- Updates max bid, if the current bid is greater than max bid then it's the new max
+    next(max_bid) :=
+        case
+            (curr_bid = 1) & (max_bid < bid_one): bid_one;
+            (curr_bid = 2) & (max_bid < bid_two): bid_two;
+            TRUE: max_bid;
+        esac;
+
+    -- Updates potential winner
+    next(potential) :=
+        case
+            (max_bid = bid_one): 1;
+            (max_bid = bid_two): 2;
+            TRUE: potential;
+        esac;
+
+    -- Increment current bid
+    next(curr_bid) :=
+        case
+            (curr_bid < 3): curr_bid + 1;
+            TRUE: curr_bid;
+        esac;

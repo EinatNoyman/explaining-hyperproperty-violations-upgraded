@@ -1,0 +1,86 @@
+example,frontend,cause,sat,cf,min,verdict,why,witness_subset,witness_contingency,finite_semantics,max_contingency,gamma_violates,lasso
+asymmetric_arbiter_19,mchyper,*,,,,PHANTOM_AP,"PHANTOM_AP: formula '(G(((req_0_0)<->(req_0_1))&((req_1_0)<->(req_1_1))))->(G(((grant_0_0)<->(grant_0_1))&((grant_1_0)<->(grant_1_1))))' references grant_0_0, grant_0_1, grant_1_0, grant_1_1, req_0_0, req_0_1, req_1_0, req_1_1, absent from the circuit (circuit signals: req0, req1, grant0, grant1, state0, state1, state2)",,,strong,2,,
+asymmetric_arbiter,hyperqb,{req_0@2=0(t0)},pass,pass,pass,VALID,,{req_0@2=0(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_0@5=1(t0)},pass,pass,pass,VALID,,{req_0@5=1(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_1@5=1(t0)},pass,pass,pass,VALID,,{req_1@5=1(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{tb_secret@5=1(t0)},pass,pass,pass,VALID,,{tb_secret@5=1(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_0@1=1(t0)},pass,pass,pass,VALID,,{req_0@1=1(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_1@1=1(t0)},pass,pass,pass,VALID,,{req_1@1=1(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_0@3=0(t0)},pass,pass,pass,VALID,,{req_0@3=0(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_1@3=1(t0)},pass,pass,pass,VALID,,{req_1@3=1(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_0@4=1(t0)},pass,pass,pass,VALID,,{req_0@4=1(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_1@4=0(t0)},pass,pass,pass,VALID,,{req_1@4=0(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_0@0=1(t0)},pass,pass,pass,VALID,,{req_0@0=1(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_1@0=0(t0)},pass,pass,pass,VALID,,{req_1@0=0(t0)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_0@2=0(t1)},pass,pass,pass,VALID,,{req_0@2=0(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_0@1=1(t1)},pass,pass,pass,VALID,,{req_0@1=1(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_1@1=1(t1)},pass,pass,pass,VALID,,{req_1@1=1(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_0@5=1(t1)},pass,pass,pass,VALID,,{req_0@5=1(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_1@5=1(t1)},pass,pass,pass,VALID,,{req_1@5=1(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{tb_secret@5=0(t1)},pass,pass,pass,VALID,,{tb_secret@5=0(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_0@3=0(t1)},pass,pass,pass,VALID,,{req_0@3=0(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_1@3=1(t1)},pass,pass,pass,VALID,,{req_1@3=1(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_0@4=1(t1)},pass,pass,pass,VALID,,{req_0@4=1(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_1@4=0(t1)},pass,pass,pass,VALID,,{req_1@4=0(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_0@0=1(t1)},pass,pass,pass,VALID,,{req_0@0=1(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,hyperqb,{req_1@0=0(t1)},pass,pass,pass,VALID,,{req_1@0=0(t1)},{},weak,2,yes,"finite, 7 rows"
+asymmetric_arbiter,mchyper,{req_0@5=1(t0)},pass,pass,pass,VALID,,{req_0@5=1(t0)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_1@6=0(t0)},pass,pass,pass,VALID,,{req_1@6=0(t0)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_1@4=1(t0)},pass,pass,pass,VALID,,{req_1@4=1(t0)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_0@1=0(t0)},pass,pass,pass,VALID,,{req_0@1=0(t0)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_0@0=1(t0)},pass,pass,pass,VALID,,{req_0@0=1(t0)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_1@0=1(t0)},pass,pass,pass,VALID,,{req_1@0=1(t0)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_0@3=1(t0)},pass,pass,pass,VALID,,{req_0@3=1(t0)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_1@3=1(t0)},pass,pass,pass,VALID,,{req_1@3=1(t0)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{tb_secret@3=0(t0)},pass,fail,pass,INVALID,CF: no non-empty C' of {tb_secret@3=0(t0)} with |W|<=2 makes phi hold (1 C' x 529 W tried),,,strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_0@2=0(t0)},pass,pass,pass,VALID,,{req_0@2=0(t0)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_1@2=0(t0)},pass,pass,pass,VALID,,{req_1@2=0(t0)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_0@4=0(t1)},pass,pass,pass,VALID,,{req_0@4=0(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_0@1=0(t1)},pass,pass,pass,VALID,,{req_0@1=0(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_0@0=1(t1)},pass,pass,pass,VALID,,{req_0@0=1(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_1@0=1(t1)},pass,pass,pass,VALID,,{req_1@0=1(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_0@3=1(t1)},pass,pass,pass,VALID,,{req_0@3=1(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_1@3=1(t1)},pass,pass,pass,VALID,,{req_1@3=1(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{tb_secret@3=1(t1)},pass,fail,pass,INVALID,CF: no non-empty C' of {tb_secret@3=1(t1)} with |W|<=2 makes phi hold (1 C' x 529 W tried),,,strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_0@5=1(t1)},pass,pass,pass,VALID,,{req_0@5=1(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_1@5=0(t1)},pass,pass,pass,VALID,,{req_1@5=0(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_0@6=0(t1)},pass,pass,pass,VALID,,{req_0@6=0(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_1@6=0(t1)},pass,pass,pass,VALID,,{req_1@6=0(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_0@2=0(t1)},pass,pass,pass,VALID,,{req_0@2=0(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+asymmetric_arbiter,mchyper,{req_1@2=0(t1)},pass,pass,pass,VALID,,{req_1@2=0(t1)},{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+drone_example_1,hyperqb,{bound@3=1(t0)},pass,pass,pass,VALID,,{bound@3=1(t0)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,hyperqb,{bound@4=0(t0)},pass,pass,pass,VALID,,{bound@4=0(t0)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,hyperqb,{up@2=0(t0)},pass,pass,pass,VALID,,{up@2=0(t0)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,hyperqb,{bound@2=0(t0)},pass,pass,pass,VALID,,{bound@2=0(t0)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,hyperqb,{bound@1=0(t0)},pass,pass,pass,VALID,,{bound@1=0(t0)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,hyperqb,{bound@5=0(t0)},pass,pass,pass,VALID,,{bound@5=0(t0)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,hyperqb,{bound@3=1(t1)},pass,pass,pass,VALID,,{bound@3=1(t1)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,hyperqb,{bound@4=0(t1)},pass,pass,pass,VALID,,{bound@4=0(t1)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,hyperqb,{up@2=1(t1)},pass,pass,pass,VALID,,{up@2=1(t1)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,hyperqb,{bound@2=0(t1)},pass,pass,pass,VALID,,{bound@2=0(t1)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,hyperqb,{bound@5=0(t1)},pass,pass,pass,VALID,,{bound@5=0(t1)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,hyperqb,{bound@1=0(t1)},pass,pass,pass,VALID,,{bound@1=0(t1)},{},weak,2,yes,"finite, 7 rows"
+drone_example_1,mchyper,{bound@2=1(t0)},pass,pass,pass,UNDEFINED,"Gamma does not satisfy !phi under strong semantics, so it is not a counterexample and Definition 6 does not apply. [SAT/CF/MIN pass]",{bound@2=1(t0)},{},strong,2,NO,"finite, 4 rows"
+drone_example_1,mchyper,{up@2=0(t0)},pass,pass,pass,UNDEFINED,"Gamma does not satisfy !phi under strong semantics, so it is not a counterexample and Definition 6 does not apply. [SAT/CF/MIN pass]",{up@2=0(t0)},{},strong,2,NO,"finite, 4 rows"
+drone_example_1,mchyper,{up@1=1(t0)},pass,pass,pass,UNDEFINED,"Gamma does not satisfy !phi under strong semantics, so it is not a counterexample and Definition 6 does not apply. [SAT/CF/MIN pass]",{up@1=1(t0)},{},strong,2,NO,"finite, 4 rows"
+drone_example_1,mchyper,{bound@1=0(t0)},pass,pass,pass,UNDEFINED,"Gamma does not satisfy !phi under strong semantics, so it is not a counterexample and Definition 6 does not apply. [SAT/CF/MIN pass]",{bound@1=0(t0)},{},strong,2,NO,"finite, 4 rows"
+drone_example_1,mchyper,{bound@2=1(t1)},pass,pass,pass,UNDEFINED,"Gamma does not satisfy !phi under strong semantics, so it is not a counterexample and Definition 6 does not apply. [SAT/CF/MIN pass]",{bound@2=1(t1)},{},strong,2,NO,"finite, 4 rows"
+drone_example_1,mchyper,{up@1=0(t1)},pass,pass,pass,UNDEFINED,"Gamma does not satisfy !phi under strong semantics, so it is not a counterexample and Definition 6 does not apply. [SAT/CF/MIN pass]",{up@1=0(t1)},{},strong,2,NO,"finite, 4 rows"
+drone_example_1,mchyper,{bound@1=0(t1)},pass,pass,pass,UNDEFINED,"Gamma does not satisfy !phi under strong semantics, so it is not a counterexample and Definition 6 does not apply. [SAT/CF/MIN pass]",{bound@1=0(t1)},{},strong,2,NO,"finite, 4 rows"
+drone_example_2,mchyper,{bound@1=1(t0)},pass,fail,pass,UNDEFINED,"Gamma does not satisfy !phi under strong semantics, so it is not a counterexample and Definition 6 does not apply. [CF: no non-empty C' of {bound@1=1(t0)} with |W|<=2 makes phi hold (1 C' x 79 W tried)]",,,strong,2,NO,"finite, 3 rows"
+drone_example_2,mchyper,{up@1=1(t1)},pass,pass,pass,UNDEFINED,"Gamma does not satisfy !phi under strong semantics, so it is not a counterexample and Definition 6 does not apply. [SAT/CF/MIN pass]",{up@1=1(t1)},{},strong,2,NO,"finite, 3 rows"
+drone_example_2,mchyper,{bound@1=0(t1)},pass,fail,pass,UNDEFINED,"Gamma does not satisfy !phi under strong semantics, so it is not a counterexample and Definition 6 does not apply. [CF: no non-empty C' of {bound@1=0(t1)} with |W|<=2 makes phi hold (1 C' x 79 W tried)]",,,strong,2,NO,"finite, 3 rows"
+leaky_mux,mchyper,*,,,,SYSTEM_MISMATCH,"SYSTEM_MISMATCH: 2 disagreement(s) replaying Gamma, e.g. state@1(t1): recorded 0, simulated 1; state@2(t1): recorded 0, simulated 1",,,strong,2,,
+running_example,hyperqb,{hi@0=0(t0)},pass,pass,pass,VALID,,{hi@0=0(t0)},{},weak,2,yes,"finite, 7 rows"
+running_example,hyperqb,"{hi@1=1(t0), hi@0=1(t1)}",pass,pass,pass,VALID,,"{hi@1=1(t0), hi@0=1(t1)}",{},weak,2,yes,"finite, 7 rows"
+running_example,mchyper,{hi@0=0(t0)},pass,fail,pass,INVALID,CF: no non-empty C' of {hi@0=0(t0)} with |W|<=2 makes phi hold (1 C' x 37 W tried),,,strong,2,yes,"finite, 2 rows"
+running_example,mchyper,{hi@0=1(t1)},pass,fail,pass,INVALID,CF: no non-empty C' of {hi@0=1(t1)} with |W|<=2 makes phi hold (1 C' x 37 W tried),,,strong,2,yes,"finite, 2 rows"
+security_in_and_out,hyperqb,{hi@0=1(t0)},pass,pass,pass,VALID,,{hi@0=1(t0)},{},weak,2,yes,"finite, 7 rows"
+security_in_and_out,hyperqb,{hi@1=1(t0)},pass,pass,pass,VALID,,{hi@1=1(t0)},{},weak,2,yes,"finite, 7 rows"
+security_in_and_out,hyperqb,{hi@0=0(t1)},pass,pass,pass,VALID,,{hi@0=0(t1)},{},weak,2,yes,"finite, 7 rows"
+security_in_and_out,mchyper,"{hi@0=0(t0), hi@1=0(t0)}",pass,pass,pass,VALID,,"{hi@0=0(t0), hi@1=0(t0)}",{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+security_in_and_out,mchyper,"{hi@3=0(t0), hi@1=1(t1)}",pass,pass,pass,VALID,,"{hi@3=0(t0), hi@1=1(t1)}",{},strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+security_in_and_out,mchyper,"{hi@0=1(t1), hi@2=1(t1)}",pass,fail,pass,INVALID,"CF: no non-empty C' of {hi@0=1(t1), hi@2=1(t1)} with |W|<=2 makes phi hold (3 C' x 211 W tried)",,,strong,2,yes,lasso@3 (last row repeats loop-start state; dropped)
+simple_buffer,mchyper,{secret@0=1(t0)},pass,fail,pass,INVALID,CF: no non-empty C' of {secret@0=1(t0)} with |W|<=2 makes phi hold (1 C' x 11 W tried),,,strong,2,yes,lasso@1 (last row repeats loop-start state; dropped)
+simple_buffer,mchyper,{secret@0=0(t1)},pass,fail,pass,INVALID,CF: no non-empty C' of {secret@0=0(t1)} with |W|<=2 makes phi hold (1 C' x 11 W tried),,,strong,2,yes,lasso@1 (last row repeats loop-start state; dropped)
+triple_forall,hyperqb,{x@0=1(t0)},pass,pass,pass,VALID,,{x@0=1(t0)},{},weak,2,yes,"finite, 7 rows"

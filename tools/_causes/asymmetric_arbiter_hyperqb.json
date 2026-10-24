@@ -1,0 +1,506 @@
+{
+    "stateVariable": "state",
+    "variables": {
+        "tb_secret": {
+            "type": "input"
+        },
+        "req_1": {
+            "type": "input"
+        },
+        "req_0": {
+            "type": "input"
+        },
+        "grant_1": {
+            "type": "output"
+        },
+        "grant_0": {
+            "type": "output"
+        },
+        "state0": {
+            "type": "latch"
+        },
+        "state2": {
+            "type": "latch"
+        },
+        "state1": {
+            "type": "latch"
+        },
+        "delay": {
+            "type": "latch"
+        }
+    },
+    "lassoStart": -1,
+    "timesteps": [
+        [
+            {
+                "state": -1,
+                "grant_1": false,
+                "req_1": false,
+                "delay": false,
+                "tb_secret": false,
+                "state2": false,
+                "grant_0": false,
+                "req_0": true,
+                "state0": false,
+                "state1": false
+            },
+            {
+                "state": -1,
+                "grant_1": false,
+                "req_1": true,
+                "delay": false,
+                "tb_secret": false,
+                "state2": false,
+                "grant_0": false,
+                "req_0": true,
+                "state0": false,
+                "state1": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "grant_1": false,
+                "req_1": true,
+                "delay": false,
+                "tb_secret": false,
+                "state2": false,
+                "grant_0": true,
+                "req_0": true,
+                "state0": true,
+                "state1": false
+            },
+            {
+                "state": -1,
+                "grant_1": false,
+                "req_1": true,
+                "delay": true,
+                "tb_secret": false,
+                "state2": false,
+                "grant_0": true,
+                "req_0": true,
+                "state0": true,
+                "state1": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "grant_1": false,
+                "req_1": false,
+                "delay": true,
+                "tb_secret": false,
+                "state2": false,
+                "grant_0": true,
+                "req_0": false,
+                "state0": true,
+                "state1": true
+            },
+            {
+                "state": -1,
+                "grant_1": true,
+                "req_1": false,
+                "delay": true,
+                "tb_secret": false,
+                "state2": true,
+                "grant_0": false,
+                "req_0": false,
+                "state0": false,
+                "state1": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "grant_1": true,
+                "req_1": true,
+                "delay": true,
+                "tb_secret": true,
+                "state2": false,
+                "grant_0": false,
+                "req_0": false,
+                "state0": false,
+                "state1": true
+            },
+            {
+                "state": -1,
+                "grant_1": false,
+                "req_1": true,
+                "delay": true,
+                "tb_secret": false,
+                "state2": false,
+                "grant_0": true,
+                "req_0": false,
+                "state0": true,
+                "state1": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "grant_1": true,
+                "req_1": false,
+                "delay": true,
+                "tb_secret": false,
+                "state2": false,
+                "grant_0": false,
+                "req_0": true,
+                "state0": false,
+                "state1": true
+            },
+            {
+                "state": -1,
+                "grant_1": true,
+                "req_1": false,
+                "delay": true,
+                "tb_secret": true,
+                "state2": false,
+                "grant_0": false,
+                "req_0": true,
+                "state0": false,
+                "state1": true
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "grant_1": false,
+                "req_1": true,
+                "delay": true,
+                "tb_secret": true,
+                "state2": false,
+                "grant_0": true,
+                "req_0": true,
+                "state0": true,
+                "state1": false
+            },
+            {
+                "state": -1,
+                "grant_1": false,
+                "req_1": true,
+                "delay": true,
+                "tb_secret": false,
+                "state2": false,
+                "grant_0": true,
+                "req_0": true,
+                "state0": true,
+                "state1": false
+            }
+        ],
+        [
+            {
+                "state": -1,
+                "grant_1": false,
+                "req_1": false,
+                "delay": true,
+                "tb_secret": false,
+                "state2": false,
+                "grant_0": true,
+                "req_0": false,
+                "state0": true,
+                "state1": true
+            },
+            {
+                "state": -1,
+                "grant_1": true,
+                "req_1": false,
+                "delay": true,
+                "tb_secret": false,
+                "state2": true,
+                "grant_0": false,
+                "req_0": false,
+                "state0": false,
+                "state1": false
+            }
+        ]
+    ],
+    "plain": "(G(((req_0_0)<->(req_0_1))&((req_1_0)<->(req_1_1))))->(G(((grant_0_0)<->(grant_0_1))&((grant_1_0)<->(grant_1_1))))",
+    "tree": {
+        "name": "root",
+        "id": -1,
+        "children": {
+            "high": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "isAtomic": false,
+            "id": 0,
+            "name": "->",
+            "children": [
+                {
+                    "high": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "isAtomic": false,
+                    "id": 1,
+                    "name": "G",
+                    "children": [
+                        {
+                            "high": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "isAtomic": false,
+                            "id": 2,
+                            "name": "&",
+                            "children": [
+                                {
+                                    "high": [
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": false,
+                                    "id": 4,
+                                    "name": "<->",
+                                    "children": [
+                                        {
+                                            "high": [
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 6,
+                                            "name": "req_0",
+                                            "value": 200,
+                                            "variable": "req_0",
+                                            "trace": 0
+                                        },
+                                        {
+                                            "high": [
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 7,
+                                            "name": "req_0",
+                                            "value": 200,
+                                            "variable": "req_0",
+                                            "trace": 1
+                                        }
+                                    ]
+                                },
+                                {
+                                    "high": [
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": false,
+                                    "id": 11,
+                                    "name": "<->",
+                                    "children": [
+                                        {
+                                            "high": [
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 13,
+                                            "name": "req_1",
+                                            "value": 200,
+                                            "variable": "req_1",
+                                            "trace": 0
+                                        },
+                                        {
+                                            "high": [
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 14,
+                                            "name": "req_1",
+                                            "value": 200,
+                                            "variable": "req_1",
+                                            "trace": 1
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "high": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "isAtomic": false,
+                    "id": 18,
+                    "name": "G",
+                    "children": [
+                        {
+                            "high": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "isAtomic": false,
+                            "id": 19,
+                            "name": "&",
+                            "children": [
+                                {
+                                    "high": [
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": false,
+                                    "id": 21,
+                                    "name": "<->",
+                                    "children": [
+                                        {
+                                            "high": [
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 23,
+                                            "name": "grant_0",
+                                            "value": 200,
+                                            "variable": "grant_0",
+                                            "trace": 0
+                                        },
+                                        {
+                                            "high": [
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 24,
+                                            "name": "grant_0",
+                                            "value": 200,
+                                            "variable": "grant_0",
+                                            "trace": 1
+                                        }
+                                    ]
+                                },
+                                {
+                                    "high": [
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0
+                                    ],
+                                    "isAtomic": false,
+                                    "id": 28,
+                                    "name": "<->",
+                                    "children": [
+                                        {
+                                            "high": [
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 30,
+                                            "name": "grant_1",
+                                            "value": 200,
+                                            "variable": "grant_1",
+                                            "trace": 0
+                                        },
+                                        {
+                                            "high": [
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                0
+                                            ],
+                                            "isAtomic": true,
+                                            "id": 31,
+                                            "name": "grant_1",
+                                            "value": 200,
+                                            "variable": "grant_1",
+                                            "trace": 1
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "prefix": [
+        "Exists",
+        "Exists"
+    ]
+}

@@ -1,0 +1,27 @@
+FORM: (F(((!(bound_0))|(!(bound_1)))&((bound_0)|(bound_1))))|(G(((emergency_0)&(emergency_1))|((!(emergency_0))&(!(emergency_1)))))
+VAR: 
+state0_0@1=1
+state0_1@1=1
+state0_0@2=1
+state0_1@2=1
+up_1@2=1
+bound_0@3=1
+bound_1@3=1
+increase_1@3=1
+state0_0@3=1
+state0_1@3=1
+state1_1@3=1
+up_1@3=1
+emergency_0@4=1
+state0_1@4=1
+state1_0@4=1
+up_1@4=1
+increase_1@5=1
+state0_0@5=1
+state0_1@5=1
+state1_1@5=1
+up_1@5=1
+increase_1@6=1
+state0_0@6=1
+state0_1@6=1
+state1_1@6=1

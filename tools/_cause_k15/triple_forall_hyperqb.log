@@ -1,0 +1,15 @@
+Size of the counter example (|Gamma|) is: 48
+The size of the formula (|phi|) is 6
+C tilde:
+for trace 0: [('x', 8, 0, 0), ('x', 1, 0, 0), ('x', 5, 0, 0), ('x', 13, 0, 0), ('x', 0, 1, 0), ('x', 11, 0, 0), ('x', 4, 0, 0), ('x', 2, 0, 0), ('x', 12, 0, 0), ('x', 6, 0, 0), ('x', 9, 0, 0), ('x', 14, 0, 0), ('x', 10, 0, 0), ('x', 7, 0, 0), ('x', 3, 0, 0)]
+for trace 1: [('x', 8, 0, 1), ('x', 1, 0, 1), ('x', 5, 0, 1), ('x', 13, 0, 1), ('x', 11, 0, 1), ('x', 4, 0, 1), ('x', 2, 0, 1), ('x', 12, 0, 1), ('x', 6, 0, 1), ('x', 9, 0, 1), ('x', 0, 0, 1), ('x', 14, 0, 1), ('x', 10, 0, 1), ('x', 7, 0, 1), ('x', 3, 0, 1)]
+for trace 2: [('x', 8, 0, 2), ('x', 1, 0, 2), ('x', 5, 0, 2), ('x', 13, 0, 2), ('x', 11, 0, 2), ('x', 4, 0, 2), ('x', 2, 0, 2), ('x', 12, 0, 2), ('x', 6, 0, 2), ('x', 9, 0, 2), ('x', 0, 0, 2), ('x', 14, 0, 2), ('x', 10, 0, 2), ('x', 7, 0, 2), ('x', 3, 0, 2)]
+Cause syntax: (AP, Time step, Truth value, Trace belonging)
+Time to compute this set of causes (time(C tilde)):
+0.431124210357666
+Computing all minimal causes now...
+stopping at cause size 3 (-maxCauseSize); 44 candidate event(s) left unexplained
+All minimal causes (forall C): [[('x', 0, 1, 0)]]
+Number of minimal causes (# C): 1
+The time to compute all causes (time(forall C)) took: 
+411.6557912826538

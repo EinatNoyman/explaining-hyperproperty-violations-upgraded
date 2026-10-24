@@ -1,0 +1,14 @@
+Size of the counter example (|Gamma|) is: 255
+The size of the formula (|phi|) is 27
+C tilde:
+for trace 0: [('a', 19, 1, 0), ('sel', 19, 0, 0), ('a', 24, 1, 0), ('sel', 24, 0, 0), ('a', 23, 1, 0), ('sel', 23, 0, 0), ('a', 45, 1, 0), ('sel', 45, 0, 0), ('a', 41, 1, 0), ('sel', 41, 0, 0), ('a', 42, 1, 0), ('sel', 42, 0, 0), ('a', 20, 1, 0), ('sel', 20, 0, 0), ('a', 46, 1, 0), ('sel', 46, 0, 0)]
+for trace 1: [('a', 21, 1, 1), ('sel', 21, 0, 1), ('a', 19, 1, 1), ('sel', 19, 0, 1), ('a', 43, 1, 1), ('sel', 43, 0, 1), ('a', 23, 1, 1), ('sel', 23, 0, 1), ('a', 45, 1, 1), ('sel', 45, 0, 1), ('a', 26, 1, 1), ('sel', 26, 0, 1), ('a', 41, 1, 1), ('sel', 41, 0, 1), ('a', 48, 1, 1), ('sel', 48, 0, 1)]
+Cause syntax: (AP, Time step, Truth value, Trace belonging)
+Time to compute this set of causes (time(C tilde)):
+0.9501442909240723
+Computing all minimal causes now...
+stopping at cause size 3 (-maxCauseSize); 16 candidate event(s) left unexplained
+All minimal causes (forall C): [[('a', 19, 1, 0)], [('a', 24, 1, 0)], [('a', 23, 1, 0)], [('a', 45, 1, 0)], [('a', 41, 1, 0)], [('a', 42, 1, 0)], [('a', 20, 1, 0)], [('a', 46, 1, 0)], [('a', 21, 1, 1)], [('a', 19, 1, 1)], [('a', 43, 1, 1)], [('a', 23, 1, 1)], [('a', 45, 1, 1)], [('a', 26, 1, 1)], [('a', 41, 1, 1)], [('a', 48, 1, 1)]]
+Number of minimal causes (# C): 16
+The time to compute all causes (time(forall C)) took: 
+461.2274377346039

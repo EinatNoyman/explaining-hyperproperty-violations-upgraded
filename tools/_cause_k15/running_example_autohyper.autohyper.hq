@@ -1,0 +1,2 @@
+forall A. forall B.
+G ((({"lo"_A} <-> {"lo"_B}) & ({"ho"_A} <-> {"ho"_B})))

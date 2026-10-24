@@ -1,0 +1,5 @@
+Model Creation Time: 0.1628233
+
+thread 'main' (19093) panicked at hltlunroller/src/lib.rs:242:33:
+Udnefined variable or predicate `req_0`
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

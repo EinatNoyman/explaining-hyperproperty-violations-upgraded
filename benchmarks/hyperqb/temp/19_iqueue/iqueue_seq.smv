@@ -1,0 +1,264 @@
+-- public void enq(T X) {
+    -- int slot;
+    -- do {
+        -- slot = tail.get() <= proc.line = 2
+    -- while (! tail.compareAndSet(slot,slot+1)); <= proc.line = 3
+    --  items[slot] = x; <= proc.line = 4
+    -- }
+-- } 
+-- public void deq() throws EmptyException {
+    -- T value;
+    -- int slot;
+    -- do {
+        -- slot = head.get(); <= proc.line = 6
+        -- value = items[slot]; <= proc.line = 7
+        -- if (value == null) <= proc.line = 8 & proc.value=0
+            -- throw new EmptyException(); <= proc.line = 8 
+        -- while (! head.compareAndSet(slot, slot+1)); <= proc.line = 9
+        -- return value;
+    -- }
+-- }
+MODULE main
+VAR
+    -- Head 0 means it's pointing at items[0]
+    Head: 0..2; 
+	Tail: 0..2; 
+
+    -- 3 items representing the size of the queue is 3
+	items[0]: 0..1; -- If value is 0 then it is null
+    items[1]: 0..1;
+    items[2]: 0..1;
+
+	-- Proc 1 VAR
+	proc1.line: 0..10;
+    proc1.slot: 0..2; -- Index of head/tail
+
+    proc1.value: 0..1; -- if value = 0 that means its null
+	
+    -- Proc 2 VAR
+	proc2.line: 0..10;
+    proc2.slot: 0..2; -- Index of head/tail
+
+    proc2.value: 0..1; -- if value = 0 that means its null
+
+	-- Tells us when a enque or deque will not process 
+	enqueFAIL: boolean; -- Fails when queue is full
+	dequeFAIL:  boolean; -- Fails when queue is empty
+
+
+	ASSIGN
+		init(Head) := 0;
+		init(Tail) := 0;
+        -- Init items all as null because iqueue is empty
+        init(items[0]) := 0; 
+	    init(items[1]) := 0; 
+	    init(items[2]) := 0; 
+
+	
+		-- Proc 1
+		init(proc1.line) := 0;
+		next(proc1.line) :=
+		    case
+				(proc1.line = 0)  : {1,5}; -- Will go to either enque or deque
+				
+                (proc1.line = 1)  : {2}; -- When line 1, nothing happens and we go to line 2 
+                (proc1.line = 2 & QUEUE_FULL = TRUE) : {0}; -- When line 2, we update slot value and if the queue is full we go back to line 0 since equeue is impossible 	
+				(proc1.line = 2 & QUEUE_FULL = FALSE) : {3}; -- When line 2, we update slot value and queue is not full so we can go to the next line
+                (proc1.line = 3 & proc1.loop = FALSE) : {4}; -- When line 3, we update the tail value and loop value and we exit loop if condition is false
+                (proc1.line = 3 & proc1.loop = TRUE) : {2}; -- When line 3, we update the tail value and loop value and we go to the top of loop
+                (proc1.line = 4) : {0}; -- Updates tail and items value then goes back to beginning 
+
+                -- Deque
+                (proc1.line=5) : {6}; -- When line 5, nothing happens and we go on to the next line  
+                (proc1.line=6) : {7}; -- When line 6, Updates the slot value then go to line 7
+                (proc1.line=7) : {8}; -- When line 7, We got the new value of the value variable and go onto next line
+
+                (proc1.line=8 & proc1.value=0) : {0}; -- Value is null so we go back to beginning
+                (proc1.line=8 & proc1.value > 0) : {9}; -- When line 8, we see value is not 0 meaning it is not null so we go to line 9
+                
+                (proc1.line=9 & proc1.loop = FALSE) : {10}; -- When line 9 we update head value and the loop value and we exit loop if condition is false
+                (proc1.line=9 & proc1.loop = TRUE) : {6}; -- When line 9 we see if compareAndSet is false then we redo loop
+                (proc1.line=10) : {0}; -- When line 10, it will remove element from queue process is done and goes to beginning
+				
+                TRUE: proc1.line; -- default case
+			esac;
+
+		-- Proc 2 
+		init(proc2.line) := 0;
+        next(proc2.line) :=
+			case
+				(proc2.line = 0)  : {1,5}; -- Will go to either enque or deque 		
+
+                (proc2.line = 1)  : {2}; -- When line 1, nothing happens and we go to line 2 
+                (proc2.line = 2 & QUEUE_FULL = TRUE) : {0}; -- When line 2, we update slot value and if the queue is full we go back to line 0 since equeue is impossible 	
+				(proc2.line = 2 & QUEUE_FULL = FALSE) : {3}; -- When line 2, we update slot value and queue is not full so we can go to the next line
+                (proc2.line = 3 & proc2.loop = FALSE) : {4}; -- When line 3, we update the tail value and loop value and we exit loop if condition is false
+                (proc2.line = 3 & proc2.loop = TRUE) : {2}; -- When line 3, we update the tail value and loop value and we go to the top of loop
+                (proc2.line = 4) : {0}; -- Updates tail and items value then goes back to beginning 
+
+                -- Deque
+                (proc2.line=5) : {6}; -- When line 5, nothing happens and we go on to the next line  
+                (proc2.line=6) : {7}; -- When line 6, Updates the slot value then go to line 7
+                (proc2.line=7) : {8}; -- When line 7, We got the new value of the value variable and go onto next line
+
+                (proc2.line=8 & proc2.value=0) : {0}; -- Value is null so we go back to beginning
+                (proc2.line=8 & proc2.value > 0) : {9}; -- When line 8, we see value is not 0 meaning it is not null so we go to line 9
+                
+                (proc2.line=9 & proc2.loop = FALSE) : {10}; -- When line 9 we update head value and the loop value and we exit loop if condition is false
+                (proc2.line=9 & proc2.loop = TRUE) : {6}; -- When line 9 we see if compareAndSet is false then we redo loop
+                (proc2.line=10) : {0}; -- When line 10, it will remove element from queue process is done and goes to beginning
+
+				TRUE: proc2.line; -- default case
+			esac;
+
+        init(proc1.slot) := 0; 
+        next(proc1.slot) := 
+            case
+                (proc1.line=2) : Tail; --In enque
+                (proc1.line=6) : Head; --In deque
+                TRUE : proc1.slot;
+            esac;
+
+        init(proc2.slot) := 0; 
+        next(proc2.slot) := 
+            case
+                (proc2.line=2) : Tail; --In enque
+                (proc2.line=6) : Head; --In deque
+                TRUE : proc2.slot;
+            esac;
+        
+        init(proc1.value) := 0; -- default value of int
+        next(proc1.value) :=
+            case
+                (proc1.line=7 & proc1.slot=0) : items[0];
+                (proc1.line=7 & proc1.slot=1) : items[1];
+                (proc1.line=7 & proc1.slot=2) : items[2];
+                TRUE : proc1.value;
+            esac;
+
+        init(proc2.value) := 0; -- default value of int
+        next(proc2.value) :=
+            case
+                (proc2.line=7 & proc2.slot=0) : items[0];
+                (proc2.line=7 & proc2.slot=1) : items[1];
+                (proc2.line=7 & proc2.slot=2) : items[2];
+                TRUE : proc2.value;
+            esac;
+        
+
+		-- Checks for exception
+		init(dequeFAIL) := FALSE;
+		next(dequeFAIL) :=
+			case
+				(proc1.line=8 & proc1.value=0) : TRUE;
+                (proc1.line = 0) : FALSE;
+				(proc2.line=8 & proc2.value=0) : TRUE;
+                (proc2.line = 0) : FALSE;
+				TRUE: dequeFAIL;
+			esac;
+        
+        -- Checks for exception
+        init(enqueFAIL) := FALSE;
+		next(enqueFAIL) :=
+			case
+                (proc1.line = 2 & QUEUE_FULL) : TRUE;
+                (proc1.line = 0) : FALSE;
+                (proc2.line = 2 & QUEUE_FULL) : TRUE;
+                (proc2.line = 0) : FALSE;
+				TRUE: enqueFAIL;
+			esac;
+
+
+        -- Updates head of queue
+		next(Head) :=
+			case
+				BOTH_MODIFYING : Head;
+				-- deque
+                (proc1.line = 9 & Head = proc1.slot & Head=0) : 1; --Only updates when compareAndSet is true which occurs if head = slot
+                (proc1.line = 9 & Head = proc1.slot & Head=1) : 2; 
+                (proc1.line = 9 & Head = proc1.slot & Head=2) : 0; -- Circular queue
+                (proc2.line = 9 & Head = proc2.slot & Head=0) : 1; 
+                (proc2.line = 9 & Head = proc2.slot & Head=1) : 2; 
+                (proc2.line = 9 & Head = proc2.slot & Head=2) : 0; -- Circular queue
+				TRUE:Head;
+			esac;
+
+
+        -- Updates tail of queue
+        next(Tail) :=
+            case
+                BOTH_MODIFYING : Tail;
+                (proc1.line = 3 & Tail = proc1.slot & Tail=0) : 1; --Only updates when compareAndSet is true which occurs if tail = slot
+                (proc1.line = 3 & Tail = proc1.slot & Tail=1) : 2; 
+                (proc1.line = 3 & Tail = proc1.slot & Tail=2) : 0; -- Circular queue
+                (proc2.line = 3 & Tail = proc2.slot & Tail=0) : 1; 
+                (proc2.line = 3 & Tail = proc2.slot & Tail=1) : 2; 
+                (proc2.line = 3 & Tail = proc2.slot & Tail=2) : 0; -- Circular queue
+                TRUE : Tail;
+            esac;
+                
+
+        -- Updates the first value of queue if queue has 0 elements while enque or 1 element while deque
+        next(items[0]) :=
+            case
+                BOTH_MODIFYING : items[0];
+                (proc1.line = 4 & proc1.slot=0) : 1; -- Enque
+                (proc2.line = 4 & proc2.slot=0) : 1;
+
+                (proc1.line = 10 & proc1.slot = 0) : 0; -- Dequeue 
+                (proc2.line = 10 & proc2.slot = 0) : 0;
+                TRUE: items[0];
+            esac;
+        
+        -- Updates the second value of queue if queue has 1 element while enque or 2 elements while deque
+        next(items[1]) :=
+            case
+                BOTH_MODIFYING : items[1];
+                (proc1.line = 4 & proc1.slot=1) : 1; -- Enque
+                (proc2.line = 4 & proc2.slot=1) : 1;
+
+                (proc1.line = 10 & proc1.slot = 1) : 0; -- Dequeue 
+                (proc2.line = 10 & proc2.slot = 1) : 0;
+                TRUE: items[1];
+            esac;
+
+         -- Updates the third value of queue if queue has 2 elements while enque or 3 elements while deque
+        next(items[2]) :=
+            case
+                BOTH_MODIFYING : items[2];
+                (proc1.line = 4 & proc1.slot=2) : 1; -- Enque
+                (proc2.line = 4 & proc2.slot=2) : 1;
+
+                (proc1.line = 10 & proc1.slot = 2) : 0; -- Dequeue
+                (proc2.line = 10 & proc2.slot = 2) : 0;
+                TRUE: items[2];
+            esac;
+			
+
+
+	DEFINE 
+		-- Proc 1 DEFINE
+        proc1.enq := (proc1.line = 1) | (proc1.line = 2) | (proc1.line = 3) | (proc1.line = 4); -- We are currently in enqueue
+        proc1.enqEND := proc1.line = 0;
+        proc1.deq := (proc1.line = 5) | (proc1.line = 6) | (proc1.line = 7) | (proc1.line = 8) | (proc1.line = 9) | (proc1.line = 10); -- We are currently in dequeue
+        proc1.deqEND := proc1.line = 0;
+
+        proc1.loop := (Tail != proc1.slot & proc1.enq) | (Head != proc1.slot & proc1.deq);
+
+		proc1.modifying := (proc1.line=3 | proc1.line=9); 
+
+		-- Proc 2 DEFINE
+        proc2.enq := (proc2.line = 1) | (proc2.line = 2) | (proc2.line = 3) | (proc2.line = 4); -- We are currently in enqueue
+        proc2.enqEND := proc2.line = 0;
+        proc2.deq := (proc2.line = 5) | (proc2.line = 6) | (proc2.line = 7) | (proc2.line = 8) | (proc2.line = 9) | (proc2.line = 10); -- We are currently in dequeue
+        proc2.deqEND := proc2.line = 0;
+
+        proc2.loop := (Tail != proc2.slot & proc2.enq) | (Head != proc2.slot & proc2.deq);
+
+		proc2.modifying := (proc2.line=3 | proc2.line=9); 
+
+		-- Queue DEFINE
+		BOTH_MODIFYING := ( (proc1.line=3 | proc1.line=9) & (proc2.line=3 | proc2.line=9));
+        QUEUE_EMPTY := (Head = Tail); -- Queue is empty when head = tail
+	    QUEUE_FULL := (Tail + 1) = Head | (Head=0 & Tail=2); -- Second part handles circular queue
+

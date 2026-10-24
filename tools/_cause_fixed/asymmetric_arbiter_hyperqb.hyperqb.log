@@ -1,0 +1,112 @@
+Model Creation Time: 0.0482083
+Encoding Time: 0.0108989
+result: unsat.
+
+State 0:
+  delay_0_A = false
+  delay_0_B = false
+  req_0_0_A = true
+  req_0_0_B = true
+  req_1_0_A = false
+  req_1_0_B = false
+  state0_0_A = false
+  state0_0_B = false
+  state1_0_A = false
+  state1_0_B = false
+  state2_0_A = false
+  state2_0_B = false
+
+State 1:
+  delay_1_A = false
+  delay_1_B = false
+  req_0_1_A = true
+  req_0_1_B = true
+  req_1_1_A = true
+  req_1_1_B = true
+  state0_1_A = true
+  state0_1_B = true
+  state1_1_A = false
+  state1_1_B = false
+  state2_1_A = false
+  state2_1_B = false
+  tb_secret_1_A = false
+  tb_secret_1_B = false
+
+State 2:
+  delay_2_A = true
+  delay_2_B = true
+  req_0_2_A = false
+  req_0_2_B = false
+  req_1_2_A = false
+  req_1_2_B = false
+  state0_2_A = true
+  state0_2_B = true
+  state1_2_A = true
+  state1_2_B = true
+  state2_2_A = false
+  state2_2_B = false
+  tb_secret_2_A = false
+  tb_secret_2_B = false
+
+State 3:
+  delay_3_A = true
+  delay_3_B = true
+  req_0_3_A = false
+  req_0_3_B = false
+  req_1_3_A = true
+  req_1_3_B = true
+  state0_3_A = false
+  state0_3_B = false
+  state1_3_A = true
+  state1_3_B = true
+  state2_3_A = false
+  state2_3_B = false
+  tb_secret_3_A = true
+  tb_secret_3_B = false
+
+State 4:
+  delay_4_A = true
+  delay_4_B = true
+  req_0_4_A = true
+  req_0_4_B = true
+  req_1_4_A = false
+  req_1_4_B = false
+  state0_4_A = false
+  state0_4_B = false
+  state1_4_A = true
+  state1_4_B = true
+  state2_4_A = false
+  state2_4_B = false
+  tb_secret_4_A = false
+  tb_secret_4_B = true
+
+State 5:
+  delay_5_A = true
+  delay_5_B = true
+  req_0_5_A = true
+  req_0_5_B = true
+  req_1_5_A = true
+  req_1_5_B = true
+  state0_5_A = true
+  state0_5_B = true
+  state1_5_A = false
+  state1_5_B = false
+  state2_5_A = false
+  state2_5_B = false
+  tb_secret_5_A = true
+  tb_secret_5_B = false
+
+State 6:
+  delay_6_A = true
+  delay_6_B = true
+  req_0_6_A = false
+  req_0_6_B = false
+  req_1_6_A = false
+  req_1_6_B = false
+  state0_6_A = true
+  state0_6_B = false
+  state1_6_A = true
+  state1_6_B = false
+  state2_6_A = false
+  state2_6_B = true
+Solve Time: 0.027

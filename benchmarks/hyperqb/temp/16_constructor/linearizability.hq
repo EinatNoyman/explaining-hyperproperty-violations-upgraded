@@ -1,0 +1,1 @@
+Forall A . Exists B . G((i[A] = i[B]) & (j[A] = j[B]))

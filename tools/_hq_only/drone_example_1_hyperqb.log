@@ -1,0 +1,14 @@
+Size of the counter example (|Gamma|) is: 42
+The size of the formula (|phi|) is 19
+C tilde:
+for trace 0: [('bound', 3, 1, 0), ('up', 4, 0, 0), ('bound', 4, 0, 0), ('up', 2, 0, 0), ('bound', 2, 0, 0), ('up', 1, 0, 0), ('bound', 1, 0, 0), ('up', 5, 0, 0), ('bound', 5, 0, 0)]
+for trace 1: [('bound', 3, 1, 1), ('up', 4, 1, 1), ('bound', 4, 0, 1), ('up', 2, 1, 1), ('bound', 2, 0, 1), ('up', 5, 1, 1), ('bound', 5, 0, 1), ('up', 1, 0, 1), ('bound', 1, 0, 1)]
+Cause syntax: (AP, Time step, Truth value, Trace belonging)
+Time to compute this set of causes (time(C tilde)):
+0.5918052196502686
+Computing all minimal causes now...
+stopping at cause size 3 (-maxCauseSize); 6 candidate event(s) left unexplained
+All minimal causes (forall C): [[('bound', 3, 1, 0)], [('bound', 4, 0, 0)], [('up', 2, 0, 0)], [('bound', 2, 0, 0)], [('bound', 1, 0, 0)], [('bound', 5, 0, 0)], [('bound', 3, 1, 1)], [('bound', 4, 0, 1)], [('up', 2, 1, 1)], [('bound', 2, 0, 1)], [('bound', 5, 0, 1)], [('bound', 1, 0, 1)]]
+Number of minimal causes (# C): 12
+The time to compute all causes (time(forall C)) took: 
+4.72548246383667

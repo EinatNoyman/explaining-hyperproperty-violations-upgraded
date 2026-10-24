@@ -1,0 +1,1 @@
+Exists p . Forall q . F (LED0[p] = LED0[q])

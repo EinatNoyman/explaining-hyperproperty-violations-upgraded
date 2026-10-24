@@ -1,0 +1,2 @@
+Forall A . Forall B .
+(G ((li[A] = li[B])) -> G ((lo[A] = lo[B])))

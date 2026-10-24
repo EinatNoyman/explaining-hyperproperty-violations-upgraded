@@ -1,0 +1,7 @@
+forall A. exists B.
+(F("fAIL"_A) |
+G((({"proc1.enq"_A = "proc1.enq"_B}) & ({"proc1.enqEND"_A = "proc1.enqEND"_B})
+& ({"proc1.deq"_A = "proc1.deq"_B}) & ({"proc1.deqEND"_A = "proc1.deqEND"_B})
+& ({"proc2.enq"_A = "proc2.enq"_B}) & ({"proc2.enqEND"_A = "proc2.enqEND"_B})
+& ({"proc2.deq"_A = "proc2.deq"_B}) & ({"proc2.deqEND"_A = "proc2.deqEND"_B}))
+& (({"enqueFAIL"_A = "enqueFAIL"_B}) & ({"dequeFAIL"_A = "dequeFAIL"_B}))))

@@ -1,0 +1,5 @@
+Forall A . Exists B .
+G(((envoked_pop[A]=envoked_pop[B])&(returning_pop[A]=returning_pop[B]))&(pop_return[A]=pop_return[B])&
+  ((envoked_add[A]=envoked_add[B])&(returning_add[A]=returning_add[B]))&(add_return[A]=add_return[B])&
+  ((envoked_look[A]=envoked_look[B])&(returning_look[A]=returning_look[B]))&(look_return[A]=look_return[B])
+)

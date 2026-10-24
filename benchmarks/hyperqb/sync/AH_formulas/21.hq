@@ -1,0 +1,4 @@
+forall A. forall B.
+    G(
+        ({"removed"_A = "removed"_B})
+    )

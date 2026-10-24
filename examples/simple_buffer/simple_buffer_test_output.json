@@ -16,25 +16,25 @@
         [
             {
                 "state": false,
-                "out": false,
-                "secret": true
+                "secret": true,
+                "out": false
             },
             {
                 "state": false,
-                "out": false,
-                "secret": true
+                "secret": false,
+                "out": false
             }
         ],
         [
             {
                 "state": true,
-                "out": true,
-                "secret": true
+                "secret": true,
+                "out": true
             },
             {
-                "state": true,
-                "out": true,
-                "secret": false
+                "state": false,
+                "secret": false,
+                "out": false
             }
         ]
     ],
@@ -45,7 +45,7 @@
         "children": {
             "high": [
                 1,
-                0
+                1
             ],
             "isAtomic": false,
             "id": 0,
@@ -54,7 +54,7 @@
                 {
                     "high": [
                         0,
-                        0
+                        1
                     ],
                     "isAtomic": false,
                     "id": 1,
@@ -63,7 +63,7 @@
                         {
                             "high": [
                                 0,
-                                0
+                                1
                             ],
                             "isAtomic": true,
                             "id": 4,
@@ -75,7 +75,7 @@
                         {
                             "high": [
                                 0,
-                                0
+                                1
                             ],
                             "isAtomic": true,
                             "id": 5,
@@ -90,7 +90,7 @@
         }
     },
     "prefix": [
-        "Exists",
-        "Exists"
+        "Forall",
+        "Forall"
     ]
 }

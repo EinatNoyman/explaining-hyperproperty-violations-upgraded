@@ -1,0 +1,57 @@
+Model Creation Time: 0.083229
+Encoding Time: 0.0021346
+result: unsat.
+
+State 0:
+  state_0_A = false
+  state_0_B = false
+  state_0_C = false
+  x_0_A = true
+  x_0_B = false
+  x_0_C = false
+
+State 1:
+  state_1_A = true
+  state_1_B = false
+  state_1_C = false
+  x_1_A = false
+  x_1_B = false
+  x_1_C = false
+
+State 2:
+  state_2_A = false
+  state_2_B = false
+  state_2_C = false
+  x_2_A = false
+  x_2_B = false
+  x_2_C = false
+
+State 3:
+  state_3_A = false
+  state_3_B = false
+  state_3_C = false
+  x_3_A = false
+  x_3_B = false
+  x_3_C = false
+
+State 4:
+  state_4_A = false
+  state_4_B = false
+  state_4_C = false
+  x_4_A = false
+  x_4_B = false
+  x_4_C = false
+
+State 5:
+  state_5_A = false
+  state_5_B = false
+  state_5_C = false
+  x_5_A = false
+  x_5_B = false
+  x_5_C = false
+
+State 6:
+  state_6_A = false
+  state_6_B = false
+  state_6_C = false
+Solve Time: 0.023

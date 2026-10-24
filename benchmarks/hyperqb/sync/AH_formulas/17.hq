@@ -1,0 +1,1 @@
+forall A. forall B. G("input"_A = "input"_B) -> (G(("ComputerWins"_A = "ComputerWins"_B) & ("PlayerWins"_A = "PlayerWins"_B)))

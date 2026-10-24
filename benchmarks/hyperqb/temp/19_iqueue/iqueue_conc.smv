@@ -1,0 +1,186 @@
+-- Concurrent Model of Queue (SMV)
+MODULE main
+VAR
+    Head: 0..2;
+    Tail: 0..2;
+
+    -- items: array 0..2 of 0..1; -- 0: null, 1: filled
+    -- 3 items representing the size of the queue is 3
+	items[0]: 0..1; -- If value is 0 then it is null
+    items[1]: 0..1;
+    items[2]: 0..1;
+
+    -- Proc 1
+	proc1.line: 0..10;
+    proc1.slot: 0..2; -- Index of head/tail
+
+    proc1.value: 0..1; -- if value = 0 that means its null
+
+    -- Proc 2
+	proc2.line: 0..10;
+    proc2.slot: 0..2; -- Index of head/tail
+
+    proc2.value: 0..1; -- if value = 0 that means its null
+
+    enqueFAIL: boolean;
+    dequeFAIL: boolean;
+
+ASSIGN
+    init(Head) := 0;
+    init(Tail) := 0;
+
+    init(items[0]) := 0;
+    init(items[1]) := 0;
+    init(items[2]) := 0;
+
+    init(proc1.line) := 0;
+    init(proc1.slot) := 0;
+    init(proc1.value) := 0;
+
+    init(proc2.line) := 0;
+    init(proc2.slot) := 0;
+    init(proc2.value) := 0;
+
+    next(proc1.line) :=
+        case
+            (proc1.line = 0) : {1,5};
+            (proc1.line = 1) : 2;
+            (proc1.line = 2 & QUEUE_FULL) : 0;
+            (proc1.line = 2 & !QUEUE_FULL) : 3;
+            (proc1.line = 3 & proc1.loop) : 2;
+            (proc1.line = 3 & !proc1.loop) : 4;
+            (proc1.line = 4) : 0;
+            (proc1.line = 5) : 6;
+            (proc1.line = 6) : 7;
+            (proc1.line = 7) : 8;
+            (proc1.line = 8 & proc1.value = 0) : 0;
+            (proc1.line = 8 & proc1.value != 0) : 9;
+            (proc1.line = 9 & proc1.loop) : 6;
+            (proc1.line = 9 & !proc1.loop) : 10;
+            (proc1.line = 10) : 0;
+            TRUE : proc1.line;
+        esac;
+
+    next(proc2.line) :=
+        case
+            (proc2.line = 0) : {1,5};
+            (proc2.line = 1) : 2;
+            (proc2.line = 2 & QUEUE_FULL) : 0;
+            (proc2.line = 2 & !QUEUE_FULL) : 3;
+            (proc2.line = 3 & proc2.loop) : 2;
+            (proc2.line = 3 & !proc2.loop) : 4;
+            (proc2.line = 4) : 0;
+            (proc2.line = 5) : 6;
+            (proc2.line = 6) : 7;
+            (proc2.line = 7) : 8;
+            (proc2.line = 8 & proc2.value = 0) : 0;
+            (proc2.line = 8 & proc2.value != 0) : 9;
+            (proc2.line = 9 & proc2.loop) : 6;
+            (proc2.line = 9 & !proc2.loop) : 10;
+            (proc2.line = 10) : 0;
+            TRUE : proc2.line;
+        esac;
+
+    next(proc1.slot) :=
+        case
+            (proc1.line = 2) : Tail;
+            (proc1.line = 6) : Head;
+            TRUE : proc1.slot;
+        esac;
+
+    next(proc2.slot) :=
+        case
+            (proc2.line = 2) : Tail;
+            (proc2.line = 6) : Head;
+            TRUE : proc2.slot;
+        esac;
+
+    next(proc1.value) :=
+        case
+            ((proc1.line = 7) & (proc1.slot = 0) ) : items[0];
+            ((proc1.line = 7) & (proc1.slot = 1) ) : items[1];
+            ((proc1.line = 7) & (proc1.slot = 2) ) : items[2];
+            TRUE : proc1.value;
+        esac;
+
+    next(proc2.value) :=
+        case
+            ((proc1.line = 7) & (proc2.slot = 0) ) : items[0];
+            ((proc1.line = 7) & (proc2.slot = 1) ) : items[1];
+            ((proc1.line = 7) & (proc2.slot = 2) ) : items[2];
+            TRUE : proc2.value;
+        esac;
+
+    next(items[0]) :=
+        case
+            (proc1.line = 4 & proc1.slot = 0) | (proc2.line = 4 & proc2.slot = 0) : 1;
+            (proc1.line = 10 & proc1.slot = 0) | (proc2.line = 10 & proc2.slot = 0) : 0;
+            TRUE : items[0];
+        esac;
+
+    next(items[1]) :=
+        case
+            (proc1.line = 4 & proc1.slot = 1) | (proc2.line = 4 & proc2.slot = 1) : 1;
+            (proc1.line = 10 & proc1.slot = 1) | (proc2.line = 10 & proc2.slot = 1) : 0;
+            TRUE : items[1];
+        esac;
+
+    next(items[2]) :=
+        case
+            (proc1.line = 4 & proc1.slot = 2) | (proc2.line = 4 & proc2.slot = 2) : 1;
+            (proc1.line = 10 & proc1.slot = 2) | (proc2.line = 10 & proc2.slot = 2) : 0;
+            TRUE : items[2];
+        esac;
+
+    next(Head) :=
+        case
+            (proc1.line = 9 & Head = proc1.slot) : (Head + 1) mod 3;
+            (proc2.line = 9 & Head = proc2.slot) : (Head + 1) mod 3;
+            TRUE : Head;
+        esac;
+
+    next(Tail) :=
+        case
+            (proc1.line = 3 & Tail = proc1.slot) : (Tail + 1) mod 3;
+            (proc2.line = 3 & Tail = proc2.slot) : (Tail + 1) mod 3;
+            TRUE : Tail;
+        esac;
+
+    next(enqueFAIL) :=
+        case
+            (proc1.line = 2 & QUEUE_FULL) | (proc2.line = 2 & QUEUE_FULL) : TRUE;
+            (proc1.line = 0) | (proc2.line = 0) : FALSE;
+            TRUE : enqueFAIL;
+        esac;
+
+    next(dequeFAIL) :=
+        case
+            (proc1.line = 8 & proc1.value = 0) | (proc2.line = 8 & proc2.value = 0) : TRUE;
+            (proc1.line = 0) | (proc2.line = 0) : FALSE;
+            TRUE : dequeFAIL;
+        esac;
+
+   
+
+DEFINE
+    QUEUE_EMPTY := Head = Tail;
+    QUEUE_FULL := (Tail + 1) mod 3 = Head;
+
+    proc1.enq := proc1.line >= 1 & proc1.line <= 4;
+    proc1.enqEND := proc1.line = 0;
+    proc1.deq := proc1.line >= 5 & proc1.line <= 10;
+    proc1.deqEND := proc1.line = 0;
+
+    proc2.enq := proc2.line >= 1 & proc2.line <= 4;
+    proc2.enqEND := proc2.line = 0;
+    proc2.deq := proc2.line >= 5 & proc2.line <= 10;
+    proc2.deqEND := proc2.line = 0;
+
+    proc1.modifying := proc1.line = 3 | proc1.line = 9;
+    proc2.modifying := proc2.line = 3 | proc2.line = 9;
+    BOTH_MODIFYING := (proc1.modifying & proc2.modifying);
+
+    proc1.loop := (Tail != proc1.slot & proc1.enq) | (Head != proc1.slot & proc1.deq);
+    proc2.loop := (Tail != proc2.slot & proc2.enq) | (Head != proc2.slot & proc2.deq);
+
+    fAIL := ((proc1.line = 8) & (proc1.value = 0)) | ((proc2.line = 8) & (proc2.value = 0)) | ((proc1.line = 2) & QUEUE_FULL) | ((proc2.line = 2) & QUEUE_FULL);

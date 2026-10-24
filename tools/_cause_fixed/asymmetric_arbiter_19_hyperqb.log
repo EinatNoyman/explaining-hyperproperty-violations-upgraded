@@ -1,0 +1,6 @@
+error: no `result:` line in HyperQB output:
+Model Creation Time: 0.0442461
+
+thread 'main' (14936) panicked at hltlunroller/src/lib.rs:242:33:
+Udnefined variable or predicate `req_0`
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

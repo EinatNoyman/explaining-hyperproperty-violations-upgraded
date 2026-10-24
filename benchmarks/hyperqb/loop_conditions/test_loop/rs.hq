@@ -1,0 +1,1 @@
+Exists P . Forall Q .  G((x[P]=1)|(x[P]=3)|~(x[P]=x[Q]))

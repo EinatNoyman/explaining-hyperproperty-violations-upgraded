@@ -1,0 +1,55 @@
+
+-- [program]
+-- 1:  high := {true, false}
+-- 2:  low := false
+-- 3:  if (high):
+-- 4:    low := true;
+-- 5:  halt
+
+MODULE main
+ VAR
+    -- high: boolean;
+    -- low:  boolean;
+    PC_line: 0..3;
+    -- halt: boolean;
+ ASSIGN
+    -- Initial Conditions, here are dummy values.
+    -- init(high):= TRUE;
+    -- init(low) := FALSE;
+    -- init(halt):= FALSE;
+    init(PC_line):= 0; -- but program counter starts at 1.
+
+    -- Transition Relations
+    -- next(high) := 
+    --   case
+    --     (high): {TRUE,FALSE}; -- on line 1, high := {True, False}
+    --     TRUE: FALSE;
+    --   esac;
+    -- next(low) :=
+    --   case
+    --     -- (PC=2): FALSE; -- on line 2, low is set to false
+    --     (PC=2): {TRUE,FALSE}; -- on line 4, low is set to true
+    --     TRUE: low;
+    --   esac;
+    next(PC_line) :=
+      case
+        -- (halt): {1,2};
+		(PC_line=0): 1;
+        (PC_line=1): 2;
+        (PC_line=2): 3;
+        -- (low): 3;
+        -- (PC=3 & high): 4; -- the if-the-else on line 3
+        -- (PC=3 & !high): 5; -- the if-the-else on line 3
+        -- (PC=4): 5;
+        -- (PC=5): 5;
+        TRUE: PC_line;
+      esac;
+    -- next(halt) :=
+    --   case
+    --     (PC=5): TRUE;
+    --     TRUE: halt;
+    --   esac;
+
+DEFINE
+  halt := (PC_line=3);
+    

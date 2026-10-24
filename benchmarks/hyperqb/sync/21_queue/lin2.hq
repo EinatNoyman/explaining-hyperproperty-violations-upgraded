@@ -1,0 +1,2 @@
+Exists A . Exists B .
+~G(removed[A] = removed[B])

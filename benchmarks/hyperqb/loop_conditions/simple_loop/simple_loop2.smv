@@ -1,0 +1,18 @@
+MODULE main 
+VAR
+  y : 1..5;
+
+ASSIGN
+  init(y) := 1;
+
+  next(y) :=
+    case
+      y = 1 : {2, 3};    
+      y = 2 : 4;         
+      y = 3 : 5;
+      y = 4 : 1;
+      y = 5 : 1;   
+      TRUE  : y;
+    esac;
+
+

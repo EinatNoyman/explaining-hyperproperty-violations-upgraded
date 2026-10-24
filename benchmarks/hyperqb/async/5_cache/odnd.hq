@@ -1,0 +1,10 @@
+Forall A . Exists B . A t1 . E t2 .  
+G(
+    (in_HIGH[A][t1] = in_HIGH[B][t1]) &
+    (in_LOW[A][t1] = in_LOW[B][t1])
+)
+-> 
+G( 
+    (obs_PRINT_ONE[A][t2] = obs_PRINT_ONE[B][t2]) &       
+    (obs_PRINT_ZERO[A][t2] = obs_PRINT_ZERO[B][t2])
+) 

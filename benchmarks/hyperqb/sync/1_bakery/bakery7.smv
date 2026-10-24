@@ -1,0 +1,247 @@
+-- BAKERY ALGORITHM: a 7-process bakery algorithm
+-- NuSMV model adqpted from:
+--      Lamport, Leslie. "A new solution of Dijkstra's concurrent programming problem."
+--      Communications of the ACM 17, no. 8 (1974): 453-455.	
+MODULE main
+	VAR
+
+		p1_ticket: 0..7; -- the ticket number of p1
+		p2_ticket: 0..7; -- the ticket number of p2
+		p3_ticket: 0..7; -- the ticket number of p3
+        p4_ticket: 0..7; -- the ticket number of p4
+        p5_ticket: 0..7; -- the ticket number of p5
+        p6_ticket: 0..7; -- the ticket number of p6
+        p7_ticket: 0..7; -- the ticket number of p7
+
+		MAX_ticket: 0..7;
+
+		p1_line: 0..4;
+		p2_line: 0..4;
+		p3_line: 0..4;
+        p4_line: 0..4;
+        p5_line: 0..4;
+        p6_line: 0..4;
+        p7_line: 0..4;
+
+
+
+		STARTED : boolean;
+		p1_TOKEN : boolean;
+		p2_TOKEN : boolean;
+		p3_TOKEN : boolean;
+		p4_TOKEN : boolean;
+		p5_TOKEN : boolean;
+		p6_TOKEN : boolean;
+		p7_TOKEN : boolean;
+
+
+
+	ASSIGN
+
+		init(STARTED) := FALSE;
+		next(STARTED) := case
+			((p1_line != 0) | (p2_line != 0) | (p3_line != 0) | (p4_line != 0) | (p5_line != 0) | (p6_line != 0) | (p7_line != 0)) : TRUE;
+			TRUE : STARTED;
+		esac;
+		init(p1_TOKEN) := FALSE;
+		next(p1_TOKEN) := case
+			(STARTED & (p1_line = 2) & (p1_ticket <= p2_ticket) & (p1_ticket <= p3_ticket) & (p1_ticket <= p4_ticket) & (p1_ticket <= p5_ticket) &(p1_ticket <= p6_ticket) & (p1_ticket <= p7_ticket)) : TRUE;
+			TRUE : p1_TOKEN;
+		esac;
+
+		init(p2_TOKEN) := FALSE;
+		next(p2_TOKEN) := case
+			(STARTED & (p2_line = 2) & ((p2_ticket <= p1_ticket) & (p2_ticket <= p3_ticket) & (p2_ticket <= p4_ticket) & (p2_ticket <= p5_ticket) & (p2_ticket <= p6_ticket) & (p2_ticket <= p7_ticket) | (!p1_TOKEN))) : TRUE;
+			TRUE : p2_TOKEN;
+		esac;
+
+		init(p3_TOKEN) := FALSE;
+		next(p3_TOKEN) := case
+			(STARTED & (p3_line = 2) & (((p3_ticket <= p1_ticket) & (p3_ticket <= p2_ticket) & (p3_ticket <= p4_ticket) & (p3_ticket <= p5_ticket) & (p3_ticket <= p6_ticket) & (p3_ticket <= p7_ticket)) | (!p1_TOKEN) & (!p2_TOKEN))) : TRUE;
+			TRUE : p3_TOKEN;
+		esac;
+
+		init(p4_TOKEN) := FALSE;
+		next(p4_TOKEN) := case
+			(STARTED & (p4_line = 2) & (((p4_ticket <= p1_ticket) & (p4_ticket <= p2_ticket) & (p4_ticket <= p3_ticket) & (p4_ticket <= p5_ticket) & (p4_ticket <= p6_ticket) & (p4_ticket <= p7_ticket)) |(!p1_TOKEN & !p2_TOKEN & !p3_TOKEN))) : TRUE;
+			TRUE : p4_TOKEN;
+		esac;
+
+		init(p5_TOKEN) := FALSE;
+		next(p5_TOKEN) := case
+			(STARTED & (p5_line = 2) & (((p5_ticket <= p1_ticket) & (p5_ticket <= p2_ticket) & (p5_ticket <= p3_ticket) & (p5_ticket <= p4_ticket) &(p5_ticket <= p6_ticket) & (p5_ticket <= p7_ticket)) |(!p1_TOKEN & !p2_TOKEN & !p3_TOKEN & !p4_TOKEN))) : TRUE;
+			TRUE : p5_TOKEN;
+		esac;
+
+		init(p6_TOKEN) := FALSE;
+		next(p6_TOKEN) := case
+			(STARTED & (p6_line = 2) & (((p6_ticket <= p1_ticket) & (p6_ticket <= p2_ticket) & (p6_ticket <= p3_ticket) & (p6_ticket <= p4_ticket) &(p6_ticket <= p5_ticket) & (p6_ticket <= p7_ticket)) | (!p1_TOKEN & !p2_TOKEN & !p3_TOKEN & !p4_TOKEN & !p5_TOKEN))) : TRUE;
+			TRUE : p6_TOKEN;
+		esac;
+
+		init(p7_TOKEN) := FALSE;
+		next(p7_TOKEN) := case
+			(STARTED & (p7_line = 2) & (((p7_ticket <= p1_ticket) & (p7_ticket <= p2_ticket) & (p7_ticket <= p3_ticket) & (p7_ticket <= p4_ticket) &(p7_ticket <= p5_ticket) & (p7_ticket <= p6_ticket)) | (!p1_TOKEN & !p2_TOKEN & !p3_TOKEN & !p4_TOKEN & !p5_TOKEN & !p6_TOKEN))) : TRUE;
+			TRUE : p7_TOKEN;
+		esac;
+
+
+		init(p1_ticket) := 7; -- set to MAX
+		init(p2_ticket) := 7; -- set to MAX
+		init(p3_ticket) := 7; -- set to MAX
+        init(p4_ticket) := 7; -- set to MAX
+        init(p5_ticket) := 7; -- set to MAX
+        init(p6_ticket) := 7; -- set to MAX
+        init(p7_ticket) := 7; -- set to MAX
+
+		init(p1_line) := 0;
+		init(p2_line) := 0;
+		init(p3_line) := 0;
+        init(p4_line) := 0;
+        init(p5_line) := 0;
+        init(p6_line) := 0;
+        init(p7_line) := 0;
+
+		init(MAX_ticket):= 0;
+
+
+		next(MAX_ticket):=
+			case
+				(MAX_ticket=7): 0; --reset
+				((p1_line=1) | (p2_line=1) | (p3_line=1) | (p4_line=1) | (p5_line=1) | (p6_line=1) | (p7_line=1)): (MAX_ticket+1);
+				TRUE: MAX_ticket;
+			esac;
+
+
+		next(p1_line) :=
+			case
+				(p1_line=0) : {0,1};  -- stay, or proceed
+				(p1_line=1) : {2}; -- draw ticket
+				((p1_line=2) & !p1_TOKEN) : {2}; -- check TOKEN
+				((p1_line=2) & p1_TOKEN) : {3}; -- check TOKEN
+				(p1_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p1_line=4) : {0}; -- back to starting point
+				TRUE: p1_line;
+			esac;
+
+		next(p1_ticket):=
+			case
+				(MAX_ticket=7): 0; --reset
+				(p1_line=1): MAX_ticket+1;
+				TRUE: p1_ticket;
+			esac;
+
+
+		next(p2_line) :=
+			case
+				(p2_line=0) : {0,1};  -- stay, or proceed
+				(p2_line=1) : {2};
+				((p2_line=2) & !p2_TOKEN): {2}; -- check TOKEN
+				((p2_line=2) & p2_TOKEN): {3}; -- check TOKEN
+				(p2_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p2_line=4) : {0}; -- back to starting point
+				TRUE: p2_line;
+			esac;
+
+		next(p2_ticket):=
+			case
+				(MAX_ticket=7): 0; --reset
+				(p2_line=1): MAX_ticket+1;
+				TRUE: p2_ticket;
+			esac;
+
+
+		next(p3_line) :=
+			case
+				(p3_line=0) : {0};  -- stay, or proceed
+				(p3_line=1) : {2};
+				((p3_line=2) & !p3_TOKEN) : 2 ; -- check TOKEN
+				((p3_line=2) & p3_TOKEN) : 3 ; -- check TOKEN
+				(p3_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p3_line=4) : {0}; -- back to starting point
+				TRUE: p3_line;
+			esac;
+
+
+		next(p3_ticket):=
+			case
+				(MAX_ticket=7): 0; --reset
+				(p3_line=1): (MAX_ticket+1);
+				TRUE: p3_ticket;
+			esac;
+        
+        next(p4_line) :=
+			case
+				(p4_line=0) : {0};  -- stay, or proceed
+				(p4_line=1) : {2};
+				((p4_line=2) & !p4_TOKEN) : 2 ; -- check TOKEN
+				((p4_line=2) & p4_TOKEN) : 3 ; -- check TOKEN
+				(p4_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p4_line=4) : {0}; -- back to starting point
+				TRUE: p4_line;
+			esac;
+
+
+		next(p4_ticket):=
+			case
+				(MAX_ticket=7): 0; --reset
+				(p4_line=1): (MAX_ticket+1);
+				TRUE: p4_ticket;
+			esac;
+
+        next(p5_line) :=
+			case
+				(p5_line=0) : {0};  -- stay, or proceed
+				(p5_line=1) : {2};
+				((p5_line=2) & !p5_TOKEN) : 2 ; -- check TOKEN
+				((p5_line=2) & p5_TOKEN) : 3 ; -- check TOKEN
+				(p5_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p5_line=4) : {0}; -- back to starting point
+				TRUE: p5_line;
+			esac;
+
+
+		next(p5_ticket):=
+			case
+				(MAX_ticket=7): 0; --reset
+				(p5_line=1): (MAX_ticket+1);
+				TRUE: p5_ticket;
+			esac;
+
+        next(p6_line) :=
+			case
+				(p6_line=0) : {0};  -- stay, or proceed
+				(p6_line=1) : {2};
+				((p6_line=2) & !p6_TOKEN) : 2 ; -- check TOKEN
+				((p6_line=2) & p6_TOKEN) : 3 ; -- check TOKEN
+				(p6_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p6_line=4) : {0}; -- back to starting point
+				TRUE: p6_line;
+			esac;
+
+
+		next(p6_ticket):=
+			case
+				(MAX_ticket=7): 0; --reset
+				(p6_line=1): (MAX_ticket+1);
+				TRUE: p6_ticket;
+			esac;
+
+        next(p7_line) :=
+			case
+				(p7_line=0) : {0};  -- stay, or proceed
+				(p7_line=1) : {2};
+				((p7_line=2) & !p7_TOKEN) : 2 ; -- check TOKEN
+				((p7_line=2) & p7_TOKEN) : 3 ; -- check TOKEN
+				(p7_line=3) : {3, 4}; -- stay in critical section, or leave
+				(p7_line=4) : {0}; -- back to starting point
+				TRUE: p7_line;
+			esac;
+
+
+		next(p7_ticket):=
+			case
+				(MAX_ticket=7): 0; --reset
+				(p7_line=1): (MAX_ticket+1);
+				TRUE: p7_ticket;
+			esac;

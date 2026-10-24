@@ -1,0 +1,31 @@
+forall A. exists B. 
+(
+    F!
+        (
+            ({"PIN_2"_A = "PIN_2"_B}) 
+&
+            ({"PIN_1"_A = "PIN_1"_B}) 
+&
+            ({"PIN_0"_A = "PIN_0"_B})
+        ) 
+)
+&
+( 
+    (
+        !{"halt"_A} 
+        |
+        !{"halt"_B}
+    ) 
+    U 
+    (
+        ({"halt"_A} & {"halt"_B}) 
+&
+        (
+            ({"RESULT_2"_A = "RESULT_2"_B}) 
+&
+            ({"RESULT_1"_A = "RESULT_1"_B}) 
+&
+            ({"RESULT_0"_A = "RESULT_0"_B})
+        )
+    )
+)

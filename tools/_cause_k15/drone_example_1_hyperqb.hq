@@ -1,0 +1,2 @@
+Forall A . Forall B .
+(G ((bound[A] = bound[B])) -> G ((emergency[A] = emergency[B])))

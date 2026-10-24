@@ -1,0 +1,2 @@
+Forall A . Forall B .
+(G (((req_0[A] = req_0[B]) & (req_1[A] = req_1[B]))) -> G (((grant_0[A] = grant_0[B]) & (grant_1[A] = grant_1[B]))))

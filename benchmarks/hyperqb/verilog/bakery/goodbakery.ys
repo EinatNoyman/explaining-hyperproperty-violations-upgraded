@@ -1,0 +1,7 @@
+# build.ys
+read_verilog -sv -pwires ./benchmarks/verilog/bakery/good_bakery.v
+hierarchy -check -top bakery
+proc
+flatten
+opt_clean -purge
+write_smt2 -stdt -wires model.smt2

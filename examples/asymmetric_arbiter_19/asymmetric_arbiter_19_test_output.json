@@ -16,10 +16,10 @@
         "state2": {
             "type": "latch"
         },
-        "state0": {
+        "state1": {
             "type": "latch"
         },
-        "state1": {
+        "state0": {
             "type": "latch"
         }
     },
@@ -27,90 +27,90 @@
     "timesteps": [
         [
             {
-                "state": -1,
+                "state": 0,
+                "state2": false,
                 "grant1": false,
+                "req1": true,
                 "req0": true,
                 "grant0": false,
-                "state0": false,
-                "state2": false,
-                "req1": true,
-                "state1": false
+                "state1": false,
+                "state0": false
             },
             {
-                "state": -1,
+                "state": 0,
+                "state2": false,
                 "grant1": false,
+                "req1": true,
                 "req0": true,
                 "grant0": false,
-                "state0": false,
-                "state2": false,
-                "req1": true,
-                "state1": false
+                "state1": false,
+                "state0": false
             }
         ],
         [
             {
-                "state": -1,
+                "state": 1,
+                "state2": false,
                 "grant1": false,
+                "req1": false,
                 "req0": false,
                 "grant0": true,
-                "state0": true,
-                "state2": false,
-                "req1": false,
-                "state1": true
+                "state1": true,
+                "state0": true
             },
             {
-                "state": -1,
+                "state": 1,
+                "state2": false,
                 "grant1": false,
+                "req1": false,
                 "req0": false,
                 "grant0": true,
-                "state0": true,
-                "state2": false,
-                "req1": false,
-                "state1": true
+                "state1": true,
+                "state0": true
             }
         ],
         [
             {
-                "state": -1,
+                "state": 3,
+                "state2": false,
                 "grant1": true,
+                "req1": false,
                 "req0": false,
                 "grant0": false,
-                "state0": false,
-                "state2": false,
-                "req1": false,
-                "state1": true
+                "state1": true,
+                "state0": false
             },
             {
-                "state": -1,
+                "state": 3,
+                "state2": false,
                 "grant1": true,
+                "req1": false,
                 "req0": false,
                 "grant0": false,
-                "state0": false,
-                "state2": false,
-                "req1": true,
-                "state1": true
+                "state1": true,
+                "state0": false
             }
         ],
         [
             {
-                "state": -1,
+                "state": 0,
+                "state2": false,
                 "grant1": false,
+                "req1": false,
                 "req0": false,
                 "grant0": false,
-                "state0": false,
-                "state2": false,
-                "req1": false,
-                "state1": false
+                "state1": false,
+                "state0": false
             },
             {
-                "state": -1,
-                "grant1": true,
+                "state": 0,
+                "state2": false,
+                "grant1": false,
+                "req1": false,
                 "req0": false,
                 "grant0": false,
-                "state0": false,
-                "state2": false,
-                "req1": false,
-                "state1": true
+                "state1": false,
+                "state0": false
             }
         ]
     ],
@@ -349,7 +349,7 @@
         }
     },
     "prefix": [
-        "Exists",
-        "Exists"
+        "Forall",
+        "Forall"
     ]
 }

@@ -1,0 +1,1 @@
+Forall p . Exists q . G (~(reset[p] = reset[q])) -> (X G (~reset[p] & ~reset[q]) & F (~(LEDs[p] = LEDs[q])))

@@ -1,0 +1,6 @@
+Forall A . Forall B .
+~G(
+  ((obf[A] = obf[B]) & (key[A] = key[B]) & (secret[A]) & (secret[B]))
+  -> 
+  (digit[A] = digit[B])
+  )

@@ -1,0 +1,9 @@
+digraph "" {
+	node [label="\N"];
+	0	[label="initial\n"];
+	0 -> 0	[label=¬secret];
+	1	[label=out];
+	0 -> 1	[label=secret];
+	1 -> 0	[label=¬secret];
+	1 -> 1	[label=secret];
+}

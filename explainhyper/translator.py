@@ -86,21 +86,36 @@ class Translator:
         formula = formula.replace("R", "r")
         return formula
 
+    # Default atom renderer: the spot syntax this tool evaluates internally.
+    # A front end that has to emit a formula for a *different* checker passes
+    # its own renderer instead -- AutoHyper wants {"x"_A}, HyperQB wants x[A].
+    def default_atom(name, trace_id):
+        return Translator.filter_out_spot_syntax_from_APs(name) + "_" + trace_id
+
+    # Trace quantifiers of an MCHyper formula, in order, e.g. ["Forall","Forall"].
+    def quantifier_prefix(mchyper_text):
+        return re.findall(r'(Forall|Exists)', mchyper_text)
+
     # iterate over all inputs and require all that are not in the exception list to be equivalent on both traces
-    def handle_SameInputsExcept(id1, id2, exception_list, circuit): # SameInputsExcept Int Int [String]
+    # `aps` is any object exposing .inputs/.outputs/.latches -- a py-aiger circuit
+    # today, a SystemModel in general. The sugar is expanded against the real
+    # signal names, which is why a formula cannot be rendered before its system
+    # has been loaded.
+    def handle_SameInputsExcept(id1, id2, exception_list, aps, atom=None): # SameInputsExcept Int Int [String]
+        atom = atom or Translator.default_atom
         formula = " t " 
         if (exception_list == None):
             exception_list = ''
         exception_list = re.sub(' ', '', exception_list)
         exceptions = exception_list.split(',')
-        for input_ap in sorted(list(circuit.inputs)):
+        for input_ap in sorted(list(aps.inputs)):
             if (('"' + input_ap + '"' not in exceptions)):
-                ap = Translator.filter_out_spot_syntax_from_APs(input_ap)
-                formula = " & " + formula + " e " + ap + "_" + id1 + " " + ap + "_" + id2 + " "
+                formula = " & " + formula + " e " + atom(input_ap, id1) + " " + atom(input_ap, id2) + " "
         return formula
 
     # require all APs (inputs, latches and outputs) from the AP list to be equivalent on both traces
-    def handle_EqualOn(id1, id2, AP_list, circuit): # EqualOn Int Int [String]
+    def handle_EqualOn(id1, id2, AP_list, aps, atom=None): # EqualOn Int Int [String]
+        atom = atom or Translator.default_atom
         formula = " t "
         if (AP_list == None):
             AP_list = ''
@@ -108,20 +123,19 @@ class Translator:
         APs = AP_list.split(',')
         for ap in APs: 
             ap = ap[1:-1]
-            if ((ap in circuit.inputs) | (ap in circuit.latches) | (ap in circuit.outputs)):
-                ap = Translator.filter_out_spot_syntax_from_APs(ap)
-                formula = " & " + formula + " e " + ap + "_" + id1 + " " + ap + "_" + id2 + " "
+            if ((ap in aps.inputs) | (ap in aps.latches) | (ap in aps.outputs)):
+                formula = " & " + formula + " e " + atom(ap, id1) + " " + atom(ap, id2) + " "
         return formula
 
     # require all latches to be equivalent on both traces 
-    def handle_SameState(id1, id2, circuit): # SameState Int Int
+    def handle_SameState(id1, id2, aps, atom=None): # SameState Int Int
+        atom = atom or Translator.default_atom
         formula = " t "
-        for ap in sorted(list(circuit.latches)): 
-            ap = Translator.filter_out_spot_syntax_from_APs(ap)
-            formula = " & " + formula + " e " + ap + "_" + id1 + " " + ap + "_" + id2 + " "
+        for ap in sorted(list(aps.latches)): 
+            formula = " & " + formula + " e " + atom(ap, id1) + " " + atom(ap, id2) + " "
         return formula
 
-    def mchyper_to_spot(formula, circuit):
+    def mchyper_to_spot(formula, aps, atom=None):
         negate = False
         if (re.match(r"^Forall", formula)):
             negate = True
@@ -140,14 +154,15 @@ class Translator:
         
         # handle special derived operators
         # unroll formulas of the form 'SameInputsExcept <trace_id> <trace_id> <list of comma separated inputs to ignore, possibly empty>' (and translate to spot syntax) 
-        formula = re.sub(r'SameInputsExcept\s+?([0-9]+?)\s+?([0-9]+?)\s+?\[((,? ?"[^":@=]+")+?)?]', lambda match: Translator.handle_SameInputsExcept(match.group(1), match.group(2), match.group(3), circuit), formula) 
+        formula = re.sub(r'SameInputsExcept\s+?([0-9]+?)\s+?([0-9]+?)\s+?\[((,? ?"[^":@=]+")+?)?]', lambda match: Translator.handle_SameInputsExcept(match.group(1), match.group(2), match.group(3), aps, atom), formula) 
         # unroll formulas of the form 'EqualOn <trace_id> <trace_id> <list of comma separated atomic propositions to require equality>' (and translate to spot syntax) 
-        formula = re.sub(r'EqualOn\s+?([0-9]+?)\s+?([0-9]+?)\s+?\[((,? ?"[^":@=]+")+?)?]', lambda match: Translator.handle_EqualOn(match.group(1), match.group(2), match.group(3), circuit), formula) 
+        formula = re.sub(r'EqualOn\s+?([0-9]+?)\s+?([0-9]+?)\s+?\[((,? ?"[^":@=]+")+?)?]', lambda match: Translator.handle_EqualOn(match.group(1), match.group(2), match.group(3), aps, atom), formula) 
         # unroll formulas of the form 'SameState <trace_id> <trace_id>' (and translate to spot syntax) 
-        formula = re.sub(r'SameState\s+?([0-9]+?)\s+?([0-9]+?)', lambda match: Translator.handle_SameState(match.group(1), match.group(2), circuit), formula) 
+        formula = re.sub(r'SameState\s+?([0-9]+?)\s+?([0-9]+?)', lambda match: Translator.handle_SameState(match.group(1), match.group(2), aps, atom), formula) 
 
         # handle atomic propositions: transform 'AP "<name>" <trace_id>' to '<name>_<trace_id>'
-        formula = re.sub(r"AP\s+?\"([^:@=]+?)\"\s+?([0-9]+?)", lambda match: Translator.filter_out_spot_syntax_from_APs(match.group(1)) + "_" + match.group(2), formula) 
+        _atom = atom or Translator.default_atom
+        formula = re.sub(r"AP\s+?\"([^:@=]+?)\"\s+?([0-9]+?)", lambda match: _atom(match.group(1), match.group(2)), formula) 
         # replace boolean and temporal operators with corresponding spot operators
         formula = formula.replace("Neg", "!")
         formula = formula.replace("And", "&")
@@ -164,6 +179,34 @@ class Translator:
         formula = formula.replace("(", " ")
         formula = formula.replace(")", " ")
         return (negate, formula, num_traces)
+
+    def mchyper_pipeline(mchyper_text, aps):
+        """MCHyper s-expression -> (negate, f, fold, num_traces).
+
+        The chain that used to be copy-pasted in four places: twice in
+        explain_hyper.py (run_preprocess and actual_causality) and twice inline
+        in tests/test_explain_hyper.py. Having four copies meant a change to
+        the chain could leave the tests silently exercising a different formula
+        than production.
+
+        `f` is the desugared, negation-normal-form formula that gets evaluated.
+        `fold` is the pre-desugaring equivalence-normal form, kept for display
+        and for `annotate_original_formula`.
+
+        `aps` is anything exposing `.inputs` / `.outputs` / `.latches` -- a
+        py-aiger circuit today. It is needed because the SameInputsExcept /
+        EqualOn / SameState sugar is expanded against the real signal names,
+        which is why a formula cannot be rendered before its system is loaded.
+        """
+        (negate, f, num_traces) = Translator.mchyper_to_spot(mchyper_text, aps)
+        # NB: in this module `spot` is the `formula` *module* (`import formula
+        # as spot`), whereas explain_hyper.py binds the *class*
+        # (`from formula import formula as spot`). Hence the extra hop.
+        f = spot.formula.formula_from_spot(f)
+        fold = Translator.equivalence_normal_form(f)
+        f = Translator.formula_without_syntactic_sugar(fold)
+        f = Translator.negative_normal_form(f)
+        return (negate, f, fold, num_traces)
 
     def formula_without_syntactic_sugar(f):
         f = spot.formula.formula(f)

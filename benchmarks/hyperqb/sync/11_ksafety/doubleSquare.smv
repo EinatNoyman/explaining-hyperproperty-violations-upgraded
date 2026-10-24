@@ -1,0 +1,93 @@
+--NI
+--(adpted from: Hiroshi Unno, Tachio Terauchi, and Eric Koskinen. Constraint-based relational verification. In Computer Aided Verification: 33rd International Conference, CAV 2021)
+--  calculating 2^x
+--  doubleSquare(bool h, int x) {
+--    INIT: int z, y=0;
+-- 1  if (h)
+-- 2     { z = 2 * x; }
+-- 3  else { z = x; }
+-- 4  while (z>0)
+-- 5     { z - - ; y = y+x; }
+-- 6  if (!h) { y = 2 * y; }
+-- 7  return y;
+--  }
+MODULE main
+ VAR
+	location: 1..7;
+	y: 0..50;
+	z: 0..20;
+	h: boolean;
+	x: 0..10;
+	halt: boolean;
+
+ ASSIGN
+	init(halt) := FALSE ;
+	next(halt) := 
+		case
+			(location=7): TRUE;
+			TRUE: FALSE;
+		esac;
+
+	init(location) := 1 ;
+	init(h) := {TRUE, FALSE};
+	next(h) := 
+		case
+			(h): TRUE;
+			(!h): FALSE;
+		esac;
+
+	init(x) := {0,1,2,3,4,5,6,7,8,9,10};
+	next(x) := 
+		case
+			(x=1): 1;
+			(x=2): 2;
+			(x=3): 3;
+			(x=4): 4;
+			(x=5): 5;
+			(x=6): 6;
+			(x=7): 7;
+			(x=8): 8;
+			(x=9): 9;
+			(x=10): 10;
+			TRUE: x;
+		esac;
+
+	init(y) := 0;
+	init(z) := 0;
+
+	next(location) := 
+		case
+			((location = 1) & (!h)): 3;
+			((location = 1) & h): 2;
+			(location = 3) : 4;
+			(location = 2) : 4;
+			((location = 4) & (z > 0)) : 5;
+			((location = 4) & (z = 0)) : 6;
+			(location = 5) : 4; -- jump back
+			(location = 6) : 7;
+			TRUE: location ;
+		esac;
+
+	next(y) :=
+		case
+			-- ((location = 5) & (y <= (50 - x)) & (0 < z)) : (y + x);
+			((location = 5) & (y <= 50) & (x = 0) & (0 < z)) : (y + x);
+			((location = 5) & (y <= 49) & (x = 1) & (0 < z)) : (y + x);
+			((location = 5) & (y <= 48) & (x = 2) & (0 < z)) : (y + x);
+			((location = 5) & (y <= 47) & (x = 3) & (0 < z)) : (y + x);
+			((location = 5) & (y <= 46) & (x = 4) & (0 < z)) : (y + x);
+			((location = 5) & (y <= 45) & (x = 5) & (0 < z)) : (y + x);
+			((location = 6) & (!h) & (y <= 25)): (y + y);
+			TRUE: y;
+		esac;
+
+	next(z) :=
+		case
+			(h & (location = 1)) : (x + x);
+			((!h) & (location = 1)) : (x);
+			((location = 5) & (0 < z)) : (z - 1);
+		TRUE: z;
+		esac;
+
+-- DEFINE
+-- 	halt := (location = 7) ;

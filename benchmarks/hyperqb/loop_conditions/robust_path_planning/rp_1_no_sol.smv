@@ -1,0 +1,19 @@
+MODULE main
+VAR
+  a_state : 1..9;
+ASSIGN
+  init(a_state) := 1;
+  next(a_state) :=
+    case
+      a_state = 1 : 2;
+      a_state = 2 : 3;
+      a_state = 3 : 4;
+      a_state = 4 : 5;
+      a_state = 5 : 6;
+      a_state = 6 : 7;
+      a_state = 7 : 8;
+      a_state = 8 : 9;
+      a_state = 9 : 9;  
+      TRUE         : a_state;
+    esac;
+

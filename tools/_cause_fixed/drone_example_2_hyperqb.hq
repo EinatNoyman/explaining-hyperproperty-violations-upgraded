@@ -1,0 +1,2 @@
+Forall A . Forall B .
+(G (((up[A] = up[B]) & (bound[A] = bound[B]))) -> G (((increase[A] = increase[B]) & (emergency[A] = emergency[B]))))

@@ -1,0 +1,1 @@
+Forall A . Forall B . E t . G(((out_public[A][t] = 0) & (out_public[B][t] = 0)) | ((out_public[A][t] = 1) & (out_public[B][t] = 1)) | ((out_public[A][t] = 2) & (out_public[B][t] = 2)) | ((out_public[A][t] = 3) & (out_public[B][t] = 3)))

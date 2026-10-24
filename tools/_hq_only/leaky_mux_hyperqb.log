@@ -1,0 +1,13 @@
+Size of the counter example (|Gamma|) is: 35
+The size of the formula (|phi|) is 27
+C tilde:
+for trace 0: []
+for trace 1: []
+Cause syntax: (AP, Time step, Truth value, Trace belonging)
+Time to compute this set of causes (time(C tilde)):
+0.20313787460327148
+Computing all minimal causes now...
+All minimal causes (forall C): []
+Number of minimal causes (# C): 0
+The time to compute all causes (time(forall C)) took: 
+0.25972771644592285
