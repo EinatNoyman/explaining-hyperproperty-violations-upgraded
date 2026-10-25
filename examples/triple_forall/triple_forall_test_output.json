@@ -16,69 +16,69 @@
         [
             {
                 "state": false,
-                "x": true,
-                "out": false
+                "out": false,
+                "x": true
             },
             {
                 "state": false,
-                "x": true,
-                "out": false
+                "out": false,
+                "x": true
             },
             {
                 "state": false,
-                "x": true,
-                "out": false
+                "out": false,
+                "x": true
             }
         ],
         [
             {
                 "state": true,
-                "x": true,
-                "out": true
+                "out": true,
+                "x": true
             },
             {
                 "state": true,
-                "x": true,
-                "out": true
+                "out": true,
+                "x": true
             },
             {
                 "state": true,
-                "x": true,
-                "out": true
+                "out": true,
+                "x": true
             }
         ],
         [
             {
                 "state": true,
-                "x": true,
-                "out": true
+                "out": true,
+                "x": true
             },
             {
                 "state": true,
-                "x": true,
-                "out": true
+                "out": true,
+                "x": true
             },
             {
                 "state": true,
-                "x": true,
-                "out": true
+                "out": true,
+                "x": true
             }
         ],
         [
             {
                 "state": true,
-                "x": true,
-                "out": true
+                "out": true,
+                "x": true
             },
             {
                 "state": true,
-                "x": true,
-                "out": true
+                "out": true,
+                "x": true
             },
             {
                 "state": true,
-                "x": true,
-                "out": true
+                "out": true,
+                "x": true
             }
         ]
     ],

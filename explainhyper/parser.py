@@ -34,6 +34,13 @@ def parse_arguments(argv=None):
                              "'strong' (default) reproduces the historical behaviour, under which G is "
                              "false at the horizon. 'weak' reads the horizon as 'nothing further "
                              "observed' and lets G hold. See STAGE0-FINDING.md.")
+    parser.add_argument('-solver', required=False, default='cvc5', choices=['cvc5', 'pysat'],
+                        help="backend for candidate-cause unsat-core extraction and DOT "
+                             "minimization. 'cvc5' (default) is the current backend. 'pysat' is a "
+                             "verbatim port of the tool's original PySAT/SATisPy backend (predates "
+                             "the cvc5 refactor), kept for before/after comparison; it needs "
+                             "python-sat and satispy installed and reproduces that backend's "
+                             "behaviour exactly, including its lack of the tautological-guard fix.")
 
     # Front ends contribute their own flags, grouped so --help stays readable.
     groups = {}

@@ -1,13 +1,13 @@
 {
     "stateVariable": "state",
     "variables": {
+        "a": {
+            "type": "input"
+        },
         "b": {
             "type": "input"
         },
         "sel": {
-            "type": "input"
-        },
-        "a": {
             "type": "input"
         },
         "out": {
@@ -22,33 +22,33 @@
         [
             {
                 "state": false,
-                "sel": false,
                 "out": true,
                 "b": false,
-                "a": true
+                "a": true,
+                "sel": false
             },
             {
                 "state": false,
-                "sel": true,
                 "out": true,
                 "b": false,
-                "a": true
+                "a": true,
+                "sel": true
             }
         ],
         [
             {
                 "state": true,
-                "sel": false,
                 "out": true,
                 "b": false,
-                "a": true
+                "a": true,
+                "sel": false
             },
             {
                 "state": false,
-                "sel": true,
                 "out": true,
                 "b": false,
-                "a": true
+                "a": true,
+                "sel": true
             }
         ]
     ],

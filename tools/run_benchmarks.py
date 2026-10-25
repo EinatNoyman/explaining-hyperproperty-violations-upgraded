@@ -200,9 +200,36 @@ CAUSE_LINE = re.compile(r"^All minimal causes \(forall C\): (.*)$", re.M)
 COUNT_LINE = re.compile(r"^Number of minimal causes \(# C\): (\d+)$", re.M)
 CTILDE_LINE = re.compile(r"^for trace \d+: (\[.*\])$", re.M)
 
+# explain_hyper.py prints these as a label line followed by the number on the
+# next line (see explainhyper/explain_hyper.py: actual_causality/main). Each
+# one isolates a phase of the run, so a frontend's checker-invocation time
+# never gets silently folded into the causality algorithm's own time:
+#   GAMMA     -- front end total: checker run (if live) + parse + simulate
+#   CHECKER   -- just the model checker subprocess, i.e. time to find/refute
+#                the counterexample; 0 for offline witnesses and for mchyper
+#                (whose checker never runs inside this tool at all)
+#   CTILDE    -- candidate-cause computation (unsat cores / DOT minimization)
+#   SEARCH    -- the minimality search over subsets of C~
+#   TOTAL     -- the whole actual_causality() call, timed by main()
+GAMMA_LINE = re.compile(
+    r"^Time to obtain the counterexample \(time\(Gamma\)\):\n([0-9.eE+-]+)", re.M)
+CHECKER_LINE = re.compile(
+    r"^Time spent in the model checker itself \(time\(checker\)\):\n([0-9.eE+-]+)", re.M)
+CTILDE_TIME_LINE = re.compile(
+    r"^Time to compute this set of causes \(time\(C tilde\)\):\n([0-9.eE+-]+)", re.M)
+SEARCH_TIME_LINE = re.compile(
+    r"^The time of the minimality search \(time\(search\)\):\n([0-9.eE+-]+)", re.M)
+TOTAL_TIME_LINE = re.compile(
+    r"^The time to compute all causes \(time\(forall C\)\) took: \n([0-9.eE+-]+)", re.M)
+
 
 def causality_table(args, env):
-    """Run the cause computation through every front end that has its inputs."""
+    """Run the cause computation through every (front end, solver) pair that
+    has its inputs. Two independent axes, crossed: the front end supplies the
+    counterexample (mchyper/autohyper/hyperqb), the solver computes causes
+    from it (cvc5/pysat, -solver). Both are plain explain_hyper.py flags, so
+    pysat gets the same 3 front ends as cvc5 -- unlike diffing git commits,
+    where the old PySAT code predates the front-end system entirely."""
     from conftest_formulas import FORMULAS
 
     rows = []
@@ -238,52 +265,89 @@ def causality_table(args, env):
                 "-maxCauseSize", str(args.max_cause_size)]))
 
         for frontend, extra in plans:
-            argv = [sys.executable, os.path.join(REPO, "explainhyper", "explain_hyper.py"),
-                    "-aag", aag, "-f", FORMULAS[name],
-                    "-outName", os.path.join(args.out, "%s_%s" % (name, frontend)),
-                    "-stateMachine", dot] + extra
-            note = ""
-            started = time.monotonic()
-            try:
-                done = subprocess.run(argv, capture_output=True, text=True,
-                                      timeout=args.timeout, cwd=directory, env=env)
-                output, status = done.stdout + done.stderr, "ok"
-            except subprocess.TimeoutExpired:
-                done, output, status = None, "", "TO"
-                note = "timeout after %gs" % args.timeout
-            elapsed = time.monotonic() - started
-            if status == "ok" and done.returncode != 0:
-                # explain_hyper exits 2 on FrontEndError with `error: <what>`.
-                # The message is often multi-line -- a FrontEndError that
-                # quotes the checker's own output puts the useful part on the
-                # *second* line -- so take the whole tail, not just line one.
-                match = re.search(r"^error: (.*)\Z", output, re.M | re.S)
-                status = "ERR"
-                note = (re.sub(r"\s+", " ", match.group(1)).strip()[:160] if match
-                        else first_error_line(output))
-
-            count = COUNT_LINE.search(output)
-            causes = CAUSE_LINE.search(output)
-            ctilde = sum(len(eval(m)) for m in CTILDE_LINE.findall(output)) or None
-            sizes = None
-            if causes:
+            for solver in args.solvers:
+                key = "%s+%s" % (frontend, solver)
+                argv = [sys.executable, os.path.join(REPO, "explainhyper", "explain_hyper.py"),
+                        "-aag", aag, "-f", FORMULAS[name],
+                        "-outName", os.path.join(args.out, "%s_%s_%s" % (name, frontend, solver)),
+                        "-stateMachine", dot, "-solver", solver] + extra
+                note = ""
+                started = time.monotonic()
                 try:
-                    sizes = sorted({len(c) for c in eval(causes.group(1))}) or None
-                except Exception:
-                    pass
-            # A run can succeed and still find nothing. That is a result, not an
-            # error, but it needs saying -- otherwise the CSV shows a blank that
-            # looks like a crash. The usual reason is the cap.
-            if status == "ok" and not sizes:
-                note = note or ("no cause of size <= %d" % args.max_cause_size)
-            row[frontend] = {"ctilde": ctilde,
-                             "causes": int(count.group(1)) if count else None,
-                             "sizes": sizes, "seconds": elapsed,
-                             "status": status, "note": note}
-            print("  %-22s %-10s ctilde=%-5s causes=%-5s sizes=%-8s %7.2fs %s%s"
-                  % (name, frontend, ctilde, count.group(1) if count else "-",
-                     sizes, elapsed, "" if status == "ok" else status,
-                     ("  " + note) if note else ""))
+                    done = subprocess.run(argv, capture_output=True, text=True,
+                                          timeout=args.timeout, cwd=directory, env=env)
+                    output, status = done.stdout + done.stderr, "ok"
+                except subprocess.TimeoutExpired:
+                    done, output, status = None, "", "TO"
+                    note = "timeout after %gs" % args.timeout
+                elapsed = time.monotonic() - started
+                if status == "ok" and done.returncode != 0:
+                    # explain_hyper exits 2 on FrontEndError with `error: <what>`.
+                    # The message is often multi-line -- a FrontEndError that
+                    # quotes the checker's own output puts the useful part on the
+                    # *second* line -- so take the whole tail, not just line one.
+                    match = re.search(r"^error: (.*)\Z", output, re.M | re.S)
+                    status = "ERR"
+                    note = (re.sub(r"\s+", " ", match.group(1)).strip()[:160] if match
+                            else first_error_line(output))
+
+                count = COUNT_LINE.search(output)
+                causes = CAUSE_LINE.search(output)
+                ctilde = sum(len(eval(m)) for m in CTILDE_LINE.findall(output)) or None
+                sizes = None
+                if causes:
+                    try:
+                        sizes = sorted({len(c) for c in eval(causes.group(1))}) or None
+                    except Exception:
+                        pass
+                # A run can succeed and still find nothing. That is a result, not an
+                # error, but it needs saying -- otherwise the CSV shows a blank that
+                # looks like a crash. The usual reason is the cap.
+                if status == "ok" and not sizes:
+                    note = note or ("no cause of size <= %d" % args.max_cause_size)
+
+                def grab(pattern):
+                    m = pattern.search(output)
+                    return float(m.group(1)) if m else None
+
+                gamma_s = grab(GAMMA_LINE)
+                checker_s = grab(CHECKER_LINE)
+                ctilde_s = grab(CTILDE_TIME_LINE)
+                search_s = grab(SEARCH_TIME_LINE)
+                total_s = grab(TOTAL_TIME_LINE)
+                # "time to find the counterexample": the checker's own decision
+                # time when it actually ran inside this process (live AutoHyper/
+                # HyperQB); otherwise gamma_s is just parse+simulate of an
+                # already-produced witness/cex, which is not "finding" anything.
+                counterexample_s = checker_s if checker_s else (
+                    gamma_s if (gamma_s and checker_s is None) else 0.0)
+                # "time to compute the cause, once Gamma is in hand": whatever
+                # of the total wasn't spent obtaining Gamma. Falls back to the
+                # wall-clock elapsed (includes process startup) if a run
+                # crashed or timed out before printing its own timings.
+                causality_s = ((total_s - gamma_s) if (total_s is not None and gamma_s is not None)
+                              else None)
+
+                row[key] = {"frontend": frontend, "solver": solver,
+                           "ctilde": ctilde,
+                           "causes": int(count.group(1)) if count else None,
+                           "sizes": sizes, "seconds": elapsed,
+                           "counterexample_s": counterexample_s,
+                           "causality_s": causality_s,
+                           # finer breakdown of causality_s, for results.json only:
+                           # candidate-cause computation vs. the minimality search.
+                           "ctilde_s": ctilde_s, "search_s": search_s,
+                           "total_s": total_s if total_s is not None else elapsed,
+                           "status": status, "note": note}
+                print("  %-22s %-9s %-6s ctilde=%-5s causes=%-5s sizes=%-8s "
+                      "cex=%6ss cause=%6ss total=%6ss %s%s"
+                      % (name, frontend, solver, ctilde, count.group(1) if count else "-",
+                         sizes,
+                         ("%.2f" % counterexample_s) if counterexample_s is not None else "-",
+                         ("%.2f" % causality_s) if causality_s is not None else "-",
+                         ("%.2f" % elapsed),
+                         "" if status == "ok" else status,
+                         ("  " + note) if note else ""))
         if len(row) > 1:
             rows.append(row)
     return rows
@@ -389,16 +453,19 @@ def csv_comparison(rows):
 
 
 def csv_causality(rows):
-    """One row per (example, front end): the cause computation, not the check."""
+    """One row per (example, front end, solver): the cause computation, not
+    the check. time_s is the same wall-clock total as before; counterexample_s
+    and causality_s split it into 'time to obtain Gamma' and 'time to compute
+    the cause from it' -- see the GAMMA_LINE/CHECKER_LINE comment above."""
     out = []
     for row in rows:
-        for frontend in ("mchyper", "autohyper", "hyperqb"):
-            cell = row.get(frontend)
-            if cell is None:
+        for key, cell in row.items():
+            if key == "example" or not isinstance(cell, dict) or "frontend" not in cell:
                 continue
             out.append({
                 "example": row["example"],
-                "frontend": frontend,
+                "frontend": cell["frontend"],
+                "solver": cell["solver"],
                 # result: how many minimal causes were found, and of what size.
                 "result": "" if cell["causes"] is None else cell["causes"],
                 "cause_sizes": ";".join(map(str, cell["sizes"] or [])),
@@ -406,6 +473,10 @@ def csv_causality(rows):
                 "success": "yes" if (cell["status"] == "ok" and cell["causes"]) else "no",
                 "status": cell["status"],
                 "time_s": "%.3f" % cell["seconds"],
+                "counterexample_s": ("%.3f" % cell["counterexample_s"])
+                                    if cell["counterexample_s"] is not None else "",
+                "causality_s": ("%.3f" % cell["causality_s"])
+                               if cell["causality_s"] is not None else "",
                 "reason": cell.get("note", ""),
             })
     return out
@@ -414,7 +485,8 @@ def csv_causality(rows):
 CSV_CHECKER_COLUMNS = ["suite", "benchmark", "case_key", "checker",
                        "result", "success", "time_s", "status",
                        "runs", "t_min_s", "t_max_s", "reason"]
-CSV_CAUSALITY_COLUMNS = ["example", "frontend", "result", "success", "time_s",
+CSV_CAUSALITY_COLUMNS = ["example", "frontend", "solver", "result", "success",
+                         "time_s", "counterexample_s", "causality_s",
                          "cause_sizes", "candidate_set_size", "status", "reason"]
 
 
@@ -499,32 +571,41 @@ def latex_causality(rows, max_cause_size):
     out = [
         r"\begin{table}[t]",
         r"  \centering",
-        r"  \caption{Actual causes computed from each front end's"
-        r"  counterexample. $|\tilde{C}|$ is the candidate set; sizes are the"
-        r"  cardinalities of the minimal causes found. The same system and the"
-        r"  same formula are used throughout -- only the model checker that"
-        r"  produced the counterexample differs. The subset search is capped at"
-        r"  size %d.}" % max_cause_size,
+        r"  \caption{Actual causes computed from each (front end, solver)"
+        r"  pair. $|\tilde{C}|$ is the candidate set; sizes are the"
+        r"  cardinalities of the minimal causes found. The front end supplies"
+        r"  the counterexample (model-checker dependent); the solver computes"
+        r"  causes from it (cvc5 vs.\ the original pysat backend). Cex (s) is"
+        r"  time to obtain the counterexample, Cause (s) is time spent"
+        r"  computing causes from it once obtained, Total (s) is both. The"
+        r"  subset search is capped at size %d.}" % max_cause_size,
         r"  \label{tab:causality}",
-        r"  \begin{tabular}{llcccc}",
+        r"  \begin{tabular}{lllccccc}",
         r"    \toprule",
-        r"    Example & Front end & $|\tilde{C}|$ & \#causes & Sizes & Time (s) \\",
+        r"    Example & Front end & Solver & $|\tilde{C}|$ & \#causes & Sizes"
+        r" & Cex (s) & Cause (s) & Total (s) \\",
         r"    \midrule",
     ]
     for row in rows:
         first = True
-        for frontend in ("mchyper", "autohyper", "hyperqb"):
-            cell = row.get(frontend)
-            if cell is None:
+        for key, cell in row.items():
+            if key == "example" or not isinstance(cell, dict) or "frontend" not in cell:
                 continue
-            out.append(r"    %s & %s & %s & %s & %s & %s \\" % (
+
+            def fmt(seconds):
+                if seconds is None:
+                    return "--"
+                return r"\to" if cell["status"] == "TO" else "%.2f" % seconds
+
+            out.append(r"    %s & %s & %s & %s & %s & %s & %s & %s & %s \\" % (
                 row["example"].replace("_", r"\_") if first else "",
-                frontend,
+                cell["frontend"], cell["solver"],
                 cell["ctilde"] if cell["ctilde"] is not None else "--",
                 cell["causes"] if cell["causes"] is not None else "--",
                 ("$\\{%s\\}$" % ",".join(map(str, cell["sizes"])))
                 if cell["sizes"] else "--",
-                fmt_time(cell)))
+                fmt(cell["counterexample_s"]), fmt(cell["causality_s"]),
+                fmt(cell["seconds"])))
             first = False
         out.append(r"    \midrule")
     if out[-1] == r"    \midrule":
@@ -548,6 +629,10 @@ def main():
     parser.add_argument("--timeout", type=int, default=300)
     parser.add_argument("--k", type=int, default=4, help="HyperQB unrolling bound")
     parser.add_argument("--max-cause-size", type=int, default=2)
+    parser.add_argument("--solvers", type=lambda s: s.split(","), default=["cvc5", "pysat"],
+                        help="causality solver backends to cross with every front end "
+                             "(-solver on explain_hyper.py); default both cvc5,pysat. "
+                             "pysat needs `pip install .[pysat]` (python-sat + satispy).")
     parser.add_argument("--only", type=lambda s: s.split(","), default=None)
     parser.add_argument("--light", action="store_true", help="skip the heavy cases")
     parser.add_argument("--repeat", type=int, default=1,

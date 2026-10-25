@@ -79,6 +79,160 @@ def _build_wp_term(term_manager, cache, edgelist):
     return term_manager.mkTerm(Kind.AND, *conjuncts)
 
 
+def _find_candidates_cvc5(edgelist, wp_literals, tid):
+    """One trace's worth of candidate-cause events, as an unsat core over
+    cvc5: the transition guards are the hard constraint, the trace's own
+    input valuation enters as retractable assumptions, and repeatedly pulling
+    out a core and dropping it yields every input the trace could not have
+    taken without changing some transition."""
+    term_manager = cvc5.TermManager()
+    solver = cvc5.Solver(term_manager)
+    solver.setOption("produce-unsat-cores", "true")
+    solver.setOption("incremental", "true")
+
+    atom_cache = {}
+    term_to_info = {}
+
+    solver.assertFormula(_build_wp_term(term_manager, atom_cache, edgelist))
+
+    assumptions = [
+        _literal_term(term_manager, atom_cache, literal, term_to_info)
+        for literal in wp_literals
+    ]
+
+    new_candidate_list = []
+    while assumptions:
+        if not solver.checkSatAssuming(*assumptions).isUnsat():
+            break
+        core = [t for t in solver.getUnsatCore() if t in term_to_info]
+        if not core:
+            break
+        for term in core:
+            ap_name, timestep, truth_value = term_to_info[term]
+            new_candidate_list.append((ap_name, timestep, truth_value, tid))
+        assumptions = [a for a in assumptions if a not in core]
+    return new_candidate_list
+
+
+def _build_wp_string_from_edges(edgelist):
+    """Verbatim port of the pre-cvc5 string-based transition-guard encoding
+    (see git history before the cvc5 refactor). Unlike _build_wp_term, this
+    does NOT skip tautological edge guards -- that skip was added by the
+    cvc5 refactor as a semantics fix (see CLAUDE.md's Development Notes).
+    Kept faithful on purpose: '-solver pysat' should reproduce the original
+    tool's actual behaviour, including that gap, for a fair before/after
+    comparison rather than a silently-improved one."""
+    timestep = 0
+    wp_help = edgelist[0].attr['label'].replace(" ", "")
+    wp_list = re.split('∧|∨', wp_help)
+    wp = wp_list[0] + "#" + "0"
+    index = 1
+    for el in wp_help[1:]:
+        if el == '∧':
+            wp = wp + " & " + wp_list[index] + "#" + str(timestep)
+            index = index + 1
+        elif el == '∨':
+            wp = wp + " | " + wp_list[index] + "#" + str(timestep)
+            index = index + 1
+    wp = "(¬(" + wp + "))"
+    timestep = 1
+    for edge in edgelist[1:]:
+        wp_help = edge.attr['label'].replace(" ", "")
+        wp_list = re.split('∧|∨', wp_help)
+        wp_1 = "(¬(" + wp_list[0] + "#" + str(timestep)
+        index = 1
+        for el in wp_help[1:]:
+            if el == '∧':
+                wp_1 = wp_1 + " & " + wp_list[index] + "#" + str(timestep)
+                index = index + 1
+            elif el == '∨':
+                wp_1 = wp_1 + " | " + wp_list[index] + "#" + str(timestep)
+                index = index + 1
+        wp = wp + " & " + wp_1 + "))"
+        timestep = timestep + 1
+    return wp
+
+
+def _find_candidates_pysat(edgelist, wp_literals, tid):
+    """One trace's worth of candidate-cause events, as an unsat core over the
+    original PySAT/SATisPy pipeline: render the transition guards and the
+    trace's input valuation as a CNF string, map atoms to ints, and repeatedly
+    extract and drop a Glucose4 unsat core. Verbatim port, including the
+    non-tautology-aware guard encoding of _build_wp_string_from_edges."""
+    from satispy import CnfFromString
+    from pysat.solvers import Glucose4
+
+    wp_formula = _build_wp_string_from_edges(edgelist)
+    wp_trace = "&".join(wp_literals)
+
+    cnf_wp, aps_wp = CnfFromString.create(wp_formula.replace("¬", "-"))
+    cnf_wp_trace, aps_trace = CnfFromString.create(wp_trace)
+    aps_combined = {**aps_wp, **aps_trace}
+
+    cnf_wp = str(cnf_wp).replace("¬", "-")
+    cnf_wp_trace = str(cnf_wp_trace).replace("¬", "-")
+
+    # unique mapping from ap name to int
+    ap_to_int_map = {}
+    index = 1
+    for ap in aps_combined:
+        if ap not in ap_to_int_map:
+            ap_to_int_map[ap.replace("¬", "")] = index
+            index = index + 1
+
+    for ap in aps_combined:
+        cnf_wp = cnf_wp.replace(ap.replace("¬", ""), str(ap_to_int_map[ap.replace("¬", "")]))
+
+    solver = Glucose4()
+
+    cnf_wp = cnf_wp.replace(" ", "")
+    clause_list = cnf_wp.split("&")
+    split_clause_list = []
+    cnf_wp_trace = cnf_wp_trace.replace(" ", "").replace("(", "").replace(")", "")
+    cnf_wp_trace_split = cnf_wp_trace.split("&")
+
+    for c in clause_list:
+        c = c.replace("(", "").replace(")", "")
+        c = c.split('|')
+        split_clause_list.append(list(map(int, c)))
+    for c in split_clause_list:
+        solver.add_clause(c)
+
+    cnf_trace_encoded = []
+    for c in cnf_wp_trace_split:
+        if c.startswith("-"):
+            cnf_trace_encoded.append(ap_to_int_map[c.replace("-", "")] * -1)
+        else:
+            cnf_trace_encoded.append(ap_to_int_map[c])
+
+    assumpt = cnf_trace_encoded
+    core_list = []
+    while solver.solve(assumptions=assumpt) != True:
+        core = solver.get_core()
+        core_list.append(core)
+        deleted = [item for item in assumpt if item not in core]
+        assumpt = deleted
+    solver.delete()
+
+    new_candidate_list = []
+    for cl in core_list:
+        for c in cl:
+            ap = list(ap_to_int_map.keys())[list(ap_to_int_map.values()).index(abs(c))]
+            ap_name, ts_str = ap.split('#')
+            truth_value = 0 if c < 0 else 1
+            new_candidate_list.append((ap_name, int(ts_str), truth_value, tid))
+    return new_candidate_list
+
+
+def find_candidates(solver_name, edgelist, wp_literals, tid):
+    """Dispatch to the selected candidate-cause solver backend ('cvc5' or
+    'pysat'). Both take the same inputs and return the same shape, so the
+    rest of dot_minimization does not need to know which one ran."""
+    if solver_name == "pysat":
+        return _find_candidates_pysat(edgelist, wp_literals, tid)
+    return _find_candidates_cvc5(edgelist, wp_literals, tid)
+
+
 class Highlighter:
     aut = None
     trace = None
@@ -222,7 +376,7 @@ class Highlighter:
         else:
             return f
 
-    def dot_minimization(filename, trace, outName, all_aps, num_traces):
+    def dot_minimization(filename, trace, outName, all_aps, num_traces, solver="cvc5"):
         number_of_all_aps = len(list(all_aps[0])) + len(list(all_aps[1])) + len(list(all_aps[2]))
         print("Size of the counter example (|Gamma|) is: " + str(number_of_all_aps * trace.get_length()))
 
@@ -320,39 +474,11 @@ class Highlighter:
         for tid in range(num_traces):
             wp_traces.append(list(true_inputs[tid].union(false_inputs[tid])))
 
-        #build the solver query per trace and extract unsat cores with cvc5
+        #build the solver query per trace and extract unsat cores (-solver picks the backend)
         all_candidate_lists = []
         all_counterfactuals = []
         for tid in range(num_traces):
-            term_manager = cvc5.TermManager()
-            solver = cvc5.Solver(term_manager)
-            solver.setOption("produce-unsat-cores", "true")
-            solver.setOption("incremental", "true")
-
-            atom_cache = {}
-            term_to_info = {}
-
-            #the negated transition guards along the trace are the hard constraint
-            solver.assertFormula(_build_wp_term(term_manager, atom_cache, edgelists[tid]))
-
-            #the trace's own input valuation enters as retractable assumptions
-            assumptions = [
-                _literal_term(term_manager, atom_cache, literal, term_to_info)
-                for literal in wp_traces[tid]
-            ]
-
-            #repeatedly extract a core and drop it, until the rest is satisfiable
-            new_candidate_list = []
-            while assumptions:
-                if not solver.checkSatAssuming(*assumptions).isUnsat():
-                    break
-                core = [t for t in solver.getUnsatCore() if t in term_to_info]
-                if not core:
-                    break
-                for term in core:
-                    ap_name, timestep, truth_value = term_to_info[term]
-                    new_candidate_list.append((ap_name, timestep, truth_value, tid))
-                assumptions = [a for a in assumptions if a not in core]
+            new_candidate_list = find_candidates(solver, edgelists[tid], wp_traces[tid], tid)
 
             #compute new input set where candidate elements are flipped
             tmp_true = set(true_inputs[tid])

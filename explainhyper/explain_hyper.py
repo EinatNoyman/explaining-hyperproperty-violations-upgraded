@@ -175,7 +175,9 @@ def run_preprocess(args):
 
     list = []
     if args.stateMachine:
-        list, _, _ = highlighter.Highlighter.dot_minimization(args.stateMachine, trace, args.outName, all_aps, num_traces)
+        list, _, _ = highlighter.Highlighter.dot_minimization(
+            args.stateMachine, trace, args.outName, all_aps, num_traces,
+            solver=getattr(args, "solver", "cvc5"))
     dict = out.trace_to_json(all_aps, trace, args.outName, lasso_start, list, num_traces)
     if (negate):
         f = Translator.negate(f, True)
@@ -297,7 +299,9 @@ def actual_causality(args):
     state_list = []
     candidate_lists = [[] for _ in range(num_traces)]
     if args.stateMachine:
-        state_list, _, candidate_lists = highlighter.Highlighter.dot_minimization(args.stateMachine, trace, args.outName, all_aps, num_traces)
+        state_list, _, candidate_lists = highlighter.Highlighter.dot_minimization(
+            args.stateMachine, trace, args.outName, all_aps, num_traces,
+            solver=getattr(args, "solver", "cvc5"))
     dict = out.trace_to_json(all_aps, trace, args.outName, lasso_start, state_list, num_traces)
     # `phi` is the specification, `f` its negation: Gamma is a counterexample
     # when it satisfies f, and an intervention repairs it when the

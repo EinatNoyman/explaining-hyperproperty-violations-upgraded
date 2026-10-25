@@ -4,10 +4,10 @@
         "hi": {
             "type": "input"
         },
-        "ho": {
+        "lo": {
             "type": "output"
         },
-        "lo": {
+        "ho": {
             "type": "output"
         },
         "state1": {
@@ -22,37 +22,37 @@
         [
             {
                 "state": 0,
-                "hi": false,
                 "ho": false,
+                "state1": false,
                 "lo": false,
                 "state0": false,
-                "state1": false
+                "hi": false
             },
             {
                 "state": 0,
-                "hi": true,
                 "ho": false,
+                "state1": false,
                 "lo": false,
                 "state0": false,
-                "state1": false
+                "hi": true
             }
         ],
         [
             {
                 "state": 2,
-                "hi": false,
                 "ho": false,
+                "state1": true,
                 "lo": true,
                 "state0": false,
-                "state1": true
+                "hi": false
             },
             {
                 "state": 1,
-                "hi": false,
                 "ho": true,
+                "state1": false,
                 "lo": false,
                 "state0": true,
-                "state1": false
+                "hi": false
             }
         ]
     ],

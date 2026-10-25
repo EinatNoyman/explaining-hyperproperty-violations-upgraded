@@ -1,22 +1,22 @@
 {
     "stateVariable": "state",
     "variables": {
-        "hi": {
-            "type": "input"
-        },
         "li": {
             "type": "input"
         },
-        "ho": {
-            "type": "output"
+        "hi": {
+            "type": "input"
         },
         "lo": {
             "type": "output"
         },
-        "state2": {
-            "type": "latch"
+        "ho": {
+            "type": "output"
         },
         "state1": {
+            "type": "latch"
+        },
+        "state2": {
             "type": "latch"
         },
         "state0": {
@@ -28,110 +28,110 @@
         [
             {
                 "state": 0,
-                "ho": false,
+                "li": false,
                 "state2": false,
+                "ho": false,
+                "state1": false,
                 "lo": false,
                 "state0": false,
-                "li": false,
-                "state1": false,
                 "hi": false
             },
             {
                 "state": 0,
-                "ho": false,
+                "li": false,
                 "state2": false,
+                "ho": false,
+                "state1": false,
                 "lo": false,
                 "state0": false,
-                "li": false,
-                "state1": false,
                 "hi": true
             }
         ],
         [
             {
                 "state": 1,
-                "ho": true,
+                "li": false,
                 "state2": true,
+                "ho": true,
+                "state1": false,
                 "lo": false,
                 "state0": true,
-                "li": false,
-                "state1": false,
                 "hi": false
             },
             {
                 "state": 2,
-                "ho": false,
+                "li": false,
                 "state2": false,
+                "ho": false,
+                "state1": false,
                 "lo": false,
                 "state0": true,
-                "li": false,
-                "state1": false,
                 "hi": true
             }
         ],
         [
             {
                 "state": 1,
-                "ho": true,
+                "li": false,
                 "state2": true,
+                "ho": true,
+                "state1": false,
                 "lo": false,
                 "state0": true,
-                "li": false,
-                "state1": false,
                 "hi": true
             },
             {
                 "state": 3,
-                "ho": true,
+                "li": false,
                 "state2": false,
+                "ho": true,
+                "state1": true,
                 "lo": true,
                 "state0": false,
-                "li": false,
-                "state1": true,
                 "hi": true
             }
         ],
         [
             {
                 "state": 2,
-                "ho": false,
+                "li": false,
                 "state2": false,
+                "ho": false,
+                "state1": false,
                 "lo": false,
                 "state0": true,
-                "li": false,
-                "state1": false,
                 "hi": false
             },
             {
                 "state": 5,
-                "ho": true,
+                "li": false,
                 "state2": false,
+                "ho": true,
+                "state1": true,
                 "lo": true,
                 "state0": true,
-                "li": false,
-                "state1": true,
                 "hi": true
             }
         ],
         [
             {
                 "state": 1,
-                "ho": true,
+                "li": false,
                 "state2": true,
+                "ho": true,
+                "state1": false,
                 "lo": false,
                 "state0": true,
-                "li": false,
-                "state1": false,
                 "hi": true
             },
             {
                 "state": 5,
-                "ho": true,
+                "li": false,
                 "state2": false,
+                "ho": true,
+                "state1": true,
                 "lo": true,
                 "state0": true,
-                "li": false,
-                "state1": true,
                 "hi": true
             }
         ]
